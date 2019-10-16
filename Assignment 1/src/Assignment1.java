@@ -9,7 +9,7 @@ public class Assignment1 {
     public static void main(String[] args) {
         int levelCounter = 1, previousNumber, nextDigit = 0, termAnswer, termPrevious, answer, maxTermLength,
                 operationCounter;
-        char operation = 'e';
+        char operation = 'e', termOperation = 'e';
         String question;
         Random ran = new Random();
 
@@ -29,11 +29,12 @@ public class Assignment1 {
                 question = "";
                 operationCounter = 0;
                 answer = 0;
-                previousNumber = ran.nextInt(10);// generates the first digit
-                question += previousNumber;
+                termPrevious = ran.nextInt(10);// generates the first digit
+                operation = '+';
                 while (operationCounter < levelCounter) {
-                    termAnswer = 0;
-                    termPrevious = previousNumber;
+                    question += operation;
+                    termAnswer = termPrevious;
+                    question += termPrevious;
                     for (int termOperationCount = ran.nextInt(Math.min(levelCounter - operationCounter + 1,
                             maxTermLength + 1)); termOperationCount > 0; termOperationCount--) {
                         operationCounter++;
@@ -41,11 +42,11 @@ public class Assignment1 {
                                                   // single term in a polynomial
                         case 0:// multiplication
                             nextDigit = ran.nextInt(10); // generates the next digit in the question
-                            operation = '*';
+                            termOperation = '*';
                             termAnswer = termPrevious * nextDigit;
                             break;
                         case 1:// division
-                            operation = '/';
+                            termOperation = '/';
                             do {
                                 do {
                                     nextDigit = ran.nextInt(10); // generates the next digit in the question
@@ -55,10 +56,16 @@ public class Assignment1 {
                             break;
                         }
                         termPrevious = termAnswer;
-                        question +=  " " + operation + " " + nextDigit;
-                        previousNumber = termAnswer;
+                        question += " " + termOperation + " " + nextDigit;
                     }
-
+                    switch (operation) {
+                    case '+':
+                        answer += termAnswer;
+                        break;
+                    case '-':
+                        answer -= termAnswer;
+                        break;
+                    }
                     if (operationCounter >= levelCounter)
                         break;
                     else {
@@ -67,18 +74,14 @@ public class Assignment1 {
                         case 0:// addition
                             nextDigit = ran.nextInt(10); // generates the next digit in the question
                             operation = '+';
-                            answer = previousNumber + nextDigit;
                             break;
                         case 1:// subtraction
                             nextDigit = ran.nextInt(10); // generates the next digit in the question
                             operation = '-';
-                            answer = previousNumber - nextDigit;
                             break;
                         }
-                        previousNumber = answer;
-                        question += " " + operation + " " + nextDigit;
+                        termPrevious = ran.nextInt(10);
                     }
-
                 }
                 System.out.println(question += " = " + answer);
             }
