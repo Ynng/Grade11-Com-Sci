@@ -1,43 +1,44 @@
-import java.util.*;
+import java.util.Random;
 
 public class Assignment1 {
 
-    final static int levelLimit = 10;
-    final static int maxTermLengthFactor = 4;
-    final static int questionPerLevel = 4;
+    final static int LEVEL_LIMIT = 10;
+    final static int MAX_TERM_LENGTH_FACTOR = 1;
+    final static int QUESTION_PER_LEVEL = 4;
 
     public static void main(String[] args) {
-        int levelCounter = 1, previousNumber, nextDigit = 0, termAnswer, termPrevious, answer, maxTermLength,
+        int levelCounter = 1, nextDigit = 0, termAnswer, termPrevious, overallAnswer, maxTermLength, termOperationLimit,
                 operationCounter;
-        char operation = 'e', termOperation = 'e';
+        char operation = 'i', termOperation = 'i'; //i for initial
         String question;
         Random ran = new Random();
 
         System.out.println(
                 "This is a math game, just enter the correct answer and move on!\nThe question are randomly generated and it will get harder and harder over time!\nThere are 4 levels per level, get all of them correct to go to the next level!");
 
-        while (levelCounter < levelLimit) {
+        while (levelCounter < LEVEL_LIMIT) {
             printHorizontalLine();
-            maxTermLength = (int) Math.ceil((double) levelCounter / (double) maxTermLengthFactor);
+            maxTermLength = (int) Math.ceil((double) levelCounter / (double) MAX_TERM_LENGTH_FACTOR);
 
             System.out.println("Welcome to level " + levelCounter + "!");
-            for (int questionCounter = 1; questionCounter <= questionPerLevel; questionCounter++) {
+            for (int questionCounter = 1; questionCounter <= QUESTION_PER_LEVEL; questionCounter++) {
                 printHorizontalLine();
                 System.out.print("Question " + questionCounter + " :\t");
 
                 // generating level
                 question = "";
-                operationCounter = 0;
-                answer = 0;
-                termPrevious = ran.nextInt(10);// generates the first digit
-                operation = '+';
-                while (operationCounter < levelCounter) {
-                    question += operation;
-                    termAnswer = termPrevious;
-                    question += termPrevious;
-                    for (int termOperationCount = ran.nextInt(Math.min(levelCounter - operationCounter + 1,
-                            maxTermLength + 1)); termOperationCount > 0; termOperationCount--) {
-                        operationCounter++;
+                operationCounter = -1;
+                overallAnswer = 0;
+                operation = 'i';
+                do {
+                    termAnswer = termPrevious = ran.nextInt(10);
+                    if(operation=='i')operation='+';
+                    else question += " " + operation;
+                    question += " " + termPrevious;
+                    operationCounter++;
+
+                    termOperationLimit = ran.nextInt(Math.min(levelCounter - operationCounter, maxTermLength) + 1);
+                    for (int termOperationCount = 0; termOperationCount < termOperationLimit; termOperationCount++) {
                         switch (ran.nextInt(2)) { // randomly choose between multiplication and subtraction, therefore a
                                                   // single term in a polynomial
                         case 0:// multiplication
@@ -57,33 +58,26 @@ public class Assignment1 {
                         }
                         termPrevious = termAnswer;
                         question += " " + termOperation + " " + nextDigit;
+                        operationCounter++;
                     }
                     switch (operation) {
                     case '+':
-                        answer += termAnswer;
+                        overallAnswer += termAnswer;
                         break;
                     case '-':
-                        answer -= termAnswer;
+                        overallAnswer -= termAnswer;
                         break;
                     }
-                    if (operationCounter >= levelCounter)
+                    switch (ran.nextInt(2)) { // randomly choose between addition or subtraction
+                    case 0:// addition
+                        operation = '+';
                         break;
-                    else {
-                        operationCounter++;
-                        switch (ran.nextInt(2)) { // randomly choose between addition or subtraction
-                        case 0:// addition
-                            nextDigit = ran.nextInt(10); // generates the next digit in the question
-                            operation = '+';
-                            break;
-                        case 1:// subtraction
-                            nextDigit = ran.nextInt(10); // generates the next digit in the question
-                            operation = '-';
-                            break;
-                        }
-                        termPrevious = ran.nextInt(10);
+                    case 1:// subtraction
+                        operation = '-';
+                        break;
                     }
-                }
-                System.out.println(question += " = " + answer);
+                } while (operationCounter < levelCounter);
+                System.out.println(question += " = " + overallAnswer);
             }
             levelCounter++;
         }
