@@ -3,7 +3,7 @@ import java.util.Scanner;
 
 public class Assignment1 {
 
-    private static final int LEVEL_LIMIT = 10;
+    private static final int LEVEL_LIMIT = 100;
     private static final int MAX_TERM_LENGTH_FACTOR = 1;
     private static final int QUESTION_PER_LEVEL = 4;
     private static final String ANSI_RED_BACKGROUND = "\u001B[41m";
@@ -11,9 +11,10 @@ public class Assignment1 {
     public static final String ANSI_RED = "\u001B[31m";
     public static final String ANSI_GREEN = "\u001B[32m";
     public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_EREASE_SCREEN = "\u001B[2J";
 
     public static void main(String[] args) {
-        int levelCounter = 1, maxTermLength;
+        int levelCounter = 10, maxTermLength, correctCount;
         Scanner s = new Scanner(System.in);
         System.out.println(
                 "This is a math game, just enter the correct answer and move on!\nThe question are randomly generated and it will get harder and harder over time!\nThere are 4 levels per level, get all of them correct to go to the next level!");
@@ -21,21 +22,27 @@ public class Assignment1 {
         while (levelCounter <= LEVEL_LIMIT) {
             printHorizontalLine();
             maxTermLength = (int) Math.ceil((double) levelCounter / (double) MAX_TERM_LENGTH_FACTOR);
-
-            System.out.println("Welcome to level " + levelCounter + "!");
+            correctCount = 0;
+            System.out.println(ANSI_EREASE_SCREEN + "Welcome to level " + levelCounter + "!");
             for (int questionCounter = 1; questionCounter <= QUESTION_PER_LEVEL; questionCounter++) {
                 printHorizontalLine();
                 System.out.print("Question " + questionCounter + " :\t");
                 if (Integer.toString(generateQuestion(levelCounter, maxTermLength)).equals(s.next())) {
                     printHorizontalLine();
-                    System.out.println(ANSI_GREEN + "Nice! you got it right!");
+                    System.out.println(ANSI_GREEN + "Nice! you got question#" + questionCounter + " right!");
+                    correctCount++;
                 } else {
                     printHorizontalLine();
-                    System.out.println(ANSI_RED + "Oof you got it wrong!");
+                    System.out.println(ANSI_RED + "Oof you got question#" + questionCounter + "wrong.");
                 }
-                System.out.print(ANSI_RESET);
             }
-            levelCounter++;
+            if (correctCount == QUESTION_PER_LEVEL) {
+                System.out.println(ANSI_GREEN + "Nice! You finished level " + levelCounter + " perfectly!");
+                levelCounter++;
+            } else {
+                System.out.println(ANSI_RED + "Oof, you got" + (levelCounter-correctCount) + " perfectly!");
+            }
+            System.out.print(ANSI_RESET);
         }
         s.close();
     }
@@ -66,11 +73,11 @@ public class Assignment1 {
                                           // single term in a polynomial
                 case 0:// multiplication
                     nextDigit = ran.nextInt(10); // generates the next digit in the question
-                    termOperation = '*';
+                    termOperation = '×';
                     termAnswer = termPrevious * nextDigit;
                     break;
                 case 1:// division
-                    termOperation = '/';
+                    termOperation = '÷';
                     do {
                         do {
                             nextDigit = ran.nextInt(10); // generates the next digit in the question
@@ -95,13 +102,13 @@ public class Assignment1 {
             case 0:// addition
                 overallOperation = '+';
                 break;
-            case 1:// subtraction
+            case 1://subtraction
                 overallOperation = '-';
                 break;
             }
         } while (operationCounter < overallOperationLimit);
-        // System.out.println(question += " = " + overallAnswer);
-        System.out.print(question += " = ");
+        System.out.println(question += " = " + overallAnswer);
+        // System.out.print(question += " = ");
         return overallAnswer;
     }
 }

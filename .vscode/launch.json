@@ -2,20 +2,6 @@
     "configurations": [
         {
             "type": "java",
-            "name": "CodeLens (Launch) - Assignment1",
-            "request": "launch",
-            "mainClass": "Assignment1",
-            "projectName": "Assignment 1"
-        },
-        {
-            "type": "java",
-            "name": "CodeLens (Launch) - Test",
-            "request": "launch",
-            "mainClass": "Test",
-            "projectName": "Assignment 1"
-        },
-        {
-            "type": "java",
             "name": "Debug (Launch) - Current File",
             "request": "launch",
             "mainClass": "${file}"
