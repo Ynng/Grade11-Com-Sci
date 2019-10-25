@@ -10,7 +10,7 @@ public class Assignment1 {
     public static final String ANSI_RED = "\u001B[31m";
     public static final String ANSI_GREEN = "\u001B[32m";
     public static final String ANSI_RESET = "\u001B[0m";
-    public static final String ANSI_EREASE_SCREEN = "\u001B[2J";
+    public static final String ANSI_ERASE_SCREEN = "\u001B[2J";
     public static final String ANSI_CROSSEDOUT = "\u001B[9m";
     public static final String ANSI_BOLD = "\u001B[1m";
 
@@ -33,12 +33,14 @@ public class Assignment1 {
             switch (s.next()) {
             case "d":
             case "D":
+                printEraseScreen();
                 printHorizontalLine();
                 System.out.println("You have chosen the default behaviour by entering " + ANSI_BOLD + "d" + ANSI_RESET
                         + ", entering level " + levelCounter);
                 break;
             case "s":
             case "S":
+                printEraseScreen();
                 printHorizontalLine();
                 System.out.println("You have chosen to select level by entering " + ANSI_BOLD + "s" + ANSI_RESET);
                 System.out.println(
@@ -49,6 +51,7 @@ public class Assignment1 {
                 break;
             case "x":
             case "X":
+                printEraseScreen();
                 printHorizontalLine();
                 System.out.println(
                         "You have chosen to open the setting menu by entering " + ANSI_BOLD + "x" + ANSI_RESET);
@@ -60,6 +63,7 @@ public class Assignment1 {
                 switch (s.next()) {
                 case "p":
                 case "P":
+                    printEraseScreen();
                     printHorizontalLine();
                     System.out.println("You have chosen to edit the percentage needed to pass each level by pressing "
                             + ANSI_BOLD + "p" + ANSI_RESET);
@@ -72,6 +76,7 @@ public class Assignment1 {
                     break;
                 case "q":
                 case "Q":
+                    printEraseScreen();
                     printHorizontalLine();
                     System.out.println("You have chosen to edit number of quetsions in each level by pressing "
                             + ANSI_BOLD + "q" + ANSI_RESET);
@@ -81,10 +86,12 @@ public class Assignment1 {
                     System.out.println("Now there are " + questionPerLevel + " quetsions per level!");
                     break;
                 default:
+                    printEraseScreen();
                     printHorizontalLine();
-                    System.out.println("Invalid input!!");
+                    System.out.println("Invalid input!! Going with default case, continueing to level " + levelCounter);
                     break;
                 }
+            break;
             case "exit":
             case "Exit":
                 printHorizontalLine();
@@ -114,7 +121,10 @@ public class Assignment1 {
             printHorizontalLine();
             maxTermLength = (int) Math.ceil((double) levelCounter / (double) MAX_TERM_LENGTH_FACTOR);
             correctCount = 0;
-            System.out.println(ANSI_EREASE_SCREEN + "Welcome to level " + levelCounter + "!");
+            printEraseScreen();
+            System.out.println("Welcome to level " + levelCounter + "!");
+            System.out.println("Get " + (int) (percentageToPass * 100f) + "% of the quetsions correct to pass!");
+
             // gameplay
             for (int questionCounter = 1; questionCounter <= questionPerLevel; questionCounter++) {
                 printHorizontalLine();
@@ -132,11 +142,12 @@ public class Assignment1 {
                 System.out.print(ANSI_RESET);
             }
             // end of gameplay
-            System.out.println(ANSI_EREASE_SCREEN);
+            printEraseScreen();
             printHorizontalLine();
-            if (correctCount == questionPerLevel) {
-                System.out.println(ANSI_GREEN + "Nice! You finished level " + ANSI_BOLD + levelCounter + ANSI_RESET
-                        + ANSI_GREEN + " perfectly!");
+            if ((float) correctCount / (float) questionPerLevel >= percentageToPass) {
+                System.out.println(ANSI_GREEN + "Nice! You got " + ANSI_BOLD + correctCount + ANSI_RESET + ANSI_GREEN
+                        + " out of " + questionPerLevel + " right, that's "
+                        + makePercentageString(correctCount, questionPerLevel) + " of the questions! " + ANSI_RESET);
                 System.out.println("Your total percentage of correct answers is "
                         + makePercentageString(totalCorrectCount, totalQuestionCount));
                 levelCounter++;
@@ -154,12 +165,16 @@ public class Assignment1 {
                 printMenuOption(true, "d", "for default to retry level " + levelCounter + " again.");
             }
             maxLevelReached = levelCounter > maxLevelReached ? levelCounter : maxLevelReached;
-            printMenuOption(true, "x", "for selecting levels");
+            printMenuOption(true, "S", "for selecting levels");
             printMenuOption(false, "x", "for settings");
             printMenuOption(false, "exit", "to quit");
             printHorizontalLine();
         }
         s.close();
+    }
+
+    private static void printEraseScreen() {
+        System.out.println(ANSI_ERASE_SCREEN);
     }
 
     private static void printMenuOption(boolean isFirst, String option, String explanation) {
