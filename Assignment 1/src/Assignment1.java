@@ -4,9 +4,7 @@ import java.util.Scanner;
 public class Assignment1 {
 
     private static final int MAX_TERM_LENGTH_FACTOR = 1;
-    private static final int LEVEL_SELECTION_DELAY = 4;
-    private static final String ANSI_RED_BACKGROUND = "\u001B[41m";
-    private static final String ANSI_GREEN_BACKGROUND = "\u001B[42m";
+    private static final int LEVEL_SELECTION_DELAY = 5;
     public static final String ANSI_RED = "\u001B[31m";
     public static final String ANSI_GREEN = "\u001B[32m";
     public static final String ANSI_RESET = "\u001B[0m";
@@ -20,91 +18,88 @@ public class Assignment1 {
         float percentageToPass = 0.8f;
         boolean exitFlag = false;
         Scanner s = new Scanner(System.in);
+        printEraseScreen();
+        System.out.println(ANSI_GREEN
+                + "THIS PROGRAM USES ANSI ESCAPE CHARACTERS, IF THIS TEXT IS NOT GREEN, YOU DON'T HAVE IT! PLEASE SWITCH TO ANOTHER IDE/COMMAND PROMPT THAT DOES SUPPORT ANSI ESACPE CHARACTERS"
+                + ANSI_RESET);
+        printHorizontalLine();
+        System.out.println("This is a math game, just enter the correct answer and move on!");
         System.out.println(
-                "This is a math game, just enter the correct answer and move on!\nThe question are randomly generated and they will have the same number of operations as the level count!\nThat means they will get harder and harder!\nThere will be "
-                        + questionPerLevel + " levels per level, get " + (int) (percentageToPass * 100f)
-                        + "% of them correct to go to unlock the next one!");
+                "The question are randomly generated and they will have the same number of operations as the level count!");
+        System.out.println("That means they will get harder and harder!");
+        System.out.println("There will be " + questionPerLevel + " levels per level, get "
+                + (int) (percentageToPass * 100f) + "% of them correct to go to unlock the next one!");
+        System.out.println(makeBoldString("PLEASE ENTER AN INTEGER WITH NO DECIMALS FOR ANSWERS"));
+
         printHorizontalLine();
         printMenuOption(true, "d", "for default to start with level 1!");
         printMenuOption(false, "x", "for settings");
         printMenuOption(false, "exit", "to quit");
         while (true) {
-
             switch (s.next()) {
             case "d":
             case "D":
-                printEraseScreen();
-                printHorizontalLine();
-                System.out.println("You have chosen the default behaviour by entering " + ANSI_BOLD + "d" + ANSI_RESET
-                        + ", entering level " + levelCounter);
+                printChoiceNotice("chosen the default behaviour", "d");
+                System.out.println("Entering level " + makeBoldString(Integer.toString(levelCounter)));
                 break;
             case "s":
             case "S":
-                printEraseScreen();
-                printHorizontalLine();
-                System.out.println("You have chosen to select level by entering " + ANSI_BOLD + "s" + ANSI_RESET);
-                System.out.println(
-                        "The highest level you have reached is level " + ANSI_BOLD + levelCounter + ANSI_RESET);
+                printChoiceNotice("chosen to select level", "s");
+                System.out.println("The highest level you have reached is level "
+                        + makeBoldString(Integer.toString(levelCounter)));
                 System.out.println("Please enter a number between 1 and " + levelCounter);
-                levelCounter = getIntGuranteed(s, maxLevelReached);
-                System.out.println("Entering level " + levelCounter);
+                levelCounter = getIntGuranteed(s, 1, maxLevelReached);
+                System.out.println("Entering level " + makeBoldString(Integer.toString(levelCounter)));
                 break;
             case "x":
             case "X":
-                printEraseScreen();
+                printChoiceNotice("chosen to open the setting menu", "x");
                 printHorizontalLine();
-                System.out.println(
-                        "You have chosen to open the setting menu by entering " + ANSI_BOLD + "x" + ANSI_RESET);
-                printHorizontalLine();
-                System.out.println("Enter " + ANSI_BOLD + "p" + ANSI_RESET
-                        + " to change the percentage needed to pass each level.");
-                System.out.println("Or, Enter " + ANSI_BOLD + "q" + ANSI_RESET
-                        + " to change the number of questions in each level");
+                printMenuOption(true, "p", "to change the percentage needed to pass each level.");
+                printMenuOption(false, "q", "to change the number of questions in each level.");
                 switch (s.next()) {
                 case "p":
                 case "P":
-                    printEraseScreen();
-                    printHorizontalLine();
-                    System.out.println("You have chosen to edit the percentage needed to pass each level by pressing "
-                            + ANSI_BOLD + "p" + ANSI_RESET);
+                    printChoiceNotice("chosen to edit the percentage needed to pass each level", "p");
                     System.out.println(
                             "Please enter an integer between 1 and 100 for the new percentage to pass, it's currently: "
                                     + percentageToPass);
-                    percentageToPass = ((float) getIntGuranteed(s, 100)) / 100f;
+                    percentageToPass = ((float) getIntGuranteed(s, 1, 100)) / 100f;
                     System.out.println(
                             "Now you need to get " + (int) (percentageToPass * 100f) + "% to pass each level!");
                     break;
                 case "q":
                 case "Q":
-                    printEraseScreen();
-                    printHorizontalLine();
-                    System.out.println("You have chosen to edit number of quetsions in each level by pressing "
-                            + ANSI_BOLD + "q" + ANSI_RESET);
+                    printChoiceNotice("chosen to edit the percentage needed to pass each level", "q");
                     System.out.println("Please enter an integer between 1 and 100 for the new number, it's currently: "
                             + questionPerLevel);
-                    questionPerLevel = getIntGuranteed(s, 100);
+                    questionPerLevel = getIntGuranteed(s, 1, 100);
                     System.out.println("Now there are " + questionPerLevel + " quetsions per level!");
                     break;
                 default:
                     printEraseScreen();
                     printHorizontalLine();
-                    System.out.println("Invalid input!! Going with default case, continueing to level " + levelCounter);
+                    System.out.println("Invalid input!");
                     break;
                 }
-            break;
+                printHorizontalLine();
+                System.out.println("continuing with default behaviour, continuing to level "
+                        + makeBoldString(Integer.toString(levelCounter)));
+                break;
             case "exit":
             case "Exit":
-                printHorizontalLine();
-                System.out.println("You have chosen to exit the game by entering " + ANSI_BOLD + "exit" + ANSI_RESET);
+                printChoiceNotice("chosen to exit the game", "exit");
                 System.out.println("Thanks for playing, good bye!");
                 exitFlag = true;
                 break;
             default:
                 printHorizontalLine();
-                System.out.println("The input is invalid, continueing to level " + levelCounter);
+                System.out.println(
+                        "The input is invalid, continuing to level " + makeBoldString(Integer.toString(levelCounter)));
                 break;
             }
             if (exitFlag) {
+                printHorizontalLine();
                 System.out.print("exiting the game in ");
                 for (int i = LEVEL_SELECTION_DELAY; i > 0; i--) {
                     System.out.print(i + "... ");
@@ -140,32 +135,37 @@ public class Assignment1 {
                 }
                 totalQuestionCount++;
                 System.out.print(ANSI_RESET);
+                System.out.print("Next question in ");
+                for (int i = 2; i > 0; i--) {
+                    System.out.print(i + "... ");
+                    Thread.sleep(1000);
+                }
+                System.out.println();
             }
+
             // end of gameplay
             printEraseScreen();
             printHorizontalLine();
             if ((float) correctCount / (float) questionPerLevel >= percentageToPass) {
-                System.out.println(ANSI_GREEN + "Nice! You got " + ANSI_BOLD + correctCount + ANSI_RESET + ANSI_GREEN
-                        + " out of " + questionPerLevel + " right, that's "
-                        + makePercentageString(correctCount, questionPerLevel) + " of the questions! " + ANSI_RESET);
-                System.out.println("Your total percentage of correct answers is "
-                        + makePercentageString(totalCorrectCount, totalQuestionCount));
+                System.out.println(ANSI_GREEN + "Nice! You got " + makeBoldString(Integer.toString(correctCount))
+                        + ANSI_GREEN + " out of " + questionPerLevel + " right, that's "
+                        + makePercentageString(correctCount, questionPerLevel) + " of the questions!" + ANSI_RESET);
+                printCorrectPercentage(totalCorrectCount, totalQuestionCount);
                 levelCounter++;
                 System.out.print(ANSI_RESET);
                 printHorizontalLine();
                 printMenuOption(true, "d", "for default to continue to level " + levelCounter);
             } else {
-                System.out.println(ANSI_RED + "Oof, you only got " + ANSI_BOLD + correctCount + ANSI_RESET + ANSI_RED
-                        + " out of " + questionPerLevel + " right, that's only "
+                System.out.println(ANSI_RED + "Oof, you only got " + makeBoldString(Integer.toString(correctCount))
+                        + ANSI_RED + " out of " + questionPerLevel + " right, that's only "
                         + makePercentageString(correctCount, questionPerLevel) + " of the questions.");
-                System.out.println("Your total percentage of correct answers is "
-                        + makePercentageString(totalCorrectCount, totalQuestionCount));
+                printCorrectPercentage(totalCorrectCount, totalQuestionCount);
                 System.out.print(ANSI_RESET);
                 printHorizontalLine();
                 printMenuOption(true, "d", "for default to retry level " + levelCounter + " again.");
             }
             maxLevelReached = levelCounter > maxLevelReached ? levelCounter : maxLevelReached;
-            printMenuOption(true, "S", "for selecting levels");
+            printMenuOption(true, "s", "for selecting levels");
             printMenuOption(false, "x", "for settings");
             printMenuOption(false, "exit", "to quit");
             printHorizontalLine();
@@ -173,15 +173,25 @@ public class Assignment1 {
         s.close();
     }
 
+    private static void printCorrectPercentage(int correct, int total) {
+        System.out.println("Your total percentage of correct answers is " + makePercentageString(correct, total));
+    }
+
     private static void printEraseScreen() {
         System.out.println(ANSI_ERASE_SCREEN);
     }
 
-    private static void printMenuOption(boolean isFirst, String option, String explanation) {
+    private static void printMenuOption(boolean isFirst, String keyWord, String explanation) {
         if (isFirst)
-            System.out.println("Enter " + ANSI_BOLD + option + ANSI_RESET + " " + explanation);
+            System.out.println("Enter " + makeBoldString(keyWord) + " " + explanation);
         else
-            System.out.println("Or, enter " + ANSI_BOLD + option + ANSI_RESET + " " + explanation);
+            System.out.println("Or, enter " + makeBoldString(keyWord) + " " + explanation);
+    }
+
+    private static void printChoiceNotice(String action, String keyWord) {
+        printEraseScreen();
+        printHorizontalLine();
+        System.out.println("You have " + action + " by entering " + makeBoldString(keyWord));
     }
 
     private static void printHorizontalLine() {
@@ -192,7 +202,11 @@ public class Assignment1 {
         return Integer.toString((int) (Math.round((float) a / (float) b * 100))) + "%";
     }
 
-    private static int getIntGuranteed(Scanner s, int upperLimit) {
+    private static String makeBoldString(String text) {
+        return ANSI_BOLD + text + ANSI_RESET;
+    }
+
+    private static int getIntGuranteed(Scanner s, int lowerLimit, int upperLimit) {
         int output = -1;
 
         while (true) {
@@ -201,11 +215,11 @@ public class Assignment1 {
             } catch (java.util.InputMismatchException e) {
                 s.nextLine();
             }
-            if (output >= 1 && output <= upperLimit) {
+            if (output >= lowerLimit && output <= upperLimit) {
                 return output;
             } else {
                 System.out.print("That was an invalid input, please enter a single integer between 1 and " + upperLimit
-                        + ", such as \"1\" or \"" + upperLimit + "\"Try again now: ");
+                        + ", such as \"" + lowerLimit + "\" or \"" + upperLimit + "\"Try again now: ");
             }
         }
     }
