@@ -14,5 +14,6 @@ public class Lesson13Q4 {
 			numA = numB/2;
 		}
 		System.out.println("The number " + input + " was divided by 2 " + divideCounter + " times");
+		s.close();
 	}
 }

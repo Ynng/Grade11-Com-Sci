@@ -12,5 +12,6 @@ public class Lesson13Q1 {
 		}else {
 			System.out.println("release him");
 		}
+		s.close();
 	}
 }

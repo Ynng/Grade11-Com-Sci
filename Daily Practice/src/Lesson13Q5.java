@@ -1,6 +1,4 @@
 import java.io.*;
-import java.util.*;
-
 public class Lesson13Q5 {
 	//Kevin Huang
 	public static void main(String[] args) throws IOException {

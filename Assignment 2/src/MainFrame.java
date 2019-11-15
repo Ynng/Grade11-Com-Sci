@@ -3,7 +3,7 @@ import java.awt.*;
 
 public class MainFrame extends JFrame {
 
-    // public static GamePanel panel;
+    public static GamePanel panel;
     // public static StatusPanel statusPanel;
     // public static ToolBar toolbar;
 
@@ -18,8 +18,8 @@ public class MainFrame extends JFrame {
         // add(toolbar, BorderLayout.PAGE_START);
         // statusPanel = new StatusPanel();
         // add(statusPanel, BorderLayout.PAGE_END);
-        // panel = new GamePanel();
-        // add(panel, BorderLayout.CENTER);
+        panel = new GamePanel(10);
+        add(panel, BorderLayout.CENTER);
         setVisible(true);
         pack();
     }
