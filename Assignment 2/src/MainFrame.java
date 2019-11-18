@@ -8,9 +8,11 @@ public class MainFrame extends JFrame {
      */
     private static final long serialVersionUID = 1L;
 
-    public static GamePanel panel;
+    public static GamePanel gamePanel;
     // public static StatusPanel statusPanel;
-    // public static ToolBar toolbar;
+    public static InputPanel inputPanel;
+
+    public static int gameSize = 4;
 
     public MainFrame() {
         super("Alien");
@@ -21,10 +23,10 @@ public class MainFrame extends JFrame {
 
         // toolbar = new ToolBar();
         // add(toolbar, BorderLayout.PAGE_START);
-        // statusPanel = new StatusPanel();
-        // add(statusPanel, BorderLayout.PAGE_END);
-        panel = new GamePanel(3);
-        add(panel, BorderLayout.CENTER);
+        gamePanel = new GamePanel(gameSize);
+        add(gamePanel, BorderLayout.CENTER);
+        inputPanel = new InputPanel();
+        add(inputPanel, BorderLayout.PAGE_END);
         setVisible(true);
         pack();
     }

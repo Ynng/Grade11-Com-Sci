@@ -14,13 +14,13 @@ public class GamePanel extends JPanel implements MouseListener {
     private static final long serialVersionUID = 1L;
 
     // 2d arrays for storing the light states
-    private boolean[][] aliens;
+    public boolean[][] aliens;
     private int graphSize;
     private Image alienImage;
     private int borderWidth = 20;// px
     private int x, y, iconSize;
     private int[] arrowX = new int[3], arrowY = new int[3];
-
+    private Font mainFont = new Font("Sans-serif", Font.PLAIN, 20);
     static int randomRange(int min, int max) {
         return (int) (Math.random() * (max - min)) + min;
     }
@@ -41,7 +41,7 @@ public class GamePanel extends JPanel implements MouseListener {
         } catch (IOException ex) {
             System.out.println("Warning! Where's the alien image??!?!");
         }
-        for (int i = 0; i < ((graphSize * graphSize)); i++) {
+        for (int i = 0; i < 10; i++) {
             // while (true) {
             int row = randomRange(0, graphSize);
             int col = randomRange(0, graphSize);
@@ -62,6 +62,7 @@ public class GamePanel extends JPanel implements MouseListener {
 
         // for drawing the axis
         g2.setColor(Color.GRAY);
+        g2.setFont(mainFont);
         for (int i = 0; i < graphSize; i++) {
             x = (int) (borderWidth + (getWidth() - 2 * borderWidth) / graphSize * (i + 0.5));
             g2.drawLine(x, getHeight() - borderWidth, x, borderWidth);
@@ -80,6 +81,19 @@ public class GamePanel extends JPanel implements MouseListener {
         for (int i = 0; i < graphSize; i++) {
             g2.drawLine(getWidth() - borderWidth, getHeight() / 2, borderWidth, getHeight() / 2);
         }
+
+        //for drawing the texts for the axis
+        g2.setColor(Color.BLACK);
+        g2.setFont(mainFont);
+        for (int i = 0; i < graphSize; i++) {
+            x = (int) (borderWidth + (getWidth() - 2 * borderWidth) / graphSize * (i + 0.5));
+            g2.drawString(Integer.toString(i-graphSize/2), x, getHeight()/2+20);
+        }
+        for (int i = 0; i < graphSize; i++) {
+            y = (int) (borderWidth + (getHeight() - 2 * borderWidth) / graphSize * (i + 0.5));
+            g2.drawString(Integer.toString(i-graphSize/2), getWidth()/2+8,y);
+        }
+
         
         //drawing the arrows of the axis
         arrowX[0]=getWidth()/2-iconSize/2;
@@ -140,12 +154,4 @@ public class GamePanel extends JPanel implements MouseListener {
     public void mouseExited(MouseEvent e) {
 
     }
-
-    // public int getStepCounter(){
-    // return this.stepCounter;
-    // }
-
-    // public void setStepCounter(int stepCounter){
-    // this.stepCounter = stepCounter;
-    // }
 }
