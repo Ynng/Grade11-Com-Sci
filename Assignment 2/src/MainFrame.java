@@ -10,7 +10,7 @@ public class MainFrame extends JFrame {
 
     public static GamePanel gamePanel;
     // public static StatusPanel statusPanel;
-    public static InputPanel inputPanel;
+    public static IOPanel ioPanel;
 
     public static int gameSize = 4;
 
@@ -25,8 +25,8 @@ public class MainFrame extends JFrame {
         // add(toolbar, BorderLayout.PAGE_START);
         gamePanel = new GamePanel(gameSize);
         add(gamePanel, BorderLayout.CENTER);
-        inputPanel = new InputPanel();
-        add(inputPanel, BorderLayout.PAGE_END);
+        ioPanel = new IOPanel();
+        add(ioPanel, BorderLayout.SOUTH);
         setVisible(true);
         pack();
     }

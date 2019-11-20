@@ -7,7 +7,6 @@ import java.awt.event.MouseListener;
 import javax.imageio.ImageIO;
 
 public class GamePanel extends JPanel implements MouseListener {
-
     /**
      *
      */
@@ -15,10 +14,11 @@ public class GamePanel extends JPanel implements MouseListener {
 
     // 2d arrays for storing the light states
     public boolean[][] aliens;
+    public int[][] animation;
     private int graphSize;
     private Image alienImage;
-    private int borderWidth = 20;// px
-    private int x, y, iconSize;
+    private int x, y, iconSize, borderWidth, deltaT;
+    private long lastT, curT;//in nanoseconds
     private int[] arrowX = new int[3], arrowY = new int[3];
     private Font mainFont = new Font("Sans-serif", Font.PLAIN, 20);
     static int randomRange(int min, int max) {
@@ -28,11 +28,14 @@ public class GamePanel extends JPanel implements MouseListener {
     public GamePanel(int graphLimit) {
         graphSize = graphLimit * 2 + 1;
         setPreferredSize(new Dimension(graphSize * 100, graphSize * 100));
+        borderWidth = 20;
         initialize();
     }
 
     private void initialize() {
+        lastT = System.nanoTime();
         aliens = new boolean[graphSize][graphSize];
+        animation = new int[graphSize][graphSize];
         setBackground(Color.PINK);
         // initialize the two arrays
         addMouseListener(this);
@@ -52,13 +55,38 @@ public class GamePanel extends JPanel implements MouseListener {
         }
     }
 
+
+    /**
+     * 
+     * @param x
+     * @param y
+      * @return true = hit alien, false = didn't hit anything/error 
+     */
+    public boolean hitAlien(int x, int y){
+        try{
+            if(aliens[x][y]){
+                aliens[x][y] = false;
+                animation[x][y] = 100;
+                repaint();
+                return true;
+            }else{
+                animation[x][y] = -100;
+                repaint();
+                return false;
+            }
+        }catch(ArrayIndexOutOfBoundsException e){
+            repaint();
+            return false;
+        }
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-
+        updateTime();
         Graphics2D g2 = (Graphics2D) g;
 
-        iconSize = (int)((getWidth() > getHeight() ? getHeight() : getWidth() - borderWidth * 2) / graphSize / 2.5);
+        iconSize = (int)((getWidth() > getHeight() ? getHeight() : getWidth() - borderWidth * 2) / graphSize / 2);
 
         // for drawing the axis
         g2.setColor(Color.GRAY);
@@ -68,7 +96,7 @@ public class GamePanel extends JPanel implements MouseListener {
             g2.drawLine(x, getHeight() - borderWidth, x, borderWidth);
         }
         for (int i = 0; i < graphSize; i++) {
-            y = (int) (borderWidth + (getHeight() - 2 * borderWidth) / graphSize * (i + 0.5));
+            y = getHeight()-(int)(borderWidth + (getHeight() - 2 * borderWidth) / graphSize * (i + 0.5));
             g2.drawLine(getWidth() - borderWidth, y, borderWidth, y);
         }
 
@@ -90,7 +118,7 @@ public class GamePanel extends JPanel implements MouseListener {
             g2.drawString(Integer.toString(i-graphSize/2), x, getHeight()/2+20);
         }
         for (int i = 0; i < graphSize; i++) {
-            y = (int) (borderWidth + (getHeight() - 2 * borderWidth) / graphSize * (i + 0.5));
+            y = getHeight()-(int) (borderWidth + (getHeight() - 2 * borderWidth) / graphSize * (i + 0.5));
             g2.drawString(Integer.toString(i-graphSize/2), getWidth()/2+8,y);
         }
 
@@ -113,9 +141,21 @@ public class GamePanel extends JPanel implements MouseListener {
 
         // drawing the alien images
         for (int i = 0; i < graphSize; i++) {
+            System.out.println(deltaT);
             x = (int) (borderWidth + (getWidth() - 2 * borderWidth) / graphSize * (i + 0.5) - iconSize / 2);
             for (int j = 0; j < graphSize; j++) {
-                y = (int) (borderWidth + (getHeight() - 2 * borderWidth) / graphSize * (j + 0.5) - iconSize / 2);
+                y = getHeight() - (int) (borderWidth + (getHeight() - 2 * borderWidth) / graphSize * (j + 0.5) + iconSize / 2);
+                if(animation[i][j]>0){
+                    animation[i][j] = animation[i][j] - deltaT;
+                    if(animation[i][j]<0)animation[i][j] = 0;
+                    g2.setColor(new Color(0,2*animation[i][j],0));
+                    g2.fillRect(x,y,iconSize,iconSize);
+                }else if(animation[i][j]<0){
+                    animation[i][j] = animation[i][j] + deltaT;
+                    if(animation[i][j]>0)animation[i][j] = 0;
+                    g2.setColor(new Color(2*animation[i][j],0,0));
+                    g2.fillRect(x,y,iconSize,iconSize);
+                }
                 if (aliens[i][j])
                     g2.drawImage(alienImage, x, y, iconSize, iconSize, this);
             }
@@ -132,6 +172,12 @@ public class GamePanel extends JPanel implements MouseListener {
         int mouseX = e.getX();
         int mouseY = e.getY();
         System.out.printf("Clicked at x:%d, y:%d\n", mouseX, mouseY);
+    }
+
+    private void updateTime(){
+        curT = System.nanoTime();
+        deltaT = (int)((curT - lastT)/1000000);
+        lastT = curT;
     }
 
     // Useless junk
