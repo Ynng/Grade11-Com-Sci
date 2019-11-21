@@ -14,6 +14,7 @@ public class IOPanel extends JPanel implements DocumentListener {
     final static Color ERROR_COLOR = Color.RED;
     private Font mainFont = new Font("Sans-serif", Font.PLAIN, 25);
 
+
     public IOPanel() {
         // setPreferredSize(new Dimension(gameDimension, LightsOut.tileSize/2));
         setPreferredSize(new Dimension((MainFrame.gameSize * 2 + 1) * 100, 100));
@@ -62,17 +63,18 @@ public class IOPanel extends JPanel implements DocumentListener {
         public void actionPerformed(ActionEvent ev) {
             input = entry.getText();
             try {
-                inputArray = input.trim().split(" ");
+                if(input.contains(","))inputArray = input.trim().replaceAll("\\s+", "").split(",");
+                else inputArray = input.trim().replaceAll("\\s+", " ").split(" ");
                 x = Integer.parseInt(inputArray[0].trim()) + MainFrame.gameSize;
                 y = Integer.parseInt(inputArray[1].trim()) + MainFrame.gameSize;
+                if (MainFrame.gamePanel.hitAlien(x, y))
+                    entry.setBackground(CORRECT_COLOR);
+                else
+                    entry.setBackground(ERROR_COLOR);
             } catch (NumberFormatException e) {
                 entry.setBackground(ERROR_COLOR);
                 System.out.println("Can't parse input");
             }
-            if (MainFrame.gamePanel.hitAlien(x, y))
-                entry.setBackground(CORRECT_COLOR);
-            else
-                entry.setBackground(ERROR_COLOR);
         }
     }
 }
