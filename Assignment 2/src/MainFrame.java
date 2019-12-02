@@ -9,7 +9,7 @@ public class MainFrame extends JFrame {
     private static final long serialVersionUID = 1L;
 
     public static GamePanel gamePanel;
-    // public static StatusPanel statusPanel;
+    public static InfoPanel infoPanel;
     public static IOPanel ioPanel;
 
     public static int gameSize = 4;
@@ -21,8 +21,8 @@ public class MainFrame extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setMinimumSize(new Dimension(300, 400));
 
-        // toolbar = new ToolBar();
-        // add(toolbar, BorderLayout.PAGE_START);
+        infoPanel = new InfoPanel();
+        add(infoPanel, BorderLayout.PAGE_START);
         gamePanel = new GamePanel(gameSize);
         add(gamePanel, BorderLayout.CENTER);
         ioPanel = new IOPanel();
@@ -30,6 +30,4 @@ public class MainFrame extends JFrame {
         setVisible(true);
         pack();
     }
-
-
 }

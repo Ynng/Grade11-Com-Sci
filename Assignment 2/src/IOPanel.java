@@ -14,6 +14,7 @@ public class IOPanel extends JPanel implements DocumentListener {
     final static Color ERROR_COLOR = Color.RED;
     private Font mainFont = new Font("Sans-serif", Font.PLAIN, 25);
 
+    private boolean clearTextFlag = false;
 
     public IOPanel() {
         // setPreferredSize(new Dimension(gameDimension, LightsOut.tileSize/2));
@@ -38,10 +39,12 @@ public class IOPanel extends JPanel implements DocumentListener {
     // DocumentListener methods
 
     public void insertUpdate(DocumentEvent ev) {
+        clearTextFlag = false;//don't clear the input if the user changed something
         entry.setBackground(entryBg);
     }
 
     public void removeUpdate(DocumentEvent ev) {
+        clearTextFlag = false;
         entry.setBackground(entryBg);
     }
 
@@ -62,14 +65,22 @@ public class IOPanel extends JPanel implements DocumentListener {
 
         public void actionPerformed(ActionEvent ev) {
             input = entry.getText();
+            if (clearTextFlag){//so that the user can just hit enter again after they entered a coord correct to reset the input field
+                clearTextFlag = false;
+                entry.setText("");
+                return;
+            }
             try {
-                if(input.contains(","))inputArray = input.trim().replaceAll("\\s+", "").split(",");
-                else inputArray = input.trim().replaceAll("\\s+", " ").split(" ");
+                if (input.contains(","))
+                    inputArray = input.trim().replaceAll("\\s+", "").split(",");
+                else
+                    inputArray = input.trim().replaceAll("\\s+", " ").split(" ");
                 x = Integer.parseInt(inputArray[0].trim()) + MainFrame.gameSize;
                 y = Integer.parseInt(inputArray[1].trim()) + MainFrame.gameSize;
-                if (MainFrame.gamePanel.hitAlien(x, y))
+                if (MainFrame.gamePanel.hitAlien(x, y)) {
+                    clearTextFlag = true;
                     entry.setBackground(CORRECT_COLOR);
-                else
+                } else
                     entry.setBackground(ERROR_COLOR);
             } catch (NumberFormatException e) {
                 entry.setBackground(ERROR_COLOR);

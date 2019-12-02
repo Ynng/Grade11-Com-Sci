@@ -176,7 +176,7 @@ public class GamePanel extends JPanel implements MouseListener {
                         } else {
                             aFlagTemp = true;
                         }
-                        g2.setColor(new Color(255, 0, 0, 0 - a[i][j]));
+                        g2.setColor(new Color(255, 0, 0, -a[i][j]));
                         g2.fillRect(x, y, iconSize, iconSize);
                     }
                 }
