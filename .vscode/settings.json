@@ -14,5 +14,6 @@
         "statusBarItem.hoverBackground": "#7295b1",
         "statusBar.foreground": "#e7e7e7"
     },
-    "peacock.color": "#557c9b"
+    "peacock.color": "#557c9b",
+    "java.home":"C:\\Program Files\\Java\\jdk-11.0.5\\"
 }
