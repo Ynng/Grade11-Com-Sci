@@ -15,7 +15,7 @@ public class GamePanel extends JPanel implements MouseListener {
     private Image alienImage;
 
     // 2d arrays for storing the light states
-    public boolean[][] aliens;
+    public boolean[][] aliens, aliensDisplayed;
     public int[][] a; // A for alpha animation
     private int[] arrowX = new int[3], arrowY = new int[3];
     private int graphSize, x, y, iconSize, borderWidth;
@@ -39,6 +39,7 @@ public class GamePanel extends JPanel implements MouseListener {
     private void initialize() {
         // initialize the two arrays
         aliens = new boolean[graphSize][graphSize];
+        aliensDisplayed = new boolean[graphSize][graphSize];
         a = new int[graphSize][graphSize];
         setBackground(Color.WHITE);
         addMouseListener(this);
@@ -82,6 +83,7 @@ public class GamePanel extends JPanel implements MouseListener {
         try {
             if (aliens[x][y]) {
                 aliens[x][y] = false;
+                aliensDisplayed[x][y]=true;
                 a[x][y] = 255;
                 aFlag = true;
                 output = true;
@@ -162,6 +164,8 @@ public class GamePanel extends JPanel implements MouseListener {
             for (int j = 0; j < graphSize; j++) {
                 y = getHeight()
                         - (int) (borderWidth + (getHeight() - 2 * borderWidth) / graphSize * (j + 0.5) + iconSize / 2);
+                if (aliensDisplayed[i][j])
+                        g2.drawImage(alienImage, x, y, iconSize, iconSize, this);
                 if (aFlag) {
                     if (a[i][j] > 0) {
                         a[i][j] = a[i][j] - (int)(255/(correctAnimationTime/deltaT));
@@ -183,8 +187,7 @@ public class GamePanel extends JPanel implements MouseListener {
                         g2.fillRect(x, y, iconSize, iconSize);
                     }
                 }
-                if (aliens[i][j])
-                    g2.drawImage(alienImage, x, y, iconSize, iconSize, this);
+                
             }
         }
         aFlag = aFlagTemp;

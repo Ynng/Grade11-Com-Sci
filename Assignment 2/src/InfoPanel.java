@@ -5,7 +5,8 @@ import javax.swing.*;
 public class InfoPanel extends JPanel {
     private JLabel timeLabel;
     private Font mainFont = new Font("Sans-serif", Font.PLAIN, 35);
-
+    private int colorFlag = 0;
+    
     public InfoPanel() {
         setPreferredSize(new Dimension((MainFrame.gameSize * 2 + 1) * 100, 50));
         timeLabel = new JLabel("Test");
@@ -14,9 +15,12 @@ public class InfoPanel extends JPanel {
     }
 
     public void updateTimer(double timeLeft){
-        timeLabel.setText(Double.toString(timeLeft));
+        timeLabel.setText(String.format("%.1f",timeLeft));
         if(timeLeft<5){
-            timeLabel.setForeground(Color.RED);
+            if(colorFlag==0){
+                timeLabel.setForeground(Color.RED);
+                colorFlag = 1;
+            }
         }
     }
 }
