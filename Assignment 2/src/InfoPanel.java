@@ -13,7 +13,10 @@ public class InfoPanel extends JPanel {
         add(timeLabel);
     }
 
-    public void updateTimer(String text){
-        timeLabel.setText(text);
+    public void updateTimer(double timeLeft){
+        timeLabel.setText(Double.toString(timeLeft));
+        if(timeLeft<5){
+            timeLabel.setForeground(Color.RED);
+        }
     }
 }

@@ -62,7 +62,7 @@ public class GamePanel extends JPanel implements MouseListener {
             public void run(){
                 updateTime();
                 countDown -= deltaT;
-                MainFrame.infoPanel.updateTimer(Double.toString(countDown/1000.0));
+                MainFrame.infoPanel.updateTimer(countDown/1000.0);
                 if (aFlag){
                     repaint();
                 }
