@@ -1,16 +1,15 @@
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 import java.io.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import javax.imageio.ImageIO;
+import java.util.Timer;
+import java.util.TimerTask;
+
 
 public class GamePanel extends JPanel implements MouseListener {
-    /**
-     *
-     */
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;//so that vscode can stop screaming at me about the need for a "serialVersionUID"
 
     private Font mainFont = new Font("Sans-serif", Font.PLAIN, 20);
     private Image alienImage;
@@ -19,9 +18,12 @@ public class GamePanel extends JPanel implements MouseListener {
     public boolean[][] aliens;
     public int[][] a; // A for alpha animation
     private int[] arrowX = new int[3], arrowY = new int[3];
-    private int graphSize, x, y, iconSize, borderWidth, deltaT;
+    private int graphSize, x, y, iconSize, borderWidth;
     private long lastT, curT;// in nanoseconds
     private boolean aFlag = false, aFlagTemp = false;
+    private Timer timer;
+    private double countDown, deltaT;//in millisecond
+    private double errorAnimationTime = 500, correctAnimationTime = 750;//in milliseconds
 
     static int randomRange(int min, int max) {
         return (int) (Math.random() * (max - min)) + min;
@@ -29,17 +31,16 @@ public class GamePanel extends JPanel implements MouseListener {
 
     public GamePanel(int graphLimit) {
         graphSize = graphLimit * 2 + 1;
-        setPreferredSize(new Dimension(graphSize * 100, graphSize * 100));
+        setPreferredSize(new Dimension(graphSize * 50, graphSize * 50));
         borderWidth = 20;
         initialize();
     }
 
     private void initialize() {
-        lastT = System.nanoTime();
+        // initialize the two arrays
         aliens = new boolean[graphSize][graphSize];
         a = new int[graphSize][graphSize];
         setBackground(Color.WHITE);
-        // initialize the two arrays
         addMouseListener(this);
         try {
             alienImage = ImageIO.read(new File(".\\Assignment 2\\Yuki_Nagato.png"));
@@ -52,19 +53,21 @@ public class GamePanel extends JPanel implements MouseListener {
             y = randomRange(0, graphSize);
             aliens[x][y] = !aliens[x][y];
         }
-        SwingWorker<Void, Void> animationRepainter = new SwingWorker<Void, Void>() {
-            @Override
-            protected Void doInBackground() throws Exception {
-                while (true) {
-                    Thread.sleep(50);
-                    if (aFlag){
-                        repaint();
-                    }
+
+        lastT = System.nanoTime();
+        timer = new Timer();
+        updateTime();
+        countDown = 15000;//in seconds
+        timer.scheduleAtFixedRate(new TimerTask(){
+            public void run(){
+                updateTime();
+                countDown -= deltaT;
+                MainFrame.infoPanel.updateTimer(Double.toString(countDown/1000.0));
+                if (aFlag){
+                    repaint();
                 }
             }
-        };
-
-        animationRepainter.execute();
+        }, 50, 50);//runs approximately every 50 millisecond, making the game 20 ticks per second
     }
 
     /**
@@ -161,7 +164,7 @@ public class GamePanel extends JPanel implements MouseListener {
                         - (int) (borderWidth + (getHeight() - 2 * borderWidth) / graphSize * (j + 0.5) + iconSize / 2);
                 if (aFlag) {
                     if (a[i][j] > 0) {
-                        a[i][j] = a[i][j] - 15;
+                        a[i][j] = a[i][j] - (int)(255/(correctAnimationTime/deltaT));
                         if (a[i][j] < 0) {
                             a[i][j] = 0;
                         } else {
@@ -170,7 +173,7 @@ public class GamePanel extends JPanel implements MouseListener {
                         g2.setColor(new Color(0, 255, 0, a[i][j]));
                         g2.fillRect(x, y, iconSize, iconSize);
                     } else if (a[i][j] < 0) {
-                        a[i][j] = a[i][j] + 25;
+                        a[i][j] = a[i][j] + (int)(255/(errorAnimationTime/deltaT));
                         if (a[i][j] > 0) {
                             a[i][j] = 0;
                         } else {
@@ -200,7 +203,7 @@ public class GamePanel extends JPanel implements MouseListener {
 
     private void updateTime() {
         curT = System.nanoTime();
-        deltaT = (int) ((curT - lastT) / 1000000);
+        deltaT = (int) ((curT - lastT) / 1000000.0);
         lastT = curT;
     }
 
