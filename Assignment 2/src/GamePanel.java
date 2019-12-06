@@ -18,7 +18,7 @@ public class GamePanel extends JPanel implements MouseListener {
     public boolean[][] aliens, aliensDisplayed;
     public int[][] a; // A for alpha animation
     private int[] arrowX = new int[3], arrowY = new int[3];
-    private int graphSize, x, y, iconSize, borderWidth;
+    private int graphSize, x, y, iconSize, borderWidth, alienCounter;
     private long lastT, curT;// in nanoseconds
     private boolean aFlag = false, aFlagTemp = false;
     private Timer timer;
@@ -48,17 +48,18 @@ public class GamePanel extends JPanel implements MouseListener {
         } catch (IOException ex) {
             System.out.println("Warning! Where's the alien image??!?!");
         }
-        for (int i = 0; i < 10; i++) {
-            // while (true) {
-            x = randomRange(0, graphSize);
-            y = randomRange(0, graphSize);
-            aliens[x][y] = !aliens[x][y];
+        while (alienCounter<10) {
+            if(!aliens[x][y]){
+                x = randomRange(0, graphSize);
+                y = randomRange(0, graphSize);
+                alienCounter++;
+            }
         }
 
         lastT = System.nanoTime();
         timer = new Timer();
         updateTime();
-        countDown = 15000;//in seconds
+        countDown = 30000;//in millisecond
         timer.scheduleAtFixedRate(new TimerTask(){
             public void run(){
                 updateTime();
