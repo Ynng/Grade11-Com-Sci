@@ -48,14 +48,14 @@ public class GamePanel extends JPanel implements MouseListener {
         } catch (IOException ex) {
             System.out.println("Warning! Where's the alien image??!?!");
         }
-        while (alienCounter<10) {
+        /*while (alienCounter<10) {
             x = randomRange(0, graphSize);
             y = randomRange(0, graphSize);
             if(!aliens[x][y]){
                 aliens[x][y]=true;
                 alienCounter++;
             }
-        }
+        }*/
 
         lastT = System.nanoTime();
         timer = new Timer();
@@ -70,6 +70,15 @@ public class GamePanel extends JPanel implements MouseListener {
                 MainFrame.infoPanel.updateTimer(countDown/1000.0);
                 if (aFlag){
                     repaint();
+                }
+
+                //there's a 5% of a new alien spawning
+                if(randomRange(0, graphSize))
+                x = randomRange(0, graphSize);
+                y = randomRange(0, graphSize);
+                if(!aliens[x][y]){
+                    aliens[x][y]=true;
+                    alienCounter++;
                 }
             }
         }, 50, 50);//runs approximately every 50 millisecond, making the game 20 ticks per second
