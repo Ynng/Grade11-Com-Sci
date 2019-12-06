@@ -49,9 +49,10 @@ public class GamePanel extends JPanel implements MouseListener {
             System.out.println("Warning! Where's the alien image??!?!");
         }
         while (alienCounter<10) {
+            x = randomRange(0, graphSize);
+            y = randomRange(0, graphSize);
             if(!aliens[x][y]){
-                x = randomRange(0, graphSize);
-                y = randomRange(0, graphSize);
+                aliens[x][y]=true;
                 alienCounter++;
             }
         }
@@ -64,6 +65,8 @@ public class GamePanel extends JPanel implements MouseListener {
             public void run(){
                 updateTime();
                 countDown -= deltaT;
+                // countDown -= 50;
+
                 MainFrame.infoPanel.updateTimer(countDown/1000.0);
                 if (aFlag){
                     repaint();

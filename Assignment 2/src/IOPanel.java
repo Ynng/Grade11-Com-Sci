@@ -18,14 +18,14 @@ public class IOPanel extends JPanel implements DocumentListener {
 
     public IOPanel() {
         // setPreferredSize(new Dimension(gameDimension, LightsOut.tileSize/2));
-        setPreferredSize(new Dimension((MainFrame.gameSize * 2 + 1) * 100, 100));
+        setPreferredSize(new Dimension(500, 50));
 
         setBackground(Color.WHITE);
         setLayout(new FlowLayout(FlowLayout.LEFT, 5, 0));
         entry = new JTextField();
         entryBg = entry.getBackground();
         entry.getDocument().addDocumentListener(this);
-        entry.setPreferredSize(new Dimension((MainFrame.gameSize * 2 + 1) * 100, 100));
+        entry.setPreferredSize(new Dimension(500, 50));
         add(entry);
         entry.setFont(mainFont);
         InputMap im = entry.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
@@ -65,7 +65,7 @@ public class IOPanel extends JPanel implements DocumentListener {
 
         public void actionPerformed(ActionEvent ev) {
             input = entry.getText();
-            if (clearTextFlag){//so that the user can just hit enter again after they entered a coord correct to reset the input field
+            if (clearTextFlag){//so that the user can just hit enter to clear their input, but is still able to submit their input using 
                 clearTextFlag = false;
                 entry.setText("");
                 return;
@@ -77,15 +77,15 @@ public class IOPanel extends JPanel implements DocumentListener {
                     inputArray = input.trim().replaceAll("\\s+", " ").split(" ");
                 x = Integer.parseInt(inputArray[0].trim()) + MainFrame.gameSize;
                 y = Integer.parseInt(inputArray[1].trim()) + MainFrame.gameSize;
-                if (MainFrame.gamePanel.hitAlien(x, y)) {
-                    clearTextFlag = true;
+                if (MainFrame.gamePanel.hitAlien(x, y))
                     entry.setBackground(CORRECT_COLOR);
-                } else
+                else
                     entry.setBackground(ERROR_COLOR);
             } catch (NumberFormatException e) {
                 entry.setBackground(ERROR_COLOR);
-                System.out.println("Can't parse input");
+                System.out.println("Error parsing input");
             }
+            clearTextFlag = true;
         }
     }
 }
