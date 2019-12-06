@@ -23,7 +23,7 @@ public class MainFrame extends JFrame {
 
         infoPanel = new InfoPanel();
         add(infoPanel, BorderLayout.PAGE_START);
-        gamePanel = new GamePanel(gameSize);
+        gamePanel = new GamePanel(gameSize, 30000);
         add(gamePanel, BorderLayout.CENTER);
         ioPanel = new IOPanel();
         add(ioPanel, BorderLayout.SOUTH);

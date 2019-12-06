@@ -22,16 +22,17 @@ public class GamePanel extends JPanel implements MouseListener {
     private long lastT, curT;// in nanoseconds
     private boolean aFlag = false, aFlagTemp = false;
     private Timer timer;
-    private double countDown, deltaT;//in millisecond
+    private double timeLimit, countDown, deltaT;//in millisecond
     private double errorAnimationTime = 500, correctAnimationTime = 750;//in milliseconds
 
     static int randomRange(int min, int max) {
         return (int) (Math.random() * (max - min)) + min;
     }
 
-    public GamePanel(int graphLimit) {
-        graphSize = graphLimit * 2 + 1;
-        setPreferredSize(new Dimension(graphSize * 50, graphSize * 50));
+    public GamePanel(int graphSize, int timeLimit) {
+        this.timeLimit = timeLimit;
+        this.graphSize = graphSize * 2 + 1;
+        setPreferredSize(new Dimension(this.graphSize * 50, this.graphSize * 50));
         borderWidth = 20;
         initialize();
     }
@@ -60,7 +61,7 @@ public class GamePanel extends JPanel implements MouseListener {
         lastT = System.nanoTime();
         timer = new Timer();
         updateTime();
-        countDown = 30000;//in millisecond
+        countDown = timeLimit;//in millisecond
         timer.scheduleAtFixedRate(new TimerTask(){
             public void run(){
                 updateTime();
@@ -73,12 +74,16 @@ public class GamePanel extends JPanel implements MouseListener {
                 }
 
                 //there's a 5% of a new alien spawning
-                if(randomRange(0, graphSize))
-                x = randomRange(0, graphSize);
-                y = randomRange(0, graphSize);
-                if(!aliens[x][y]){
-                    aliens[x][y]=true;
-                    alienCounter++;
+                
+                if(Math.random()<graphSize*graphSize/timeLimit*deltaT/4.0){
+                    x = randomRange(0, graphSize);
+                    y = randomRange(0, graphSize);
+                    if(!aliens[x][y]){
+                        aliens[x][y]=true;
+                        aliensDisplayed[x][y]=true;
+                        alienCounter++;
+                        repaint();
+                    }
                 }
             }
         }, 50, 50);//runs approximately every 50 millisecond, making the game 20 ticks per second
@@ -95,8 +100,7 @@ public class GamePanel extends JPanel implements MouseListener {
         boolean output;
         try {
             if (aliens[x][y]) {
-                aliens[x][y] = false;
-                aliensDisplayed[x][y]=true;
+                aliensDisplayed[x][y]=false;
                 a[x][y] = 255;
                 aFlag = true;
                 output = true;
