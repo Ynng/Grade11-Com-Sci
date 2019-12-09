@@ -7,23 +7,25 @@ import javax.imageio.ImageIO;
 import java.util.Timer;
 import java.util.TimerTask;
 
-
 public class GamePanel extends JPanel implements MouseListener {
-    private static final long serialVersionUID = 1L;//so that vscode can stop screaming at me about the need for a "serialVersionUID"
+    private static final long serialVersionUID = 1L;// so that vscode can stop screaming at me about the need for a
+                                                    // "serialVersionUID"
 
     private Font mainFont = new Font("Sans-serif", Font.PLAIN, 20);
-    private Image alienImage;
+    private Font scoreFont = new Font("Sans-serif", Font.BOLD, 25);
+
+    private Image alienImage, xImage;
 
     // 2d arrays for storing the light states
-    public boolean[][] aliens, aliensDisplayed;
-    public int[][] a; // A for alpha animation
+    private double[][] score;
+    public int[][] aliens, a, scoreAnimation; // A for alpha animation
     private int[] arrowX = new int[3], arrowY = new int[3];
     private int graphSize, x, y, iconSize, borderWidth, alienCounter;
-    private long lastT, curT;// in nanoseconds
-    private boolean aFlag = false, aFlagTemp = false;
+    private long startTime, curT;// in nanoseconds
+    private boolean aFlag, aFlagTemp, scoreFlag, scoreFlagTemp;
     private Timer timer;
-    private double timeLimit, countDown, deltaT;//in millisecond
-    private double errorAnimationTime = 500, correctAnimationTime = 750;//in milliseconds
+    private double timeLimit, timeUsed, deltaT, lastT, totalScore;// in millisecond
+    private double errorAnimationTime = 500, correctAnimationTime = 750, scoreAnimationTime = 750;// in milliseconds
 
     static int randomRange(int min, int max) {
         return (int) (Math.random() * (max - min)) + min;
@@ -39,9 +41,10 @@ public class GamePanel extends JPanel implements MouseListener {
 
     private void initialize() {
         // initialize the two arrays
-        aliens = new boolean[graphSize][graphSize];
-        aliensDisplayed = new boolean[graphSize][graphSize];
+        aliens = new int[graphSize][graphSize];
         a = new int[graphSize][graphSize];
+        scoreAnimation = new int[graphSize][graphSize];
+        score = new double[graphSize][graphSize];
         setBackground(Color.WHITE);
         addMouseListener(this);
         try {
@@ -49,44 +52,30 @@ public class GamePanel extends JPanel implements MouseListener {
         } catch (IOException ex) {
             System.out.println("Warning! Where's the alien image??!?!");
         }
-        /*while (alienCounter<10) {
-            x = randomRange(0, graphSize);
-            y = randomRange(0, graphSize);
-            if(!aliens[x][y]){
-                aliens[x][y]=true;
-                alienCounter++;
-            }
-        }*/
+        try {
+            xImage = ImageIO.read(new File(".\\Assignment 2\\x.png"));
+        } catch (IOException ex) {
+            System.out.println("Warning! Where's the x image??!?!");
+        }
 
+        startTime = System.nanoTime();
         lastT = System.nanoTime();
         timer = new Timer();
-        updateTime();
-        countDown = timeLimit;//in millisecond
-        timer.scheduleAtFixedRate(new TimerTask(){
-            public void run(){
+        generateAlien();
+        timeUsed = timeLimit;// in millisecond
+        timer.scheduleAtFixedRate(new TimerTask() {
+            public void run() {
                 updateTime();
-                countDown -= deltaT;
-                // countDown -= 50;
-
-                MainFrame.infoPanel.updateTimer(countDown/1000.0);
-                if (aFlag){
+                timeUsed = (curT - startTime)/1000000.0;
+                
+                MainFrame.infoPanel.updateTimer(timeUsed / 1000.0);
+                if (aFlag||scoreFlag) {
                     repaint();
                 }
 
-                //there's a 5% of a new alien spawning
-                
-                if(Math.random()<graphSize*graphSize/timeLimit*deltaT/4.0){
-                    x = randomRange(0, graphSize);
-                    y = randomRange(0, graphSize);
-                    if(!aliens[x][y]){
-                        aliens[x][y]=true;
-                        aliensDisplayed[x][y]=true;
-                        alienCounter++;
-                        repaint();
-                    }
-                }
+                MainFrame.infoPanel.updateScore(totalScore);
             }
-        }, 50, 50);//runs approximately every 50 millisecond, making the game 20 ticks per second
+        }, 50, 50);// runs approximately every 50 millisecond, making the game 20 ticks per second
     }
 
     /**
@@ -99,12 +88,16 @@ public class GamePanel extends JPanel implements MouseListener {
     public boolean hitAlien(int x, int y) {
         boolean output;
         try {
-            if (aliens[x][y]) {
-                aliensDisplayed[x][y]=false;
-                a[x][y] = 255;
-                aFlag = true;
-                output = true;
-            } else {
+            if (aliens[x][y]==1) {
+                aliens[x][y] = 2;
+                a[x][y] = scoreAnimation[x][y] = 255;
+                aFlag = scoreFlag = output = true;
+                timeUsed = (curT - startTime)/1000000.0;
+                score[x][y] = 1 + getTimeScore(timeUsed);
+                totalScore += score[x][y];
+                if(alienCounter<=graphSize*graphSize/2)generateAlien();
+                startTime = System.nanoTime();
+            } else {    
                 a[x][y] = -255;
                 aFlag = true;
                 output = false;
@@ -116,6 +109,21 @@ public class GamePanel extends JPanel implements MouseListener {
         return output;
     }
 
+    private void generateAlien(){
+        do{
+            x = randomRange(0, graphSize);
+            y = randomRange(0, graphSize);
+        }while(aliens[x][y]!=0);
+        alienCounter++;
+        aliens[x][y]=1;
+        repaint();
+    }
+
+    private double getTimeScore(double time){
+        
+        return time < 10000 ? Math.pow(time - 10000, 4) * Math.pow(0.0001,4) : 0;
+        //https://www.desmos.com/calculator/0ls2e5ylld
+    }
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -181,11 +189,20 @@ public class GamePanel extends JPanel implements MouseListener {
             for (int j = 0; j < graphSize; j++) {
                 y = getHeight()
                         - (int) (borderWidth + (getHeight() - 2 * borderWidth) / graphSize * (j + 0.5) + iconSize / 2);
-                if (aliensDisplayed[i][j])
-                        g2.drawImage(alienImage, x, y, iconSize, iconSize, this);
+                //drawing the alien
+                if (aliens[i][j]==1||aliens[i][j]==2)
+                    g2.drawImage(alienImage, x, y, iconSize, iconSize, this);
+                //cover the alines that are hit with an x mark and a white semi transparent thing to make it less distracting
+                if(aliens[i][j]==2){
+                    g2.drawImage(xImage, x, y, iconSize, iconSize, this);
+
+                    g2.setColor(new Color(255, 255, 255, 125));
+                    g2.fillRect(x, y, iconSize, iconSize);
+                }
+                //draws the red/green animations only when the animatons are running to avoid unnesacery checking
                 if (aFlag) {
                     if (a[i][j] > 0) {
-                        a[i][j] = a[i][j] - (int)(255/(correctAnimationTime/deltaT));
+                        a[i][j] = a[i][j] - (int) (255 / (correctAnimationTime / deltaT));
                         if (a[i][j] < 0) {
                             a[i][j] = 0;
                         } else {
@@ -194,7 +211,7 @@ public class GamePanel extends JPanel implements MouseListener {
                         g2.setColor(new Color(0, 255, 0, a[i][j]));
                         g2.fillRect(x, y, iconSize, iconSize);
                     } else if (a[i][j] < 0) {
-                        a[i][j] = a[i][j] + (int)(255/(errorAnimationTime/deltaT));
+                        a[i][j] = a[i][j] + (int) (255 / (errorAnimationTime / deltaT));
                         if (a[i][j] > 0) {
                             a[i][j] = 0;
                         } else {
@@ -204,7 +221,19 @@ public class GamePanel extends JPanel implements MouseListener {
                         g2.fillRect(x, y, iconSize, iconSize);
                     }
                 }
-                
+                if(scoreFlag){
+                    g2.setFont(scoreFont);
+                    g2.setColor(Color.MAGENTA);
+                    if(scoreAnimation[i][j]>0){
+                        scoreAnimation[i][j] = scoreAnimation[i][j] - (int) (255 / (scoreAnimationTime / deltaT));
+                        if (a[i][j] < 0) {
+                            a[i][j] = 0;
+                        } else {
+                            scoreFlagTemp = true;
+                        }
+                        g2.drawString(String.format("+ %.2f", score[i][j]), x, y - (int)(Math.pow((255.0-scoreAnimation[i][j])/255.0, 0.5) * 75));
+                    }
+                }
             }
         }
         aFlag = aFlagTemp;
