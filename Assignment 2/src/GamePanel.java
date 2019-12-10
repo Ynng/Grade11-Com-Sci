@@ -22,7 +22,7 @@ public class GamePanel extends JPanel implements MouseListener {
     private int[] arrowX = new int[3], arrowY = new int[3];
     private int graphSize, x, y, iconSize, borderWidth, alienCounter;
     private long startTime, curT;// in nanoseconds
-    private boolean aFlag, aFlagTemp, scoreFlag, scoreFlagTemp;
+    private boolean aFlag, aFlagTemp, scoreFlag, scoreFlagTemp, renderHit;
     private Timer timer;
     private double timeLimit, timeUsed, deltaT, lastT, totalScore;// in millisecond
     private double errorAnimationTime = 500, correctAnimationTime = 750, scoreAnimationTime = 750;// in milliseconds
@@ -121,6 +121,11 @@ public class GamePanel extends JPanel implements MouseListener {
         repaint();
     }
 
+    public void toggleAliens(){
+        renderHit = !renderHit;
+        repaint();
+    }
+
     private double getTimeScore(double time){
         
         return time < 10000 ? Math.pow(time - 10000, 4) * Math.pow(0.0001,4) : 0;
@@ -191,16 +196,22 @@ public class GamePanel extends JPanel implements MouseListener {
             for (int j = 0; j < graphSize; j++) {
                 y = getHeight()
                         - (int) (borderWidth + (getHeight() - 2 * borderWidth) / graphSize * (j + 0.5) + iconSize / 2);
-                //drawing the alien
-                if (aliens[i][j]==1||aliens[i][j]==2)
-                    g2.drawImage(alienImage, x, y, iconSize, iconSize, this);
-                //cover the alines that are hit with an x mark and a white semi transparent thing to make it less distracting
-                if(aliens[i][j]==2){
-                    g2.drawImage(xImage, x, y, iconSize, iconSize, this);
+                if(renderHit){
+                    //drawing the alien
+                    if (aliens[i][j]==1||aliens[i][j]==2)
+                        g2.drawImage(alienImage, x, y, iconSize, iconSize, this);
+                    //cover the alines that are hit with an x mark and a white semi transparent thing to make it less distracting
+                    if(aliens[i][j]==2){
+                        g2.drawImage(xImage, x, y, iconSize, iconSize, this);
 
-                    g2.setColor(new Color(255, 255, 255, 125));
-                    g2.fillRect(x, y, iconSize, iconSize);
+                        g2.setColor(new Color(255, 255, 255, 125));
+                        g2.fillRect(x, y, iconSize, iconSize);
+                    }
+                }else{
+                    if (aliens[i][j]==2)
+                        g2.drawImage(alienImage, x, y, iconSize, iconSize, this);
                 }
+
                 //draws the red/green animations only when the animatons are running to avoid unnesacery checking
                 if (aFlag) {
                     if (a[i][j] > 0) {

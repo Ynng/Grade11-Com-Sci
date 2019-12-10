@@ -7,6 +7,8 @@ public class InfoPanel extends JPanel {
     private JLabel timeLabel;
     private JLabel scoreLabel;
     private JButton newGameButton;
+    private JButton showAliensButton;
+
     private Font mainFont = new Font("Sans-serif", Font.PLAIN, 35);
     private int colorFlag = 0;
     
@@ -33,6 +35,18 @@ public class InfoPanel extends JPanel {
         newGameButton.setBackground(Color.WHITE);
         newGameButton.setMargin(new Insets(0,0,0,0));
         add(newGameButton);
+
+        showAliensButton = new JButton("toggle aliens");
+        showAliensButton.setFont(mainFont);
+        showAliensButton.setAction(new AbstractAction("toggle aliens"){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                MainFrame.gamePanel.toggleAliens();
+            }
+        });
+        showAliensButton.setBackground(Color.WHITE);
+        showAliensButton.setMargin(new Insets(0,0,0,0));
+        add(showAliensButton);
 
     }
 
