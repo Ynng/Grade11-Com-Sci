@@ -30,4 +30,12 @@ public class MainFrame extends JFrame {
         setVisible(true);
         pack();
     }
+
+    // public static void startNewGame(){
+    //     if(gamePanel == null){
+    //         gamePanel = new GamePanel(gameSize, 30000);
+    //     }else{
+
+    //     }
+    // }
 }

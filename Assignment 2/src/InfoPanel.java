@@ -1,23 +1,39 @@
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import javax.swing.*;
 
 public class InfoPanel extends JPanel {
     private JLabel timeLabel;
     private JLabel scoreLabel;
+    private JButton newGameButton;
     private Font mainFont = new Font("Sans-serif", Font.PLAIN, 35);
     private int colorFlag = 0;
     
     public InfoPanel() {
+        setLayout(new FlowLayout(FlowLayout.LEADING, 25,0));
         setPreferredSize(new Dimension((MainFrame.gameSize * 2 + 1) * 100, 50));
         
-        timeLabel = new JLabel("Error: no countdown");
+        timeLabel = new JLabel("Error: no time");
         timeLabel.setFont(mainFont);
         add(timeLabel);
 
         scoreLabel  = new JLabel("Error: no score");
         scoreLabel.setFont(mainFont);
         add(scoreLabel);
+
+        newGameButton = new JButton("New Game");
+        newGameButton.setFont(mainFont);
+        newGameButton.setAction(new AbstractAction("New Game"){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                MainFrame.gamePanel.startGame(4, 30000);
+            }
+        });
+        newGameButton.setBackground(Color.WHITE);
+        newGameButton.setMargin(new Insets(0,0,0,0));
+        add(newGameButton);
+
     }
 
     public void updateTimer(double timeLeft){
@@ -36,6 +52,6 @@ public class InfoPanel extends JPanel {
     }
 
     public void updateScore(double score){
-        scoreLabel.setText(String.format("%.2f", score));
+        scoreLabel.setText(String.format("Score: %.2f", score));
     }
 }

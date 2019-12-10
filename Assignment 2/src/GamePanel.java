@@ -31,22 +31,11 @@ public class GamePanel extends JPanel implements MouseListener {
         return (int) (Math.random() * (max - min)) + min;
     }
 
-    public GamePanel(int graphSize, int timeLimit) {
-        this.timeLimit = timeLimit;
-        this.graphSize = graphSize * 2 + 1;
-        setPreferredSize(new Dimension(this.graphSize * 50, this.graphSize * 50));
-        borderWidth = 20;
-        initialize();
-    }
-
-    private void initialize() {
-        // initialize the two arrays
-        aliens = new int[graphSize][graphSize];
-        a = new int[graphSize][graphSize];
-        scoreAnimation = new int[graphSize][graphSize];
-        score = new double[graphSize][graphSize];
+    public GamePanel(int i_graphSize, double i_timeLimit) {
+        setPreferredSize(new Dimension((i_graphSize * 2 + 1) * 50, (i_graphSize * 2 + 1) * 50));
         setBackground(Color.WHITE);
         addMouseListener(this);
+        borderWidth = 20;
         try {
             alienImage = ImageIO.read(new File(".\\Assignment 2\\Yuki_Nagato.png"));
         } catch (IOException ex) {
@@ -57,12 +46,7 @@ public class GamePanel extends JPanel implements MouseListener {
         } catch (IOException ex) {
             System.out.println("Warning! Where's the x image??!?!");
         }
-
-        startTime = System.nanoTime();
-        lastT = System.nanoTime();
         timer = new Timer();
-        generateAlien();
-        timeUsed = timeLimit;// in millisecond
         timer.scheduleAtFixedRate(new TimerTask() {
             public void run() {
                 updateTime();
@@ -76,6 +60,24 @@ public class GamePanel extends JPanel implements MouseListener {
                 MainFrame.infoPanel.updateScore(totalScore);
             }
         }, 50, 50);// runs approximately every 50 millisecond, making the game 20 ticks per second
+        startGame(i_graphSize, i_timeLimit);
+    }
+
+    public void startGame(int i_graphSize, double i_timeLimit) {
+        graphSize = i_graphSize  * 2 + 1;
+        timeLimit = i_timeLimit;
+
+        // initialize the arrays
+        aliens = new int[graphSize][graphSize];
+        a = new int[graphSize][graphSize];
+        scoreAnimation = new int[graphSize][graphSize];
+        score = new double[graphSize][graphSize];
+        
+        totalScore = 0;
+        startTime = System.nanoTime();
+        lastT = System.nanoTime();
+        generateAlien();
+        timeUsed = timeLimit;// in millisecond
     }
 
     /**
