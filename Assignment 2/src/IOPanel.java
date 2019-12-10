@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 public class IOPanel extends JPanel implements DocumentListener {
 
     private JTextField entry;
+    private JLabel inputTipLabel;
     final Color entryBg;
     final static String CANCEL_ACTION = "delete-text";
     final static String ENTER_ACTION = "shoot-aliens";
@@ -26,8 +27,13 @@ public class IOPanel extends JPanel implements DocumentListener {
         entryBg = entry.getBackground();
         entry.getDocument().addDocumentListener(this);
         entry.setPreferredSize(new Dimension(500, 50));
-        add(entry);
         entry.setFont(mainFont);
+
+        inputTipLabel = new JLabel("input here:");
+        inputTipLabel.setFont(mainFont);
+        
+        add(inputTipLabel);
+        add(entry);
         InputMap im = entry.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
         ActionMap am = entry.getActionMap();
         im.put(KeyStroke.getKeyStroke("ESCAPE"), CANCEL_ACTION);

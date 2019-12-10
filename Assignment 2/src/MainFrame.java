@@ -12,9 +12,8 @@ public class MainFrame extends JFrame {
     public static InfoPanel infoPanel;
     public static IOPanel ioPanel;
     public static MenuPanel menuPanel;
-
-
-    public static int gameSize = 4;
+    private int gameStatusFlag = 0;
+    public static int gameSize = 4, standardWidth = 800, standardHeight = 1000;
 
     public MainFrame() {
         super("Alien");
@@ -22,7 +21,7 @@ public class MainFrame extends JFrame {
         setResizable(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setMinimumSize(new Dimension(300, 400));
-
+        setPreferredSize(new Dimension(standardWidth,standardHeight));
         menuPanel = new MenuPanel();
         add(menuPanel, BorderLayout.CENTER);
         setVisible(true);
@@ -30,20 +29,23 @@ public class MainFrame extends JFrame {
     }
 
     public void startNewGame(){
-        remove(menuPanel);
-        if(gamePanel == null){
-            gamePanel = new GamePanel(gameSize, 30000);
+        if(gameStatusFlag==0){
+            gameStatusFlag = 1;
+            remove(menuPanel);
+            if(gamePanel == null){
+                gamePanel = new GamePanel(gameSize, 30000);
+            }
+            if(infoPanel==null){
+                infoPanel = new InfoPanel();
+            }
+            if(ioPanel==null){
+                ioPanel = new IOPanel();
+            }
+            add(gamePanel, BorderLayout.CENTER);
+            add(infoPanel, BorderLayout.PAGE_START);
+            add(ioPanel, BorderLayout.SOUTH);
         }else{
             gamePanel.startGame(gameSize, 30000);
-            add(gamePanel, BorderLayout.CENTER);
         }
-        if(infoPanel==null){
-            infoPanel = new InfoPanel();
-        }
-        add(infoPanel, BorderLayout.PAGE_START);
-        if(ioPanel==null){
-            ioPanel = new IOPanel();
-        }
-        add(ioPanel, BorderLayout.SOUTH);
     }
 }

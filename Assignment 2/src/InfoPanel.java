@@ -29,7 +29,7 @@ public class InfoPanel extends JPanel {
         newGameButton.setAction(new AbstractAction("New Game"){
             @Override
             public void actionPerformed(ActionEvent e) {
-                MainFrame.gamePanel.startGame(4, 30000);
+                SpaceAlien.frame.startNewGame();
             }
         });
         newGameButton.setBackground(Color.WHITE);
