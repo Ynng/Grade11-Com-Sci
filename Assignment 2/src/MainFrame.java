@@ -11,6 +11,8 @@ public class MainFrame extends JFrame {
     public static GamePanel gamePanel;
     public static InfoPanel infoPanel;
     public static IOPanel ioPanel;
+    public static MenuPanel menuPanel;
+
 
     public static int gameSize = 4;
 
@@ -21,21 +23,27 @@ public class MainFrame extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setMinimumSize(new Dimension(300, 400));
 
-        infoPanel = new InfoPanel();
-        add(infoPanel, BorderLayout.PAGE_START);
-        gamePanel = new GamePanel(gameSize, 30000);
-        add(gamePanel, BorderLayout.CENTER);
-        ioPanel = new IOPanel();
-        add(ioPanel, BorderLayout.SOUTH);
+        menuPanel = new MenuPanel();
+        add(menuPanel, BorderLayout.CENTER);
         setVisible(true);
         pack();
     }
 
-    // public static void startNewGame(){
-    //     if(gamePanel == null){
-    //         gamePanel = new GamePanel(gameSize, 30000);
-    //     }else{
-
-    //     }
-    // }
+    public void startNewGame(){
+        remove(menuPanel);
+        if(gamePanel == null){
+            gamePanel = new GamePanel(gameSize, 30000);
+        }else{
+            gamePanel.startGame(gameSize, 30000);
+            add(gamePanel, BorderLayout.CENTER);
+        }
+        if(infoPanel==null){
+            infoPanel = new InfoPanel();
+        }
+        add(infoPanel, BorderLayout.PAGE_START);
+        if(ioPanel==null){
+            ioPanel = new IOPanel();
+        }
+        add(ioPanel, BorderLayout.SOUTH);
+    }
 }
