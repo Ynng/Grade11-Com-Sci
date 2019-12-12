@@ -25,7 +25,7 @@ public class GamePanel extends JPanel implements MouseListener {
     // 2d arrays for storing the light states
     private double[][] score;
     private int[][] aliens, aliens_A, score_A; // aliens_A for alpha animation
-    private ArrayList<Entry<String, Integer>> messages;
+    private ArrayList<> messages;
     private String tempMessageKey;
     private int[] arrowX = new int[3], arrowY = new int[3];
     private int graphSize, x, y, iconSize, borderWidth, alienCounter, tempMessageValue;
