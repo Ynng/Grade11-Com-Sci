@@ -13,7 +13,7 @@ public class MainFrame extends JFrame {
     public static IOPanel ioPanel;
     public static MenuPanel menuPanel;
     private int gameStatusFlag = 0;
-    public static int gameSize = 4, standardWidth = 800, standardHeight = 1050;
+    public static int gameSize = 4, standardWidth = 800, standardHeight = 1000;
 
     public MainFrame() {
         super("Alien");
