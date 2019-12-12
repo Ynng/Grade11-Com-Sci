@@ -25,10 +25,8 @@ public class GamePanel extends JPanel implements MouseListener {
     // 2d arrays for storing the light states
     private double[][] score;
     private int[][] aliens, aliens_A, score_A; // aliens_A for alpha animation
-    private ArrayList<> messages;
-    private String tempMessageKey;
     private int[] arrowX = new int[3], arrowY = new int[3];
-    private int graphSize, x, y, iconSize, borderWidth, alienCounter, tempMessageValue;
+    private int graphSize, x, y, iconSize, borderWidth, alienCounter;
     private long startTime, curT;// in nanoseconds
     private boolean animationFlag, animationFlagTemp, renderHit;
     private Timer timer;
@@ -68,7 +66,6 @@ public class GamePanel extends JPanel implements MouseListener {
                 MainFrame.infoPanel.updateScore(totalScore);
             }
         }, 50, 50);// runs approximately every 50 millisecond, making the game 20 ticks per second
-        messages = new ArrayList<Entry<String,Integer>>();
         startGame(i_graphSize, i_timeLimit);
     }
 
@@ -260,21 +257,7 @@ public class GamePanel extends JPanel implements MouseListener {
 
         g2.setFont(messageFont);
         g2.setColor(Color.ORANGE);
-        if(messages.size()>0){
-            for(int i = 0; i < messages.size(); i++){
-                tempMessageKey = messages.get(i).getKey();
-                tempMessageValue = messages.get(i).getValue();
-                tempMessageValue-=(int) (255 / (messageAT / deltaT));
-                if(tempMessageValue<0)tempMessageValue=0;
-                g2.drawString(tempMessageKey, getWidth()/2, getHeight()/2 - (int)(Math.pow((255.0-tempMessageValue)/255.0, 0.5) * 200));
-                if(tempMessageValue<=0){
-                    messages.remove(i);
-                    i--;
-                }else{
-                    messages.set(i,new Entry<String,Integer>(tempMessageKey, tempMessageValue));
-                }
-            }
-        }
+        //TODO: implement message display
     }
 
     @Override
