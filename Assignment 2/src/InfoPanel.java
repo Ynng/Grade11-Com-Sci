@@ -30,6 +30,7 @@ public class InfoPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 SpaceAlien.frame.startNewGame();
+                MainFrame.gamePanel.triggerMessage("New Game!");
             }
         });
         newGameButton.setBackground(Color.WHITE);
@@ -42,6 +43,7 @@ public class InfoPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 MainFrame.gamePanel.toggleAliens();
+                MainFrame.gamePanel.triggerMessage("Alien Toggled");
             }
         });
         showAliensButton.setBackground(Color.WHITE);
