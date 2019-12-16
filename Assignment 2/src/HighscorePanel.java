@@ -17,6 +17,8 @@ public class HighscorePanel extends JPanel {
     private Font helpFont = new Font("Sans-serif", Font.PLAIN, 20);
     private SpringLayout layout;
 
+    private File highscoreFile;
+
     public HighscorePanel() {
         layout = new SpringLayout();
         setLayout(layout);
@@ -59,6 +61,8 @@ public class HighscorePanel extends JPanel {
         layout.putConstraint(SpringLayout.NORTH, choosePathButton, 10, SpringLayout.SOUTH, highscoreText);
         layout.putConstraint(SpringLayout.NORTH, backButton, 10, SpringLayout.SOUTH, choosePathButton);
         // repaint();
+
+        highscoreFile = new File(System.getProperty("user.dir") + "\\highscore.txt");
         try{
             setupFile();
         }catch(Exception e){
@@ -66,16 +70,14 @@ public class HighscorePanel extends JPanel {
         }
     }
 
-    private void setupFile() throws Exception {
-        File file = new File(System.getProperty("user.dir") + "\\highscore.txt");
-        
-        if (file.createNewFile()) {
+    private void setupFile() throws Exception {        
+        if (highscoreFile.createNewFile()) {
             System.out.println("File is created!");
         } else {
             System.out.println("File already exists.");
         }
 
-        FileWriter writer = new FileWriter(file);
+        FileWriter writer = new FileWriter(highscoreFile);
         writer.write("Test data");
         writer.close();
     }
@@ -88,6 +90,12 @@ public class HighscorePanel extends JPanel {
         int returnVal = chooser.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             System.out.println("You chose to open this file: " + chooser.getSelectedFile().getName());
+            highscoreFile = chooser.getSelectedFile();
+            try{
+                setupFile();
+            }catch(Exception e){
+                System.out.println("Error with setting up highscore files");
+            }
         }
     }
 }
