@@ -87,7 +87,7 @@ public class IOPanel extends JPanel implements DocumentListener {
                     entry.setBackground(CORRECT_COLOR);
                 else
                     entry.setBackground(ERROR_COLOR);
-            } catch (NumberFormatException e) {
+            } catch (Exception e) {
                 entry.setBackground(ERROR_COLOR);
                 System.out.println("Error parsing input");
             }

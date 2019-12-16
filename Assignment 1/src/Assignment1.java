@@ -21,15 +21,15 @@
 import java.util.Random; //imports the Random class to aid in generating random numbers 
 import java.util.Scanner; //imports the Scanner class to aid in taking user input from console
 
-public class Assignment1 {//Start of Assignment1 Class
-
+public class Assignment1 {//start of class Assignment1  
+    
     private static final int MAX_TERM_LENGTH_FACTOR = 1;//total number operations in one term of the polynomial divided by the max number of operations in one term of the polynomial
     private static final int LEVEL_SELECTION_DELAY = 5; //number of seconds the program delays before continuing executing after the user has finished their stay in the menu, so the user can have time to read all the text Outputs
     public static final String ANSI_RED = "\u001B[31m"; //the unicode character that is esacepe followed by the ansi esacape character that makes text red
     public static final String ANSI_GREEN = "\u001B[32m"; //the unicode character that is esacepe followed by the ansi esacape character that makes text green
     public static final String ANSI_RESET = "\u001B[0m"; //the unicode character that is esacepe followed by the ansi esacape character that resets text formatting
     public static final String ANSI_ERASE_SCREEN = "\u001B[2J"; //the unicode character that is esacepe followed by the ansi esacape character that erase the screen
-    public static final String ANSI_BOLD = "\u001B[1m"; //the unicode character that is esacepe followed by the ansi esacape character that makes text bold
+    public static final String ANSI_BOLD = "\u001B[1m"; //the unicode character that is esacepe followed by the ansi esacape character that makes text bold 
 
     public static void main(String[] args) throws InterruptedException {//Start of main method
         int levelCounter = 1, //declares and innitialize the int levelCounter, which stores the current level the user is on
@@ -288,7 +288,7 @@ public class Assignment1 {//Start of Assignment1 Class
             }//end of the switch block that either add or divide the total value of the term to the total value of the whole equation
             switch (ran.nextInt(2)) { //start of a switch block that either randomly decides the value of overallOperation, it is powerd by a random number generator that outputs either 0 or 1
             case 0:// if the output of the random number generator is 0, we do addition 
-                overallOperation = '+';//sets the value of overallOperation to the plus sign
+                overallOperation = '+';//sets the value of overallOperation to the addition sign                    
                 break;//end of the case if the output of the random number generator is 0
             case 1:// if the output of the random number generator is 1, we do subtraction
                 overallOperation = '-';//sets the value of overallOperation to the minus sign
