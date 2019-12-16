@@ -37,6 +37,9 @@ public class HelpPanel extends JPanel {
 
         layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, helpText, 0, SpringLayout.HORIZONTAL_CENTER, this);
         layout.putConstraint(SpringLayout.VERTICAL_CENTER, helpText, 0, SpringLayout.VERTICAL_CENTER, this);
+        layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, backButton, 0, SpringLayout.HORIZONTAL_CENTER, this);
+        layout.putConstraint(SpringLayout.NORTH, backButton, 10, SpringLayout.SOUTH, helpText);
+
         // repaint();
     }
 }

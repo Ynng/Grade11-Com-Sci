@@ -1,13 +1,15 @@
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.io.File;
+import java.io.FileWriter;
+
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class HighscorePanel extends JPanel {
     private JButton backButton;
     private JButton choosePathButton;
-
 
     private JTextArea highscoreText;
 
@@ -32,9 +34,9 @@ public class HighscorePanel extends JPanel {
         backButton.setMargin(new Insets(0, 0, 0, 0));
         add(backButton);
 
-        choosePathButton = new JButton("Choose File Path");
+        choosePathButton = new JButton("Choose a different file");
         choosePathButton.setFont(buttonFont);
-        choosePathButton.setAction(new AbstractAction("Choose File Path") {
+        choosePathButton.setAction(new AbstractAction("Choose a different file") {
             @Override
             public void actionPerformed(ActionEvent e) {
                 getFilePath();
@@ -56,12 +58,31 @@ public class HighscorePanel extends JPanel {
         layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, backButton, 0, SpringLayout.HORIZONTAL_CENTER, this);
         layout.putConstraint(SpringLayout.NORTH, choosePathButton, 10, SpringLayout.SOUTH, highscoreText);
         layout.putConstraint(SpringLayout.NORTH, backButton, 10, SpringLayout.SOUTH, choosePathButton);
-
-        
         // repaint();
+        try{
+            setupFile();
+        }catch(Exception e){
+            System.out.println("Error with setting up highscore files");
+        }
     }
+
+    private void setupFile() throws Exception {
+        File file = new File(System.getProperty("user.dir") + "\\highscore.txt");
+        
+        if (file.createNewFile()) {
+            System.out.println("File is created!");
+        } else {
+            System.out.println("File already exists.");
+        }
+
+        FileWriter writer = new FileWriter(file);
+        writer.write("Test data");
+        writer.close();
+    }
+
     private void getFilePath() {
-        JFileChooser chooser = new JFileChooser();
+        System.out.println(System.getProperty("user.dir"));
+        JFileChooser chooser = new JFileChooser(System.getProperty("user.dir"));
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Highscore Files", "hs");
         chooser.setFileFilter(filter);
         int returnVal = chooser.showOpenDialog(this);
