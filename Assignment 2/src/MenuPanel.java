@@ -8,7 +8,6 @@ public class MenuPanel extends JPanel {
     private JLabel gameTitleLabel;
 
     private Font mainFont = new Font("Sans-serif", Font.PLAIN, 35);
-    private int colorFlag = 0;
     private SpringLayout layout;
 
 

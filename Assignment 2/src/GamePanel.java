@@ -27,7 +27,7 @@ public class GamePanel extends JPanel implements MouseListener {
     private int[][] aliens, aliens_A, score_A; // aliens_A for alpha animation
     private int[] arrowX = new int[3], arrowY = new int[3];
     private String message;
-    private int graphSize, x, y, iconSize, borderWidth, alienCounter, message_A;
+    private int graphSize, x, y, iconSize, borderWidth, alienCounter, message_A, gameEndingCount;
     private long startTime, curT;// in nanoseconds
     private boolean animationFlag, animationFlagTemp, renderHit;
     private Timer timer;
@@ -73,6 +73,7 @@ public class GamePanel extends JPanel implements MouseListener {
     public void startGame(int i_graphSize, double i_timeLimit) {
         graphSize = i_graphSize * 2 + 1;
         timeLimit = i_timeLimit;
+        gameEndingCount = graphSize * graphSize / 4;
 
         // initialize the arrays
         aliens = new int[graphSize][graphSize];
@@ -104,11 +105,13 @@ public class GamePanel extends JPanel implements MouseListener {
                 timeUsed = (curT - startTime) / 1000000.0;
                 score[x][y] = 1 + getTimeScore(timeUsed);
                 totalScore += score[x][y];
-                if (alienCounter <= graphSize * graphSize / 2)
+                if (alienCounter <= gameEndingCount)
                     generateAlien();
                 startTime = System.nanoTime();
             } else {
-                aliens_A[x][y] = -255;
+                aliens_A[x][y] = score_A[x][y] = -255;
+                score[x][y] = -1;
+                totalScore += score[x][y];
                 animationFlag = true;
                 output = false;
             }
@@ -152,7 +155,6 @@ public class GamePanel extends JPanel implements MouseListener {
         super.paintComponent(g);
         // System.out.println(deltaT);
         Graphics2D g2 = (Graphics2D) g;
-
         iconSize = (int) ((getWidth() > getHeight() ? getHeight() : getWidth() - borderWidth * 2) / graphSize / 2);
 
         // for drawing the axis
@@ -251,15 +253,26 @@ public class GamePanel extends JPanel implements MouseListener {
                     }
                     // drawing the score
                     g2.setFont(scoreFont);
-                    g2.setColor(Color.MAGENTA);
                     if (score_A[i][j] > 0) {
+                        g2.setColor(Color.GREEN);
                         score_A[i][j] = score_A[i][j] - (int) (255 / (scoreAT / deltaT));
-                        if (aliens_A[i][j] < 0)
-                            aliens_A[i][j] = 0;
-                        else
+                        if (score_A[i][j] < 0)
+                            score_A[i][j] = 0;
+                        else {
                             animationFlagTemp = true;
-                        g2.drawString(String.format("+ %.2f", score[i][j]), x,
-                                y - (int) (Math.pow((255.0 - score_A[i][j]) / 255.0, 0.5) * 75));
+                            g2.drawString(String.format("%+.2f", score[i][j]), x,
+                                    y - (int) (Math.pow((255.0 - score_A[i][j]) / 255.0, 0.5) * 75));
+                        }
+                    } else if (score_A[i][j] < 0) {
+                        g2.setColor(Color.RED);
+                        score_A[i][j] = score_A[i][j] + (int) (255 / (scoreAT / deltaT));
+                        if (score_A[i][j] > 0)
+                            score_A[i][j] = 0;
+                        else {
+                            animationFlagTemp = true;
+                            g2.drawString(String.format("%+.2f", score[i][j]), x,
+                                    y - (int) (Math.pow((255.0 + score_A[i][j]) / 255.0, 0.5) * 75));
+                        }
                     }
                 }
             }
@@ -268,17 +281,21 @@ public class GamePanel extends JPanel implements MouseListener {
         g2.setFont(messageFont);
         g2.setColor(Color.ORANGE);
         if (message_A > 0) {
-            message_A =  message_A - (int) (255 / (messageAT / deltaT));
+            message_A = message_A - (int) (255 / (messageAT / deltaT));
             if (message_A < 0)
                 message_A = 0;
             else {
                 animationFlagTemp = true;
                 g2.drawString(message, getWidth() / 2 - 50,
-                        getHeight() / 2 - (int)(Math.pow((255.0 - message_A) / 255.0, 0.5) * 200.0));
+                        getHeight() / 2 - (int) (Math.pow((255.0 - message_A) / 255.0, 0.5) * 200.0));
             }
         }
-        System.out.println(message_A+"");
+        System.out.println(message_A + "");
         animationFlag = animationFlagTemp;
+
+        g2.setFont(scoreFont);
+        g2.setColor(Color.DARK_GRAY);
+        g2.drawString(alienCounter + "/" + gameEndingCount, 50, 50);
     }
 
     @Override
