@@ -13,7 +13,8 @@ public class MainFrame extends JFrame {
     public static IOPanel ioPanel;
     public static MenuPanel menuPanel;
     public static HelpPanel helpPanel;
-    private int gameStatusFlag = 0;// 0 = in menu, 1 = in game, 2 = in help
+    public static HighscorePanel highscorePanel;
+    private int gameStatusFlag = 0;// 0 = in menu, 1 = in game, 2 = in help, 3 = in highscore
     public static int gameSize = 4, standardWidth = 800, standardHeight = 1000;
 
     public MainFrame() {
@@ -32,6 +33,7 @@ public class MainFrame extends JFrame {
     public void startNewGame(){
         if(gameStatusFlag==0)remove(menuPanel);
         if(gameStatusFlag==2)remove(helpPanel);
+        if(gameStatusFlag==3)remove(highscorePanel);
         if(gameStatusFlag!=1){
             if(gamePanel == null){
                 gamePanel = new GamePanel(gameSize, 30000);
@@ -54,6 +56,7 @@ public class MainFrame extends JFrame {
     }
     public void openHelpPage(){
         if(gameStatusFlag==0)remove(menuPanel);
+        if(gameStatusFlag==3)remove(highscorePanel);
         if(gameStatusFlag==1){
             gamePanel.abandonGame();
             remove(gamePanel);
@@ -70,6 +73,7 @@ public class MainFrame extends JFrame {
     }
     public void openMainMenu(){//warning: also stops and destroys the current game
         if(gameStatusFlag==2)remove(helpPanel);
+        if(gameStatusFlag==3)remove(highscorePanel);
         if(gameStatusFlag==1){
             gamePanel.abandonGame();
             remove(gamePanel);
@@ -80,5 +84,23 @@ public class MainFrame extends JFrame {
         revalidate();
         repaint();
         gameStatusFlag = 0;
+    }
+
+    public void openHighscore(){//warning: also stops and destroys the current game
+        if(gameStatusFlag==0)remove(menuPanel);
+        if(gameStatusFlag==2)remove(helpPanel);
+        if(gameStatusFlag==1){
+            gamePanel.abandonGame();
+            remove(gamePanel);
+            remove(infoPanel);
+            remove(ioPanel);
+        }
+        if(highscorePanel==null){
+            highscorePanel = new HighscorePanel();
+        }
+        add(highscorePanel, BorderLayout.CENTER);
+        revalidate();
+        repaint();
+        gameStatusFlag = 3;
     }
 }

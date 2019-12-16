@@ -39,13 +39,4 @@ public class HelpPanel extends JPanel {
         layout.putConstraint(SpringLayout.VERTICAL_CENTER, helpText, 0, SpringLayout.VERTICAL_CENTER, this);
         // repaint();
     }
-
-    public void repaintLater() {
-        new java.util.Timer().schedule(new java.util.TimerTask() {
-            @Override
-            public void run() {
-                repaint();
-            }
-        }, 50);
-    }
 }

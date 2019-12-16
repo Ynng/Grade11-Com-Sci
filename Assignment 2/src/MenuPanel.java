@@ -7,6 +7,8 @@ public class MenuPanel extends JPanel {
     private JButton newGameButton;
     private JButton helpButton;
     private JButton exitButton;
+    private JButton highscoreButton;
+
 
     private JLabel gameTitleLabel;
 
@@ -60,6 +62,18 @@ public class MenuPanel extends JPanel {
         helpButton.setMargin(new Insets(0,0,0,0));
         add(helpButton);
 
+        highscoreButton = new JButton("Highscores");
+        highscoreButton.setBackground(Color.WHITE);
+        highscoreButton.setFont(mainFont);
+        highscoreButton.setAction(new AbstractAction("Highscores"){
+            @Override
+            public void actionPerformed(ActionEvent a) {
+                SpaceAlien.frame.openHighscore();
+            }
+        });
+        highscoreButton.setMargin(new Insets(0,0,0,0));
+        add(highscoreButton);
+
         gameTitleLabel = new JLabel("Assignment#2 by Kevin H");
         gameTitleLabel.setFont(mainFont);
         add(gameTitleLabel);
@@ -70,9 +84,11 @@ public class MenuPanel extends JPanel {
         layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, newGameButton, 0, SpringLayout.HORIZONTAL_CENTER, this);
         layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, exitButton, 0, SpringLayout.HORIZONTAL_CENTER, this);
         layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, helpButton, 0, SpringLayout.HORIZONTAL_CENTER, this);
+        layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, highscoreButton, 0, SpringLayout.HORIZONTAL_CENTER, this);
         layout.putConstraint(SpringLayout.NORTH, newGameButton, 50, SpringLayout.SOUTH, gameTitleLabel);
         layout.putConstraint(SpringLayout.NORTH, exitButton, 50, SpringLayout.SOUTH, newGameButton);
         layout.putConstraint(SpringLayout.NORTH, helpButton, 50, SpringLayout.SOUTH, exitButton);
+        layout.putConstraint(SpringLayout.NORTH, highscoreButton, 50, SpringLayout.SOUTH, helpButton);
 
 
     }
