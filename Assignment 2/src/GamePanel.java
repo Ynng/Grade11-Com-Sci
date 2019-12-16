@@ -146,7 +146,7 @@ public class GamePanel extends JPanel implements MouseListener {
 
     private double getTimeScore(double time) {
 
-        return time < 10000 ? Math.pow(time - 10000, 4) * Math.pow(0.0001, 4) : 0;
+        return time < 10000 ? Math.pow(time - 10000, 2) * Math.pow(0.0001, 2) : 0;
         // https://www.desmos.com/calculator/5klrsldojl
     }
 
