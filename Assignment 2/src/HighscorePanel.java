@@ -1,7 +1,10 @@
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 
 import javax.swing.*;
@@ -62,30 +65,33 @@ public class HighscorePanel extends JPanel {
         layout.putConstraint(SpringLayout.NORTH, backButton, 10, SpringLayout.SOUTH, choosePathButton);
         // repaint();
 
-        highscoreFile = new File(System.getProperty("user.dir") + "\\highscore.txt");
-        try{
+        highscoreFile = new File(System.getProperty("user.dir") + "\\highscore.highscore");
+        try {
             setupFile();
-        }catch(Exception e){
+        } catch (Exception e) {
             System.out.println("Error with setting up highscore files");
         }
     }
 
-    private void setupFile() throws Exception {        
+    private void logFile() throws Exception {
+        BufferedReader reader = new BufferedReader(new FileReader(highscoreFile));
+        String st;
+        while ((st = reader.readLine()) != null){}
+            System.out.println(st);
+    }
+
+    private void setupFile() throws Exception {
         if (highscoreFile.createNewFile()) {
             System.out.println("File is created!");
         } else {
             System.out.println("File already exists.");
         }
-
-        FileWriter writer = new FileWriter(highscoreFile);
-        writer.write("Test data");
-        writer.close();
     }
 
     private void getFilePath() {
-        System.out.println(System.getProperty("user.dir"));
+        // System.out.println(System.getProperty("user.dir"));
         JFileChooser chooser = new JFileChooser(System.getProperty("user.dir"));
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("Highscore Files", "hs");
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Highscore Files", "highscore");
         chooser.setFileFilter(filter);
         int returnVal = chooser.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
