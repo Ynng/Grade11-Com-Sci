@@ -29,7 +29,7 @@ public class GamePanel extends JPanel implements MouseListener {
     private String message;
     private int graphSize, x, y, iconSize, borderWidth, alienCounter, message_A, gameEndingCount;
     private long startTime, curT;// in nanoseconds
-    private boolean animationFlag, animationFlagTemp, renderHit;
+    private boolean animationFlag, animationFlagTemp, renderHit, gameAbandoned;
     private Timer timer;
     private double timeLimit, timeUsed, deltaT, lastT, totalScore;// in millisecond
     private double errAT = 500, correctAT = 750, scoreAT = 750, messageAT = 1000;// in milliseconds
@@ -65,9 +65,17 @@ public class GamePanel extends JPanel implements MouseListener {
                 }
 
                 MainFrame.infoPanel.updateScore(totalScore);
+                System.out.println("Loop still running");
             }
         }, 50, 50);// runs approximately every 50 millisecond, making the game 20 ticks per second
         startGame(i_graphSize, i_timeLimit);
+    }
+
+    public void abandonGame(){
+        if(timer!=null){
+            timer.cancel();
+            timer.purge();
+        }
     }
 
     public void startGame(int i_graphSize, double i_timeLimit) {

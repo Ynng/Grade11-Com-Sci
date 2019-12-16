@@ -12,6 +12,8 @@ public class InfoPanel extends JPanel {
     private JLabel scoreLabel;
     private JButton newGameButton;
     private JButton showAliensButton;
+    private JButton exitButton;
+
 
     private Font mainFont = new Font("Sans-serif", Font.PLAIN, 25);
     private Font tipFont = new Font("Sans-serif", Font.PLAIN, 15);
@@ -55,7 +57,7 @@ public class InfoPanel extends JPanel {
 
         showAliensButton = new JButton("toggle aliens");
         showAliensButton.setFont(mainFont);
-        showAliensButton.setAction(new AbstractAction("toggle aliens"){
+        showAliensButton.setAction(new AbstractAction("Toggle Aliens"){
             @Override
             public void actionPerformed(ActionEvent e) {
                 MainFrame.gamePanel.toggleAliens();
@@ -65,6 +67,18 @@ public class InfoPanel extends JPanel {
         showAliensButton.setBackground(Color.WHITE);
         showAliensButton.setMargin(new Insets(0,0,0,0));
         add(showAliensButton);
+
+        exitButton = new JButton("Exit Game");
+        exitButton.setBackground(Color.WHITE);
+        exitButton.setFont(mainFont);
+        exitButton.setAction(new AbstractAction("Exit Game"){
+            @Override
+            public void actionPerformed(ActionEvent a) {
+                SpaceAlien.frame.openMainMenu();
+            }
+        });
+        exitButton.setMargin(new Insets(0,0,0,0));
+        add(exitButton);
     }
 
     public void updateTimer(double timeLeft){
