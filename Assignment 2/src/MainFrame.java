@@ -36,7 +36,7 @@ public class MainFrame extends JFrame {
         if(gameStatusFlag==3)remove(highscorePanel);
         if(gameStatusFlag!=1){
             if(gamePanel == null){
-                gamePanel = new GamePanel(gameSize, 30000);
+                gamePanel = new GamePanel(gameSize);
             }
             if(infoPanel==null){
                 infoPanel = new InfoPanel();
@@ -50,7 +50,7 @@ public class MainFrame extends JFrame {
             revalidate();
             repaint();
         }else{
-            gamePanel.startGame(gameSize, 30000);
+            gamePanel.startGame(gameSize);
         }
         gameStatusFlag = 1;
     }

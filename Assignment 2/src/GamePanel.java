@@ -1,4 +1,9 @@
 
+/**
+ * @author Kevin Huang
+ * @version 1.0
+ */
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -6,10 +11,8 @@ import java.io.*;
 
 import javax.imageio.ImageIO;
 
-import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.Map.Entry;
 
 public class GamePanel extends JPanel implements MouseListener {
     private static final long serialVersionUID = 1L;// so that vscode can stop screaming at me about the need for
@@ -29,16 +32,31 @@ public class GamePanel extends JPanel implements MouseListener {
     private String message;
     private int graphSize, x, y, iconSize, borderWidth, alienCounter, message_A, gameEndingCount;
     private long startTime, curT;// in nanoseconds
-    private boolean animationFlag, animationFlagTemp, renderHit, gameAbandoned;
+    private boolean animationFlag, animationFlagTemp, renderHit;
     private Timer timer;
-    private double timeLimit, timeUsed, deltaT, lastT, totalScore;// in millisecond
+    private double timeUsed, deltaT, lastT, totalScore;// in millisecond
     private double errAT = 500, correctAT = 750, scoreAT = 750, messageAT = 1000;// in milliseconds
 
+    /**
+     * Returns a random integer between min and max, include min, exclude max Useful
+     * for randomly choosing an entry in an array
+     * 
+     * @param min the minimum value to be chosen, inclusive
+     * @param max the maximum value to be chosen, exclusive
+     * @return a random number between min and max
+     */
     static int randomRange(int min, int max) {
         return (int) (Math.random() * (max - min)) + min;
     }
 
-    public GamePanel(int i_graphSize, double i_timeLimit) {
+    /**
+     * Creats a new GamePanel and starts a new game
+     * 
+     * @param i_graphSize determins the size of the graph to be played on, The game
+     *                    will be played on a graph ranging from -i_graphSize to
+     *                    +i_graphSize, making the final graphSize i_graphSize*2+1
+     */
+    public GamePanel(int i_graphSize) {
         setPreferredSize(new Dimension((i_graphSize * 2 + 1) * 50, (i_graphSize * 2 + 1) * 50));
         setBackground(Color.WHITE);
         addMouseListener(this);
@@ -63,24 +81,32 @@ public class GamePanel extends JPanel implements MouseListener {
                 if (animationFlag) {
                     repaint();
                 }
-
-                MainFrame.infoPanel.updateScore(totalScore);
                 System.out.println("Loop still running");
             }
         }, 50, 50);// runs approximately every 50 millisecond, making the game 20 ticks per second
-        startGame(i_graphSize, i_timeLimit);
+        startGame(i_graphSize);
     }
 
-    public void abandonGame(){
-        if(timer!=null){
+    /**
+     * Abandons the current game, stops the game logic timer to save resources
+     */
+    public void abandonGame() {
+        if (timer != null) {
             timer.cancel();
             timer.purge();
         }
     }
 
-    public void startGame(int i_graphSize, double i_timeLimit) {
+    /**
+     * Initializes the game, can be called after a game has already started to start
+     * a new game
+     * 
+     * @param i_graphSize determins the size of the graph to be played on, The game
+     *                    will be played on a graph ranging from -i_graphSize to
+     *                    +i_graphSize, making the final graphSize i_graphSize*2+1
+     */
+    public void startGame(int i_graphSize) {
         graphSize = i_graphSize * 2 + 1;
-        timeLimit = i_timeLimit;
         gameEndingCount = graphSize * graphSize / 4;
 
         // initialize the arrays
@@ -90,18 +116,23 @@ public class GamePanel extends JPanel implements MouseListener {
         score = new double[graphSize][graphSize];
 
         totalScore = 0;
+        MainFrame.infoPanel.updateScore(totalScore);
         startTime = System.nanoTime();
         lastT = System.nanoTime();
         generateAlien();
-        timeUsed = timeLimit;// in millisecond
     }
 
     /**
+     * Attemps to hit an alien, should be called as a result of user input, will
+     * result in animation and addition/subtraction of the user's score
      * 
-     * @param x
-     * @param y
-     * @return true = hit alien, false = didn't hit anything/error
-     * @throws InterruptedException
+     * @param x the x coordinate of the alien attemped to hit, with the left top
+     *          corner of the screen being 0, conversion between stored coordinates
+     *          and coordinate presented to the player should be done by the caller
+     * @param y the y coordinate of the alien attemped to hit, with the left top
+     *          corner of the screen being 0, conversion between stored coordinates
+     *          and coordinate presented to the player should be done by the caller
+     * @return true = Aline is hit, false = didn't hit anything/error
      */
     public boolean hitAlien(int x, int y) {
         boolean output;
@@ -126,10 +157,14 @@ public class GamePanel extends JPanel implements MouseListener {
         } catch (ArrayIndexOutOfBoundsException e) {
             output = false;
         }
+        MainFrame.infoPanel.updateScore(totalScore);
         repaint();
         return output;
     }
 
+    /**
+     * Generates a new alien at a new location and draws it to the screen
+     */
     private void generateAlien() {
         do {
             x = randomRange(0, graphSize);
@@ -140,11 +175,18 @@ public class GamePanel extends JPanel implements MouseListener {
         repaint();
     }
 
+    /**
+     * Toggles wether the user can see the aliens that they already hit
+     */
     public void toggleAliens() {
         renderHit = !renderHit;
         repaint();
     }
 
+    /**
+     * Triggers the message animation, draws a slowly fading and moving text to show certain messages
+     * @param message the message being shown
+     */
     public void triggerMessage(String message) {
         this.message = message;
         animationFlag = true;
@@ -152,12 +194,21 @@ public class GamePanel extends JPanel implements MouseListener {
         repaint();
     }
 
+    /**
+     * Gets the amount of additional time based score, the score follows this curve here https://www.desmos.com/calculator/kkytvgap7t
+     * @param time the time in milliseconds the user took to hit the alien
+     * @return the amount of extra time based score that should be awarded to the user, between 1 and 0
+     */
     private double getTimeScore(double time) {
 
         return time < 10000 ? Math.pow(time - 10000, 2) * Math.pow(0.0001, 2) : 0;
-        // https://www.desmos.com/calculator/5klrsldojl
+        //https://www.desmos.com/calculator/kkytvgap7t
     }
 
+    /**
+     * Calls the paint methods to draw the UI
+     * @param g the passed in graphics object
+     */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -306,6 +357,11 @@ public class GamePanel extends JPanel implements MouseListener {
         g2.drawString(alienCounter + "/" + gameEndingCount, 50, 50);
     }
 
+    /**
+     * Handles a mousePressed event
+     * @deprecated
+     * @param e the mouse event
+     */
     @Override
     public void mousePressed(MouseEvent e) {
         /*
@@ -317,13 +373,18 @@ public class GamePanel extends JPanel implements MouseListener {
         System.out.printf("Clicked at x:%d, y:%d\n", mouseX, mouseY);
     }
 
+    /**
+     * updates curT, deltaT and lastT, should be called in a loop to time animations correctly
+     */
     private void updateTime() {
         curT = System.nanoTime();
         deltaT = (int) ((curT - lastT) / 1000000.0);
         lastT = curT;
     }
 
-    // Useless junk
+    /**
+     * Useless junk
+     */
     @Override
     public void mouseClicked(MouseEvent e) {
 
