@@ -3,6 +3,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import javax.swing.*;
 
+/**HelpPanel class 
+ * Shows some instructions and explanations for the game
+*/
 public class HelpPanel extends JPanel {
     private JButton backButton;
 
@@ -12,6 +15,9 @@ public class HelpPanel extends JPanel {
     private Font helpFont = new Font("Sans-serif", Font.PLAIN, 20);
     private SpringLayout layout;
 
+    /**HelpPanel constructor method
+     * Creates and setup HelpPanel with the variety of JComponents
+     */
     public HelpPanel() {
         layout = new SpringLayout();
         setLayout(layout);
@@ -42,7 +48,5 @@ public class HelpPanel extends JPanel {
         layout.putConstraint(SpringLayout.VERTICAL_CENTER, helpText, 0, SpringLayout.VERTICAL_CENTER, this);
         layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, backButton, 0, SpringLayout.HORIZONTAL_CENTER, this);
         layout.putConstraint(SpringLayout.NORTH, backButton, 10, SpringLayout.SOUTH, helpText);
-
-        // repaint();
     }
 }

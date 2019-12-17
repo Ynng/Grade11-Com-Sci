@@ -13,6 +13,10 @@ import java.util.Collections;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+/**
+ * HighscorePanel handle reading&writing&creation of the highscore file, also
+ * handles displaying the content of the file in a friendly manner.
+ */
 public class HighscorePanel extends JPanel {
     private JButton backButton;
     private JButton choosePathButton;
@@ -25,9 +29,14 @@ public class HighscorePanel extends JPanel {
 
     private File highscoreFile;
 
-    private String textDisplayed;
     private List<Double> highscoreList = new ArrayList<Double>();
 
+    /**
+     * HighscorePanel constructor method initializes a highscorePanel and sets the
+     * default location of highscoreFile
+     * 
+     * @param none
+     */
     public HighscorePanel() {
         layout = new SpringLayout();
         setLayout(layout);
@@ -74,7 +83,10 @@ public class HighscorePanel extends JPanel {
     }
 
     /**
-     * updates highscoreText to reflect the current highscoreList
+     * updateText method updates highscoreText to reflect the current highscoreList
+     * 
+     * @param none
+     * @return void
      */
     private void updateText() {
         String stringToShow = "Highscores:\n";
@@ -90,7 +102,11 @@ public class HighscorePanel extends JPanel {
     }
 
     /**
-     * Reads the content of a file into highscoreList
+     * readHighscoreFile method Reads the content of highscoreFile into
+     * highscoreList, then sort it by calling writeHighscoreFile()
+     * 
+     * @param none
+     * @return void
      */
     private void readHighscoreFile() {
         try {// I surounded all the code in a try catch block because all the Exceptions are
@@ -113,6 +129,13 @@ public class HighscorePanel extends JPanel {
         }
     }
 
+    /**
+     * writeHighscoreFile method sorts highscoreList, then writes the sorted
+     * highscoreList to highscoreFile
+     * 
+     * @param none
+     * @return void
+     */
     private void writeHighscoreFile() {
         String stringToWrite = "";
         Collections.sort(highscoreList);
@@ -131,7 +154,11 @@ public class HighscorePanel extends JPanel {
     }
 
     /**
-     * Creates a highscore file at the default location if it doesn't exists yet.
+     * setupHighscoreFile method prompts the user to take action if hghscorefile
+     * doesn't exsist in the default location, either allowing the creation of a new
+     * highscore file in the default location, or choosing another highscore file
+     * @param none
+     * @return void
      */
     public void setupHighscoreFile() {
         try {
@@ -157,12 +184,22 @@ public class HighscorePanel extends JPanel {
 
     }
 
-    public void addScore(double newScore){
+    /**addScore method
+     * adds a new score to highscoreList, then update highscoreFile and the UI to match
+     * @param newScore
+     * @return void
+     */
+    public void addScore(double newScore) {
         highscoreList.add(newScore);
         writeHighscoreFile();
         updateText();
     }
 
+    /**getHighscoreFilePath metho
+     * prompts the user and opens up a prompt for the user to choose another highscore file to use
+     * @param none
+     * @return void
+     */
     private void getHighscoreFilePath() {
         // System.out.println(System.getProperty("user.dir"));
         JFileChooser chooser = new JFileChooser(System.getProperty("user.dir"));

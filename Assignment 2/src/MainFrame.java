@@ -1,13 +1,10 @@
 import javax.swing.*;
 import java.awt.*;
 
+/**MainFrame Class
+ * the main JFrame that manages and contains all the other parts of the program, in the form of JPanels
+ */
 public class MainFrame extends JFrame {
-
-    /**
-     *
-     */
-    private static final long serialVersionUID = 1L;
-
     public static GamePanel gamePanel;
     public static InfoPanel infoPanel;
     public static IOPanel ioPanel;
@@ -19,6 +16,10 @@ public class MainFrame extends JFrame {
     private int gameStatusFlag = 0;// 0 = in menu, 1 = in game, 2 = in help, 3 = in highscore
     public static int gameSize = 4, standardWidth = 800, standardHeight = 1000;
 
+    /**MainFrame Constructor
+     * constructs a new MainFrame object, initializing it to be have the main menu open
+     * @param none
+     */
     public MainFrame() {
         super("Alien");
         setLayout(new BorderLayout());
@@ -32,6 +33,11 @@ public class MainFrame extends JFrame {
         pack();
     }
 
+    /**startNewGame Method
+     * reconfigures the JFrame to show the layout used for the main gameplay, also triggers gamePanel to start the game logic.
+     * @param none
+     * @return void
+     */
     public void startNewGame() {
         if (gameStatusFlag == 0)
             remove(menuPanel);
@@ -63,7 +69,12 @@ public class MainFrame extends JFrame {
         repaint();
         gameStatusFlag = 1;
     }
-
+    
+    /**openHelpPage method
+     * reconfigues the JFrame to show only the helpPanel, initializing it if it's not already initialized
+     * @param none
+     * @return void
+     */
     public void openHelpPage() {
         if (gameStatusFlag == 0)
             remove(menuPanel);
@@ -89,7 +100,12 @@ public class MainFrame extends JFrame {
         gameStatusFlag = 2;
     }
 
-    public void openMainMenu() {// warning: also stops and destroys the current game
+    /**openMainMenu method
+     * reconfigures the JFrame to show only menuPanel, which is initialized in the constructor, so it's guranteed to be already initialized
+     * @param none
+     * @return void
+     */
+    public void openMainMenu() {
         if (gameStatusFlag == 2)
             remove(helpPanel);
         if (gameStatusFlag == 3)
@@ -112,7 +128,12 @@ public class MainFrame extends JFrame {
         gameStatusFlag = 0;
     }
 
-    public void openHighscore() {// warning: also stops and destroys the current game
+    /**openHighscore method
+     * should only b called if a game is not running, reconfigures the JFrame to display only highscorePanel
+     * @param none
+     * @return void
+     */
+    public void openHighscore() {
         if (gameStatusFlag == 0)
             remove(menuPanel);
         if (gameStatusFlag == 2)
@@ -138,7 +159,12 @@ public class MainFrame extends JFrame {
         gameStatusFlag = 3;
     }
 
-    // should only be called when a game is running and gameStatusFlag == 1
+    /**showEndGame method
+     * should only be called when a game is running and gameStatusFlag == 1, reconfigures the JFrame to show gamePanel, highScorePanel and statsPanel.
+     * Also updates statsPanel with correct stats and submits the current score to highScorePanel for saving and displaying
+     * @param finalScore the score the user got in the game
+     * @param avgTimeUsed the average time the user used to enter a valid response to each alien
+     */
     public void showEndGame(double finalScore, double avgTimeUsed) {
         if (gameStatusFlag != 1)
             return;

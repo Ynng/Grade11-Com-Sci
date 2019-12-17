@@ -2,10 +2,10 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import javax.swing.*;
-
+/**InfoPanel class
+ * displays some information and buttons while the game is running
+*/
 public class InfoPanel extends JPanel {
-    private SpringLayout layout;
-
     private JLabel timeTipLabel;
     private JLabel timeLabel;
     private JLabel scoreTipLabel;
@@ -20,6 +20,9 @@ public class InfoPanel extends JPanel {
 
     private int colorFlag = 0;
     
+    /**InfoPanel constructor method
+     * sets up the variety of JButtons and JLabels in the InfoPanel, so that the InfoPanel is useful
+     */
     public InfoPanel() {
         setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
         setPreferredSize(new Dimension((MainFrame.gameSize * 2 + 1) * 100, 50));
@@ -80,7 +83,12 @@ public class InfoPanel extends JPanel {
         exitButton.setMargin(new Insets(0,0,0,0));
         add(exitButton);
     }
-
+    
+    /**updateTimer method
+     * should be called repeatedly to update the time being displayed
+     * @param timeLeft the time being displayed in seconds
+     * @return void
+     */
     public void updateTimer(double timeLeft){
         timeLabel.setText(String.format("%.0f:%02.0f:%01.0f",Math.floor(timeLeft/60.0),Math.floor(timeLeft%60),Math.floor(timeLeft*10%10)));
         if(timeLeft>5){
@@ -96,6 +104,11 @@ public class InfoPanel extends JPanel {
         }
     }
 
+    /**updateScore method
+     * updates the score being displayed
+     * @param score the score to be displayed
+     * @return void 
+     */
     public void updateScore(double score){
         scoreLabel.setText(String.format("%.2f", score));
     }

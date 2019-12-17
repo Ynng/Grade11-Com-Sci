@@ -4,6 +4,9 @@ import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
+/**
+ * IOPanel handles the coordinate entering part of the program
+ */
 public class IOPanel extends JPanel implements DocumentListener {
 
     private JTextField entry;
@@ -17,6 +20,12 @@ public class IOPanel extends JPanel implements DocumentListener {
 
     private boolean clearTextFlag = false;
 
+    /**
+     * IOPanel constructor method sets up IOPanel with the JLabel and JTextArea so
+     * its useful
+     * 
+     * @param none
+     */
     public IOPanel() {
         // setPreferredSize(new Dimension(gameDimension, LightsOut.tileSize/2));
         setPreferredSize(new Dimension(500, 50));
@@ -31,7 +40,7 @@ public class IOPanel extends JPanel implements DocumentListener {
 
         inputTipLabel = new JLabel("input here:");
         inputTipLabel.setFont(mainFont);
-        
+
         add(inputTipLabel);
         add(entry);
         InputMap im = entry.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
@@ -44,16 +53,38 @@ public class IOPanel extends JPanel implements DocumentListener {
 
     // DocumentListener methods
 
+    /**
+     * insertUpdate method called when there are inserts into the document,
+     * indicates that the user has made more inputs to the input field, resets
+     * clearTextFlag to false and the background color of the input field incase it
+     * was a different color/value
+     * 
+     * @param ev DocumentEvent, not used
+     * @return void
+     */
     public void insertUpdate(DocumentEvent ev) {
-        clearTextFlag = false;//don't clear the input if the user changed something
+        clearTextFlag = false;// don't clear the input if the user changed something
         entry.setBackground(entryBg);
     }
 
+    /**
+     * removeUpdate method called when there are removes from the document,
+     * indicates that the user has made more inputs to the input field, resets
+     * clearTextFlag to false and the background color of the input field incase it
+     * was a different color/value
+     * 
+     * @param ev DocumentEvent, not used
+     * @return void
+     */
     public void removeUpdate(DocumentEvent ev) {
         clearTextFlag = false;
         entry.setBackground(entryBg);
     }
-
+    
+    /**changedUpdate method
+     * useless, not used at all, 
+     * 
+     */
     public void changedUpdate(DocumentEvent ev) {
     }
 
@@ -71,7 +102,8 @@ public class IOPanel extends JPanel implements DocumentListener {
 
         public void actionPerformed(ActionEvent ev) {
             input = entry.getText();
-            if (clearTextFlag){//so that the user can just hit enter to clear their input, but is still able to submit their input using 
+            if (clearTextFlag) {// so that the user can just hit enter to clear their input, but is still able
+                                // to submit their input using
                 clearTextFlag = false;
                 entry.setText("");
                 return;
@@ -95,7 +127,7 @@ public class IOPanel extends JPanel implements DocumentListener {
         }
     }
 
-    public void wipeEntry(){
+    public void wipeEntry() {
         entry.setText("");
     }
 }
