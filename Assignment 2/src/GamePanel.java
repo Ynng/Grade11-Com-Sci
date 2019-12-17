@@ -120,7 +120,7 @@ public class GamePanel extends JPanel {
     public void startGame(int i_graphSize) {
         gameRunning = true;
         graphSize = i_graphSize * 2 + 1;
-        gameEndingCount = graphSize * graphSize / 16;
+        gameEndingCount = graphSize * graphSize / 8;
         avgTimeUsed = totalScore = alienCounter = successCounter = attempCounter = 0;
         renderHit = false;
 
