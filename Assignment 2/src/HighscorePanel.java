@@ -3,13 +3,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -28,7 +27,6 @@ public class HighscorePanel extends JPanel {
 
     private String textDisplayed;
     private List<Double> highscoreList = new ArrayList<Double>();
-
 
     public HighscorePanel() {
         layout = new SpringLayout();
@@ -73,63 +71,96 @@ public class HighscorePanel extends JPanel {
         // repaint();
 
         highscoreFile = new File(System.getProperty("user.dir") + "\\highscore.highscore");
-        setupHighscoreFile();
-        updateText();
     }
 
     /**
      * updates highscoreText to reflect the current highscoreList
      */
-    private void updateText(){
-        String textToBeDisplayed = "";
-        try{
-            highscoreText.setText(readHighscoreFile());
-        }catch (Exception e) {
+    private void updateText() {
+        String stringToShow = "Highscores:\n";
+        for (int i = 0; i < highscoreList.size(); i++) {
+            stringToShow += String.format("%d:\t%.2f\n", i, highscoreList.get(i));
+        }
+        try {
+            highscoreText.setText(stringToShow);
+        } catch (Exception e) {
             System.out.println("Error with reading the highscore file");
         }
+        repaint();
     }
 
     /**
      * Reads the content of a file into highscoreList
-     * @throws FileNotFoundException if the input file doesn't exists
-     * @throws IOException if interrupted
      */
-    private void readHighscoreFile() throws Exception {
-        BufferedReader fileReader = new BufferedReader(new FileReader(highscoreFile));
-        String temp;
-        highscoreList.clear();
-        while ((temp = fileReader.readLine()) != null){
-            try{
-                highscoreList.add(Double.parseDouble(temp));
-            }catch (Exception e) {
-                System.out.println("Error parsing the highscore file, skipping a line");
+    private void readHighscoreFile() {
+        try {// I surounded all the code in a try catch block because all the Exceptions are
+             // logically very rare to happen
+            BufferedReader fileReader = new BufferedReader(new FileReader(highscoreFile));
+            String temp;
+            highscoreList.clear();
+            while ((temp = fileReader.readLine()) != null) {
+                try {
+                    highscoreList.add(Double.parseDouble(temp));
+                } catch (Exception e) {
+                    System.out.println("Error parsing the highscore file, skipping a line");
+                }
+                System.out.println(temp);
             }
-            System.out.println(temp);
+            fileReader.close();
+            writeHighscoreFile();// sort the array and sync highscoreList with highscoreFile
+        } catch (Exception e) {
+            System.out.println("Error with reading highscore file?!??!?!");
         }
-        fileReader.close();
     }
 
-
-    private void writeHighscoreFile(){
+    private void writeHighscoreFile() {
+        String stringToWrite = "";
         Collections.sort(highscoreList);
-        FileWriter
+        Collections.reverse(highscoreList);
+        for (int i = 0; i < highscoreList.size(); i++) {
+            stringToWrite += highscoreList.get(i) + "\n";
+        }
+        FileWriter writer;
+        try {
+            writer = new FileWriter(highscoreFile);
+            writer.write(stringToWrite);
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
-
-
 
     /**
-     * Create a highscore file at a default location in the working directory of the program if a highscore file does not exist in the default location, otherwise, reads the highscore file from the default location
+     * Creates a highscore file at the default location if it doesn't exists yet.
      */
-    private void setupHighscoreFile() {
+    public void setupHighscoreFile() {
         try {
-            if (highscoreFile.createNewFile()) {
-                System.out.println("File is created!");
-            } else {
+            if (highscoreFile.exists()) {
                 System.out.println("File already exists.");
+            } else {
+                Object[] options = { "Create new file", "Choose existing file" };
+                if (JOptionPane.showOptionDialog(null, "Highscore File doesnt exist", "Alien Game File Handler",
+                        JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]) == 0) {
+                    JOptionPane.showMessageDialog(null,
+                            "Creating file highscore.highscore under " + System.getProperty("user.dir"));
+                    highscoreFile.createNewFile();
+                    System.out.println("File is created!");
+                } else {
+                    getHighscoreFilePath();
+                }
             }
+            readHighscoreFile();
+            updateText();
         } catch (Exception e) {
             System.out.println("Error with setting up highscore files");
         }
+
+    }
+
+    public void addScore(double newScore){
+        highscoreList.add(newScore);
+        writeHighscoreFile();
+        updateText();
     }
 
     private void getHighscoreFilePath() {
@@ -141,6 +172,7 @@ public class HighscorePanel extends JPanel {
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             System.out.println("You chose to open this file: " + chooser.getSelectedFile().getName());
             highscoreFile = chooser.getSelectedFile();
+            readHighscoreFile();
             updateText();
         }
     }

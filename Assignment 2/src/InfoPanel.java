@@ -47,7 +47,7 @@ public class InfoPanel extends JPanel {
         newGameButton.setAction(new AbstractAction("New Game"){
             @Override
             public void actionPerformed(ActionEvent e) {
-                SpaceAlien.frame.startNewGame();
+                MainFrame.gamePanel.startGame(MainFrame.gameSize);
                 MainFrame.gamePanel.triggerMessage("New Game!");
             }
         });

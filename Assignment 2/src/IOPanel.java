@@ -94,4 +94,8 @@ public class IOPanel extends JPanel implements DocumentListener {
             clearTextFlag = true;
         }
     }
+
+    public void wipeEntry(){
+        entry.setText("");
+    }
 }

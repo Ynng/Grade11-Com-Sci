@@ -30,11 +30,12 @@ public class GamePanel extends JPanel implements MouseListener {
     private int[][] aliens, aliens_A, score_A; // aliens_A for alpha animation
     private int[] arrowX = new int[3], arrowY = new int[3];
     private String message;
-    private int graphSize, x, y, iconSize, borderWidth, alienCounter, message_A, gameEndingCount;
+    private int graphSize, x, y, iconSize, borderWidth, alienCounter, message_A, gameEndingCount, curAlienX, curAlienY,
+            successCounter, attempCounter;
     private long startTime, curT;// in nanoseconds
-    private boolean animationFlag, animationFlagTemp, renderHit;
+    private boolean animationFlag, animationFlagTemp, renderHit, gameRunning;
     private Timer timer;
-    private double timeUsed, deltaT, lastT, totalScore;// in millisecond
+    private double timeUsed, deltaT, lastT, totalScore, avgTimeUsed;// in millisecond
     private double errAT = 500, correctAT = 750, scoreAT = 750, messageAT = 1000;// in milliseconds
 
     /**
@@ -74,14 +75,16 @@ public class GamePanel extends JPanel implements MouseListener {
         timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             public void run() {
-                updateTime();
-                timeUsed = (curT - startTime) / 1000000.0;
+                if (gameRunning) {
+                    updateTime();
+                    timeUsed = (curT - startTime) / 1000000.0;
 
-                MainFrame.infoPanel.updateTimer(timeUsed / 1000.0);
-                if (animationFlag) {
-                    repaint();
+                    MainFrame.infoPanel.updateTimer(timeUsed / 1000.0);
+                    if (animationFlag) {
+                        repaint();
+                    }
+                    System.out.println("Loop still running");
                 }
-                System.out.println("Loop still running");
             }
         }, 50, 50);// runs approximately every 50 millisecond, making the game 20 ticks per second
         startGame(i_graphSize);
@@ -91,10 +94,17 @@ public class GamePanel extends JPanel implements MouseListener {
      * Abandons the current game, stops the game logic timer to save resources
      */
     public void abandonGame() {
-        if (timer != null) {
-            timer.cancel();
-            timer.purge();
-        }
+        gameRunning = false;
+    }
+
+    /**
+     * Abandons the current game, stops the game logic timer to save resources
+     */
+    public void endGame() {
+        gameRunning = false;
+        renderHit = true;
+        SpaceAlien.frame.showEndGame(totalScore,avgTimeUsed/1000.0);
+        repaint();
     }
 
     /**
@@ -106,8 +116,11 @@ public class GamePanel extends JPanel implements MouseListener {
      *                    +i_graphSize, making the final graphSize i_graphSize*2+1
      */
     public void startGame(int i_graphSize) {
+        gameRunning = true;
         graphSize = i_graphSize * 2 + 1;
-        gameEndingCount = graphSize * graphSize / 4;
+        gameEndingCount = graphSize * graphSize / 16;
+        avgTimeUsed = totalScore = alienCounter = successCounter = attempCounter = 0;
+        renderHit = false;
 
         // initialize the arrays
         aliens = new int[graphSize][graphSize];
@@ -115,7 +128,6 @@ public class GamePanel extends JPanel implements MouseListener {
         score_A = new int[graphSize][graphSize];
         score = new double[graphSize][graphSize];
 
-        totalScore = 0;
         MainFrame.infoPanel.updateScore(totalScore);
         startTime = System.nanoTime();
         lastT = System.nanoTime();
@@ -135,7 +147,7 @@ public class GamePanel extends JPanel implements MouseListener {
      * @return true = Aline is hit, false = didn't hit anything/error
      */
     public boolean hitAlien(int x, int y) {
-        boolean output;
+        boolean output, invalid = false;
         try {
             if (aliens[x][y] == 1) {
                 aliens[x][y] = 2;
@@ -143,21 +155,32 @@ public class GamePanel extends JPanel implements MouseListener {
                 animationFlag = output = true;
                 timeUsed = (curT - startTime) / 1000000.0;
                 score[x][y] = 1 + getTimeScore(timeUsed);
+                successCounter += 1;
                 totalScore += score[x][y];
-                if (alienCounter <= gameEndingCount)
-                    generateAlien();
                 startTime = System.nanoTime();
             } else {
+                aliens[curAlienX][curAlienY] = 3;
                 aliens_A[x][y] = score_A[x][y] = -255;
                 score[x][y] = -1;
                 totalScore += score[x][y];
+                timeUsed = (curT - startTime) / 1000000.0;
                 animationFlag = true;
                 output = false;
+                startTime = System.nanoTime();
             }
+            avgTimeUsed = (avgTimeUsed * (alienCounter - 1) + timeUsed) / alienCounter;
         } catch (ArrayIndexOutOfBoundsException e) {
             output = false;
+            invalid = true;
         }
         MainFrame.infoPanel.updateScore(totalScore);
+        if (!invalid) {
+            attempCounter++;
+            if (alienCounter < gameEndingCount)
+                generateAlien();
+            else
+                endGame();
+        }
         repaint();
         return output;
     }
@@ -172,6 +195,8 @@ public class GamePanel extends JPanel implements MouseListener {
         } while (aliens[x][y] != 0);
         alienCounter++;
         aliens[x][y] = 1;
+        curAlienX = x;
+        curAlienY = y;
         repaint();
     }
 
@@ -184,7 +209,9 @@ public class GamePanel extends JPanel implements MouseListener {
     }
 
     /**
-     * Triggers the message animation, draws a slowly fading and moving text to show certain messages
+     * Triggers the message animation, draws a slowly fading and moving text to show
+     * certain messages
+     * 
      * @param message the message being shown
      */
     public void triggerMessage(String message) {
@@ -195,18 +222,22 @@ public class GamePanel extends JPanel implements MouseListener {
     }
 
     /**
-     * Gets the amount of additional time based score, the score follows this curve here https://www.desmos.com/calculator/kkytvgap7t
+     * Gets the amount of additional time based score, the score follows this curve
+     * here https://www.desmos.com/calculator/kkytvgap7t
+     * 
      * @param time the time in milliseconds the user took to hit the alien
-     * @return the amount of extra time based score that should be awarded to the user, between 1 and 0
+     * @return the amount of extra time based score that should be awarded to the
+     *         user, between 1 and 0
      */
     private double getTimeScore(double time) {
 
         return time < 10000 ? Math.pow(time - 10000, 2) * Math.pow(0.0001, 2) : 0;
-        //https://www.desmos.com/calculator/kkytvgap7t
+        // https://www.desmos.com/calculator/kkytvgap7t
     }
 
     /**
      * Calls the paint methods to draw the UI
+     * 
      * @param g the passed in graphics object
      */
     @Override
@@ -275,7 +306,7 @@ public class GamePanel extends JPanel implements MouseListener {
                         - (int) (borderWidth + (getHeight() - 2 * borderWidth) / graphSize * (j + 0.5) + iconSize / 2);
                 if (renderHit) {
                     // drawing the alien
-                    if (aliens[i][j] == 1 || aliens[i][j] == 2)
+                    if (aliens[i][j] != 0)
                         g2.drawImage(alienImage, x, y, iconSize, iconSize, this);
                     // cover the alines that are hit with an x mark and aliens_A white semi
                     // transparent thing to make it less distracting
@@ -349,16 +380,18 @@ public class GamePanel extends JPanel implements MouseListener {
                         getHeight() / 2 - (int) (Math.pow((255.0 - message_A) / 255.0, 0.5) * 200.0));
             }
         }
-        System.out.println(message_A + "");
         animationFlag = animationFlagTemp;
 
         g2.setFont(scoreFont);
         g2.setColor(Color.DARK_GRAY);
-        g2.drawString(alienCounter + "/" + gameEndingCount, 50, 50);
+        g2.drawString(String.format("%d/%d", alienCounter, gameEndingCount), 50, 50);
+        g2.drawString(String.format("%d/%d = %.0f%%", successCounter, attempCounter,
+                successCounter / (attempCounter - 0.0) * 100.0), 50, 100);
     }
 
     /**
      * Handles a mousePressed event
+     * 
      * @deprecated
      * @param e the mouse event
      */
@@ -374,7 +407,8 @@ public class GamePanel extends JPanel implements MouseListener {
     }
 
     /**
-     * updates curT, deltaT and lastT, should be called in a loop to time animations correctly
+     * updates curT, deltaT and lastT, should be called in a loop to time animations
+     * correctly
      */
     private void updateTime() {
         curT = System.nanoTime();
