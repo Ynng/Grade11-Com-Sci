@@ -80,26 +80,48 @@ public class IOPanel extends JPanel implements DocumentListener {
         clearTextFlag = false;
         entry.setBackground(entryBg);
     }
-    
-    /**changedUpdate method
-     * useless, not used at all, 
-     * 
+
+    /**
+     * changedUpdate method useless, not used at all, however, it still needs to be
+     * implemented as it's required to implement DocumentListener
      */
     public void changedUpdate(DocumentEvent ev) {
     }
 
+    /**
+     * Class CancelAction, subclass of IOPanel being triggered when the escape key
+     * is pressed
+     */
     class CancelAction extends AbstractAction {
+        /**
+         * actionPerformed method called when the escape key is pressed, resets the
+         * input field interms of content and background color
+         * 
+         * @param ev the ActionEvent
+         * @return void
+         */
         public void actionPerformed(ActionEvent ev) {
             entry.setText("");
             entry.setBackground(entryBg);
         }
     }
 
+    /**
+     * Class EnterAction, subclass of IOPanel being triggered when the enter key is
+     * pressed
+     */
     class EnterAction extends AbstractAction {
         String input;
         String[] inputArray;
         int x, y;
 
+        /**
+         * actionPerformed method called when the enter key is pressed
+         * parses and submits the user input to gamePanel and change the background color of the input field accordingly
+         * 
+         * @param ev the ActionEvent
+         * @return void
+         */
         public void actionPerformed(ActionEvent ev) {
             input = entry.getText();
             if (clearTextFlag) {// so that the user can just hit enter to clear their input, but is still able
@@ -127,7 +149,11 @@ public class IOPanel extends JPanel implements DocumentListener {
         }
     }
 
+    /**wipeEntry method
+     * used to allow other classes to reset the look and content of the input field
+     */
     public void wipeEntry() {
         entry.setText("");
+        entry.setBackground(entryBg);
     }
 }

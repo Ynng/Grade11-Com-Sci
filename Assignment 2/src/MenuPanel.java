@@ -3,20 +3,23 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import javax.swing.*;
 
+/**MenuPanel
+ * contains the main menu of the program
+ */
 public class MenuPanel extends JPanel {
     private JButton newGameButton;
     private JButton helpButton;
     private JButton exitButton;
     private JButton highscoreButton;
 
-
     private JLabel gameTitleLabel;
 
     private Font mainFont = new Font("Sans-serif", Font.PLAIN, 35);
     private SpringLayout layout;
-
-
     
+    /**MenuPanel constructor method
+     * sets up the JLabels and JButtons within MenuPanel so that it's useful
+     */
     public MenuPanel() {
         layout = new SpringLayout();
         setLayout(layout);
@@ -89,7 +92,5 @@ public class MenuPanel extends JPanel {
         layout.putConstraint(SpringLayout.NORTH, exitButton, 50, SpringLayout.SOUTH, newGameButton);
         layout.putConstraint(SpringLayout.NORTH, helpButton, 50, SpringLayout.SOUTH, exitButton);
         layout.putConstraint(SpringLayout.NORTH, highscoreButton, 50, SpringLayout.SOUTH, helpButton);
-
-
     }
 }
