@@ -74,7 +74,7 @@ public class MenuPanel extends JPanel {
         highscoreButton.setMargin(new Insets(0,0,0,0));
         add(highscoreButton);
 
-        gameTitleLabel = new JLabel("Assignment#2 by Kevin H");
+        gameTitleLabel = new JLabel("\"Space Alien\" Grid Game by Kevin H");
         gameTitleLabel.setFont(mainFont);
         add(gameTitleLabel);
         

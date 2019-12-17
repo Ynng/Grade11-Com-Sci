@@ -32,7 +32,10 @@ public class HelpPanel extends JPanel {
         helpText = new JTextArea();
         helpText.setEditable(false);
         helpText.setFont(helpFont);
-        helpText.setText("Test\ntest\ntest");
+        helpText.setText(
+                "Space Alien Grid Game: By Kevin H\nEnter coordinates as a pair of numbers seperated by \",\" or \" \"\nfor example: \"2 3\"\nHit enter again after inputting a coordinate to clear the input\n\nAliens caught gives you 1 point + a time bonus between 0 and 1\nAliens missed will deduct 1 point\nAliens escape after 10 seconds, also deducting 1 point");
+        helpText.setLineWrap(true);
+        helpText.setSize(700, 400);
         add(helpText);
 
         layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, helpText, 0, SpringLayout.HORIZONTAL_CENTER, this);

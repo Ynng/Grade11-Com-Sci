@@ -80,6 +80,7 @@ public class GamePanel extends JPanel implements MouseListener {
                     timeUsed = (curT - startTime) / 1000000.0;
 
                     MainFrame.infoPanel.updateTimer(timeUsed / 1000.0);
+                    if(timeUsed/1000.0>10)alienEscape();
                     if (animationFlag) {
                         repaint();
                     }
@@ -183,6 +184,22 @@ public class GamePanel extends JPanel implements MouseListener {
         }
         repaint();
         return output;
+    }
+
+    private void alienEscape(){
+        aliens[curAlienX][curAlienY] = 3;
+        aliens_A[curAlienX][curAlienY] = score_A[curAlienX][curAlienY] = -255;
+        score[curAlienX][curAlienY] = -1;
+        totalScore += score[curAlienX][curAlienY];
+        timeUsed = (curT - startTime) / 1000000.0;
+        animationFlag = true;
+        startTime = System.nanoTime();
+        triggerMessage("Alien Escaped!");
+        attempCounter++;
+        if (alienCounter < gameEndingCount)
+            generateAlien();
+        else
+            endGame();
     }
 
     /**
@@ -310,9 +327,8 @@ public class GamePanel extends JPanel implements MouseListener {
                         g2.drawImage(alienImage, x, y, iconSize, iconSize, this);
                     // cover the alines that are hit with an x mark and aliens_A white semi
                     // transparent thing to make it less distracting
-                    if (aliens[i][j] == 2) {
-                        g2.drawImage(xImage, x, y, iconSize, iconSize, this);
-
+                    if (aliens[i][j] == 2)g2.drawImage(xImage, x, y, iconSize, iconSize, this);
+                    if (aliens[i][j] >= 2) {
                         g2.setColor(new Color(255, 255, 255, 125));
                         g2.fillRect(x, y, iconSize, iconSize);
                     }
