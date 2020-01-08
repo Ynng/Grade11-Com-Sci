@@ -77,7 +77,7 @@ public class GamePanel extends JPanel {
                     if (animationFlag) {
                         repaint();
                     }
-                    System.out.println("Loop still running");
+                    System.out.println("Game Logic Running");
                 }
             }
         }, 50, 50);// runs approximately every 50 millisecond, making the game 20 ticks per second
