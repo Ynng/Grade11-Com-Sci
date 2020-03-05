@@ -4,35 +4,31 @@ public class Solver {
   private Grid grid;
   private boolean[][] visited;
 
-  public void setGrid(Grid input){
+  public void setGrid(Grid input) {
     grid = input;
   }
 
-
-  public boolean solveGrid(){
+  public boolean solveGrid() {
     visited = new boolean[11][11];
-    return recurs(0,0);
+    return recurs(new Coordinate(1, 1));
   }
 
-  private boolean recurs(int row, int col){
-    if(row == 10 && col == 9)return true;
-    int dist = grid.read(row,col);
+  private boolean recurs(Coordinate coord) {
+    if (coord.atTarget())
+      return true;
+    if (visited[coord.getRow()][coord.getCol()])
+      return false;
+    visited[coord.getRow()][coord.getCol()] = true;
+    int dist = grid.read(coord);
+    boolean output = false;
 
     for (Direction dir : Direction.values()) {
-      if(grid.read())
+      coord.move(dir, dist);
+      if (!coord.outBounds()) {
+        output |= recurs(new Coordinate(coord));
+      }
+      coord.revert();
     }
-
-    if((row-dist)>=0){
-      recurs(row-dist, col);
-    }
-    if((row+dist)<=9){
-      recurs(row+dist, col);
-    }
-    if((col-dist)>=0){
-      recurs(row, col-dist);
-    }
-    if((col+dist)<=9){
-      recurs(row, col+dist);
-    }
+    return output;
   }
 }
