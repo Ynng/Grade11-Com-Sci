@@ -1,20 +1,11 @@
 package app;
 
 public class Coordinate {
-  private int row, col, lastRow, lastCol;
-
-  public Coordinate(Coordinate original) {
-    this.row = original.getRow();
-    this.col = original.getCol();
-    lastRow = row;
-    lastCol = col;
-  }
+  private int row, col;
 
   public Coordinate(int row, int col) {
     this.row = row;
     this.col = col;
-    lastRow = row;
-    lastCol = col;
   }
 
   public int getRow() {
@@ -25,33 +16,16 @@ public class Coordinate {
     return col;
   }
 
-  public void move(Direction dir, int dist) {
-    lastRow = row;
-    lastCol = col;
+  public Coordinate move(Direction dir, int dist) {
     switch (dir) {
       case LEFT:
-        row -= dist;
+        return new Coordinate(row - dist, col);
       case RIGHT:
-        row += dist;
+        return new Coordinate(row + dist, col);
       case UP:
-        col += dist;
-      case DOWN:
-        col -= dist;
+        return new Coordinate(row, col + dist);
+      default:
+        return new Coordinate(row, col - dist);
     }
-  }
-
-  public void revert(){
-    row = lastRow;
-    col = lastCol;
-  }
-
-  public boolean outBounds() {
-    if (row < 1 || row > 10 || col < 1 || col > 10)
-      return true;
-    return false;
-  }
-
-  public boolean atTarget(){
-    return row==10&&col==10;
   }
 }

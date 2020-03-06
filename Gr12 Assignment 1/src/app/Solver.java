@@ -1,33 +1,33 @@
 package app;
 
 public class Solver {
-  private Grid grid;
-  private boolean[][] visited;
+  private Grid grid, visited;
 
   public void setGrid(Grid input) {
     grid = input;
   }
 
   public boolean solveGrid() {
-    visited = new boolean[11][11];
+    visited = new Grid(grid.getSize());
     return recurs(new Coordinate(1, 1));
   }
 
   private boolean recurs(Coordinate coord) {
-    if (coord.atTarget())
+    if (grid.atTarget(coord))
       return true;
-    if (visited[coord.getRow()][coord.getCol()])
+    if (visited.read(coord) == Grid.VISITED)
       return false;
-    visited[coord.getRow()][coord.getCol()] = true;
+    visited.write(coord,Grid.VISITED);
+    
     int dist = grid.read(coord);
     boolean output = false;
+    Coordinate nextCoord;
 
     for (Direction dir : Direction.values()) {
-      coord.move(dir, dist);
-      if (!coord.outBounds()) {
-        output |= recurs(new Coordinate(coord));
+      nextCoord = coord.move(dir, dist);
+      if (grid.outBounds(nextCoord)) {
+        output |= recurs(nextCoord);
       }
-      coord.revert();
     }
     return output;
   }
