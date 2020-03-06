@@ -37,14 +37,14 @@ public class Grid {
   }
 
   public boolean write(Coordinate coord, int value) {
-    if (outBounds(coord))
+    if (inBounds(coord))
       return false;
     innerGrid[coord.getRow()-1][coord.getCol()-1] = value;
     return true;
   }
 
   public int read(Coordinate coord) {
-    if (outBounds(coord))
+    if (!inBounds(coord))
       return ERROR;
     return innerGrid[coord.getRow()-1][coord.getCol()-1];
   }
@@ -53,7 +53,7 @@ public class Grid {
     return coord.getRow()==size && coord.getCol()==size;
   }
 
-  public boolean outBounds(Coordinate coord){
+  public boolean inBounds(Coordinate coord){
     return withinRange(coord.getRow()) && withinRange(coord.getCol());
   }
 

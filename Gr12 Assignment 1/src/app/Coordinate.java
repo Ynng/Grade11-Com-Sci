@@ -16,6 +16,10 @@ public class Coordinate {
     return col;
   }
 
+  public String toString(){
+    return String.format("row:%d, col:%d", row, col);
+  }
+
   public Coordinate move(Direction dir, int dist) {
     switch (dir) {
       case LEFT:
