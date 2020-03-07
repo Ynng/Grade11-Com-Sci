@@ -9,4 +9,4 @@ For syncing my code for Grade 11 Computer Science across devices
 
 ---
 Real badges:
-[![CodeFactor](https://www.codefactor.io/repository/github/ynng/grade11-com-sci/badge?s=172d797eb12e332110f62a65a2947c656037dad6)](https://www.codefactor.io/repository/github/ynng/grade11-com-sci)
+[![CodeFactor](https://www.codefactor.io/repository/github/ynng/Highschool-CS/badge?s=172d797eb12e332110f62a65a2947c656037dad6)](https://www.codefactor.io/repository/github/ynng/Highschool-CS)
