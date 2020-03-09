@@ -14,8 +14,8 @@ public class FileHandler{
 
   public static void configureFileChooser(final FileChooser fileChooser) {
     fileChooser.setTitle("Select Grid");
-    if(new File("T:\\").exists())
-      fileChooser.setInitialDirectory(new File("T:\\"));
+    if(new File("H:\\").exists())
+      fileChooser.setInitialDirectory(new File("H:\\"));
     else
       fileChooser.setInitialDirectory(new File(System.getProperty("user.dir")));
 
@@ -25,12 +25,12 @@ public class FileHandler{
     );
   }
 
-  public void openFile(File file) {
+  public String readFile(File file) {
     try {
-      fileContent = new String(Files.readAllBytes(file.toPath()));
-      System.out.print(fileContent);
+      return new String(Files.readAllBytes(file.toPath()));
     } catch (IOException e) {
       e.printStackTrace();
     }
+    return "";
   }
 }
