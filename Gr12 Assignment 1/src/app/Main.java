@@ -2,17 +2,13 @@ package app;
 
 import java.awt.Desktop;
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -22,7 +18,7 @@ import javafx.stage.Stage;
 public class Main extends Application {
 
   private Desktop desktop = Desktop.getDesktop();
-
+  private FileHandler fileHandler;
   @Override
   public void start(Stage stage) throws Exception {
 
@@ -32,46 +28,28 @@ public class Main extends Application {
     openButton.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(final ActionEvent e) {
-        configureFileChooser(fileChooser);
+        FileHandler.configureFileChooser(fileChooser);
         File file = fileChooser.showOpenDialog(stage);
         if (file != null) {
-          openFile(file);
+          fileHandler.openFile(file);
         }
       }
     });
 
-    final GridPane inputGridPane = new GridPane();
-    GridPane.setConstraints(openButton, 1, 0);
-    inputGridPane.setHgap(6);
-    inputGridPane.setVgap(6);
-    inputGridPane.getChildren().add(openButton);
+    Label label = new Label("Assignment #1");
+
+    final GridPane gridPane = new GridPane();
+    GridPane.setConstraints(openButton, 0, 1);
+    gridPane.setHgap(6);
+    gridPane.setVgap(6);
+    gridPane.getChildren().addAll(openButton,label);
+
 
     final Pane rootGroup = new VBox(12);
-    rootGroup.getChildren().addAll(inputGridPane);
+    rootGroup.getChildren().addAll(gridPane);
     rootGroup.setPadding(new Insets(12, 12, 12, 12));
-    stage.setScene(new Scene(rootGroup));
+    stage.setScene(new Scene(rootGroup, 400,400));
     stage.show();
-  }
-
-  private void openFile(File file) {
-    try {
-      desktop.open(file);
-    } catch (IOException ex) {
-      Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-    }
-  }
-
-  private static void configureFileChooser(final FileChooser fileChooser) {
-    fileChooser.setTitle("Select Grid");
-    if(new File("T:\\").exists())
-      fileChooser.setInitialDirectory(new File("T:\\"));
-    else
-      fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
-
-    fileChooser.getExtensionFilters().addAll(
-      new FileChooser.ExtensionFilter("Text Files", "*.txt"),
-      new FileChooser.ExtensionFilter("All Files", "*.*")
-    );
   }
 
   public static void main(String[] args) {
