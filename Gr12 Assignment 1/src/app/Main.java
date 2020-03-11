@@ -25,9 +25,12 @@ public class Main extends Application {
 
     final FileChooser fileChooser = new FileChooser();
     FileHandler.configureFileChooser(fileChooser);
-    
+
     final Label label = new Label("Assignment #1");
-    label.setStyle("-fx-font-weight: bold; -fx-font-size: 3em; -fx-padding: 1em 1em 3em 1em");
+    label.setStyle("-fx-font-weight: bold; -fx-font-size: 3em; -fx-padding: 1em 1em 1em 1em");
+
+    final Label description = new Label("This program will take a N × N grid (1<=N, N∈I)(unstable on N>25) in .txt format");
+    description.setStyle("-fx-font-size: 1.3em; -fx-padding: 1em 1em 3em 1em");
 
     final Button openButton = new Button("Open a Grid...");
     openButton.setStyle("-fx-font-size: 2em;");
@@ -45,7 +48,7 @@ public class Main extends Application {
     final VBox body = new VBox(12);
     body.setAlignment(Pos.CENTER);
 
-    body.getChildren().addAll(label, openButton);
+    body.getChildren().addAll(label, description, openButton);
     body.setPadding(new Insets(16, 16, 16, 16));
     stage.setScene(new Scene(body));
     stage.show();
