@@ -18,7 +18,7 @@ public class FileHandler{
       fileChooser.setInitialDirectory(new File("H:\\"));
     else
       fileChooser.setInitialDirectory(new File(System.getProperty("user.dir")));
-
+    fileChooser.setInitialFileName("assign1.txt");
     fileChooser.getExtensionFilters().addAll(
       new FileChooser.ExtensionFilter("Text Files", "*.txt"),
       new FileChooser.ExtensionFilter("All Files", "*.*")

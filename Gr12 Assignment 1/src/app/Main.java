@@ -19,12 +19,13 @@ public class Main extends Application {
 
   private Desktop desktop = Desktop.getDesktop();
   private FileHandler fileHandler = new FileHandler();
-
+  private Solver solver = new Solver();
   @Override
   public void start(Stage stage) throws Exception {
 
     final FileChooser fileChooser = new FileChooser();
-
+    FileHandler.configureFileChooser(fileChooser);
+    
     final Label label = new Label("Assignment #1");
     label.setStyle("-fx-font-weight: bold; -fx-font-size: 3em; -fx-padding: 1em 1em 3em 1em");
 
@@ -33,9 +34,9 @@ public class Main extends Application {
     openButton.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(final ActionEvent e) {
-        FileHandler.configureFileChooser(fileChooser);
         File file = fileChooser.showOpenDialog(stage);
         if (file != null) {
+          // solveForResult(fileHandler.readFile(file));
           popUpResult(solveForResult(fileHandler.readFile(file)), stage);
         }
       }
@@ -58,17 +59,24 @@ public class Main extends Application {
     popUpVBox.setAlignment(Pos.CENTER);
     Scene dialogScene = new Scene(popUpVBox, 300, 200);
 
-    Label label = new Label(result?"A path exists!" : "No path exists!");
-    label.setStyle("-fx-font-size: 3em; -fx-padding: 1em 1em 1em 1em; -fx-text-fill:" + (result?"darkgreen":"darkred"));
+    Label label = new Label(result ? "A path exists!" : "No path exists!");
+    label.setStyle(
+        "-fx-font-size: 3em; -fx-padding: 1em 1em 1em 1em; -fx-text-fill:" + (result ? "darkgreen" : "darkred"));
 
     popUpVBox.getChildren().add(label);
     dialog.setScene(dialogScene);
     dialog.show();
   }
 
-  private boolean solveForResult(String input){
+  private boolean solveForResult(String input) {
+    input.trim();
     String[] stringArr = input.split("\n");
-
+    int[] intArr = new int[stringArr.length];
+    for (int i = 0; i < stringArr.length; i++)
+      intArr[i] = Integer.parseInt(stringArr[i].trim());
+    Grid grid = new Grid(intArr);
+    solver.setGrid(grid);
+    return solver.solveGrid(); 
   }
 
   public static void main(String[] args) {

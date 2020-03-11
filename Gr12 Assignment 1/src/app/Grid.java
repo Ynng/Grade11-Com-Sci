@@ -37,7 +37,7 @@ public class Grid {
   }
 
   public boolean write(Coordinate coord, int value) {
-    if (inBounds(coord))
+    if (!inBounds(coord))
       return false;
     innerGrid[coord.getRow()-1][coord.getCol()-1] = value;
     return true;
