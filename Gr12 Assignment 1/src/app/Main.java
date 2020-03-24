@@ -84,19 +84,5 @@ public class Main extends Application {
 
   public static void main(String[] args) {
     launch();
-    // int[] array = {1,
-    // 2,
-    // 3,
-    // 5,
-    // 4,
-    // 2,
-    // 1,
-    // 1,
-    // 1
-    // };
-    // Grid grid = new Grid(array);
-    // Solver solver = new Solver();
-    // solver.setGrid(grid);
-    // System.out.printf("output: %b", solver.solveGrid());
   }
 }
