@@ -20,6 +20,7 @@ public class Main extends Application {
 
   private FileHandler fileHandler = new FileHandler();
   private Solver solver = new Solver();
+  private final String DESC_TEXT = "This program will take a N × N grid (1<=N, N∈I)(unstable on N>25) in .txt format";
 
   @Override
   public void start(Stage stage) throws Exception {
@@ -30,8 +31,7 @@ public class Main extends Application {
     final Label label = new Label("Assignment #1");
     label.setStyle("-fx-font-weight: bold; -fx-font-size: 3em; -fx-padding: 1em 1em 1em 1em");
 
-    final Label description = new Label(
-        "This program will take a N × N grid (1<=N, N∈I)(unstable on N>25) in .txt format");
+    final Label description = new Label(DESC_TEXT);
     description.setStyle("-fx-font-size: 1.3em; -fx-padding: 1em 1em 3em 1em");
 
     final Button openButton = new Button("Open a Grid...");
