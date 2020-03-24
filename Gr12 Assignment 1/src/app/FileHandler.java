@@ -10,8 +10,6 @@ import java.nio.file.Files;
  * FileHandler
  */
 public class FileHandler {
-  String fileContent;
-
   public static void configureFileChooser(final FileChooser fileChooser) {
     fileChooser.setTitle("Select Grid");
     if (new File("H:\\").exists())
@@ -23,7 +21,7 @@ public class FileHandler {
         new FileChooser.ExtensionFilter("All Files", "*.*"));
   }
 
-  public Grid readGrid(File file) throws IOException {
+  public static Grid readGrid(File file) throws IOException {
     String input = new String(Files.readAllBytes(file.toPath())).trim();
     String[] stringArr = input.split("\n");
     int[] intArr = new int[stringArr.length];

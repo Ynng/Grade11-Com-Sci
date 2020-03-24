@@ -16,7 +16,6 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
-  private FileHandler fileHandler = new FileHandler();
   private Solver solver = new Solver();
   private final String DESC_TEXT = "This program will take a N × N grid (1<=N, N∈I)(unstable on N>25) in .txt format";
   private final String TITLE_STYLE = "-fx-font-weight: bold; -fx-font-size: 3em; -fx-padding: 1em 1em 1em 1em";
@@ -44,7 +43,7 @@ public class Main extends Application {
         File file = fileChooser.showOpenDialog(stage);
         if (file != null) {
           try {
-            boolean result = solveForResult(fileHandler.readGrid(file));
+            boolean result = solveForResult(FileHandler.readGrid(file));
             popUpResult(result ? "A path exists!" : "No path exist!", !result, stage);
           } catch (Exception ex) {
             popUpResult("Error parsing input", true, stage);
