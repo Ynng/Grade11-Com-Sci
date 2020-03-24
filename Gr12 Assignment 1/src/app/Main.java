@@ -1,7 +1,8 @@
 package app;
 
-import java.awt.Desktop;
 import java.io.File;
+import java.io.IOException;
+
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -17,9 +18,9 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
-  private Desktop desktop = Desktop.getDesktop();
   private FileHandler fileHandler = new FileHandler();
   private Solver solver = new Solver();
+
   @Override
   public void start(Stage stage) throws Exception {
 
@@ -29,7 +30,8 @@ public class Main extends Application {
     final Label label = new Label("Assignment #1");
     label.setStyle("-fx-font-weight: bold; -fx-font-size: 3em; -fx-padding: 1em 1em 1em 1em");
 
-    final Label description = new Label("This program will take a N × N grid (1<=N, N∈I)(unstable on N>25) in .txt format");
+    final Label description = new Label(
+        "This program will take a N × N grid (1<=N, N∈I)(unstable on N>25) in .txt format");
     description.setStyle("-fx-font-size: 1.3em; -fx-padding: 1em 1em 3em 1em");
 
     final Button openButton = new Button("Open a Grid...");
@@ -39,8 +41,12 @@ public class Main extends Application {
       public void handle(final ActionEvent e) {
         File file = fileChooser.showOpenDialog(stage);
         if (file != null) {
-          // solveForResult(fileHandler.readFile(file));
-          popUpResult(solveForResult(fileHandler.readFile(file)), stage);
+          try {
+            boolean result = solveForResult(fileHandler.readGrid(file));
+            popUpResult(result ? "A path exists!" : "No path exist!", !result, stage);
+          } catch (Exception ex) {
+            popUpResult("Error parsing input", true, stage);
+          }
         }
       }
     });
@@ -54,32 +60,26 @@ public class Main extends Application {
     stage.show();
   }
 
-  public void popUpResult(boolean result, Stage primaryStage) {
+  public void popUpResult(String text, boolean error, Stage primaryStage) {
     final Stage dialog = new Stage();
     dialog.initModality(Modality.APPLICATION_MODAL);
     dialog.initOwner(primaryStage);
     VBox popUpVBox = new VBox(20);
     popUpVBox.setAlignment(Pos.CENTER);
-    Scene dialogScene = new Scene(popUpVBox, 300, 200);
+    Scene dialogScene = new Scene(popUpVBox, 400, 200);
 
-    Label label = new Label(result ? "A path exists!" : "No path exists!");
+    Label label = new Label(text);
     label.setStyle(
-        "-fx-font-size: 3em; -fx-padding: 1em 1em 1em 1em; -fx-text-fill:" + (result ? "darkgreen" : "darkred"));
+        "-fx-font-size: 3em; -fx-padding: 1em 1em 1em 1em; -fx-text-fill:" + (error ? "darkred" : "darkgreen"));
 
     popUpVBox.getChildren().add(label);
     dialog.setScene(dialogScene);
     dialog.show();
   }
 
-  private boolean solveForResult(String input) {
-    input.trim();
-    String[] stringArr = input.split("\n");
-    int[] intArr = new int[stringArr.length];
-    for (int i = 0; i < stringArr.length; i++)
-      intArr[i] = Integer.parseInt(stringArr[i].trim());
-    Grid grid = new Grid(intArr);
-    solver.setGrid(grid);
-    return solver.solveGrid(); 
+  private boolean solveForResult(Grid input) {
+    solver.setGrid(input);
+    return solver.solveGrid();
   }
 
   public static void main(String[] args) {
