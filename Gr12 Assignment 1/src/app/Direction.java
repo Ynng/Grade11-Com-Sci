@@ -1,9 +1,9 @@
 package app;
 //****************************************************************************************
-//Coordinate Class
-//Student Name
-//Date: 
-//Programming language, IDE,  and version (example java, Eclipse 3.1.6)
+//Direction 
+//Kevin Huang
+//Date: March 14th 2020
+//Java 13.0.2, Visual Studio Code 1.43
 //****************************************************************************************
 
 /** Directions that can be used */

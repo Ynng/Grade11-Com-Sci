@@ -2,9 +2,9 @@ package app;
 
 //****************************************************************************************
 //Coordinate Class
-//Student Name
-//Date: 
-//Programming language, IDE,  and version (example java, Eclipse 3.1.6)
+//Kevin Huang
+//Date: March 14th 2020
+//Java 13.0.2, Visual Studio Code 1.43
 //****************************************************************************************
 //<Class>
 //This class stores an integer 2d coordinate and contains a helper method for "moving" the coordinate in a certain direction for a certain distance.
@@ -16,8 +16,7 @@ public class Coordinate {
   private int row, col;
 
   /**
-   * Default constructor method which sets the row and column values to specific
-   * values
+   * Default constructor method which sets the row and column values to specific values
    * 
    * @param row the row value
    * @param col the column value
@@ -80,5 +79,5 @@ public class Coordinate {
       default:
         return new Coordinate(row, col - dist);
     }
-  }//end of move method
+  }// end of move method
 }// end of Coordinate class

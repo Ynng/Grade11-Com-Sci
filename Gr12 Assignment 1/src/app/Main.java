@@ -17,7 +17,7 @@ import javafx.stage.Stage;
 public class Main extends Application {
 
   private Solver solver = new Solver();
-  private final String DESC_TEXT = "This program will take a N × N grid (1<=N, N∈I)(unstable on N>25) in .txt format";
+  private final String DESC_TEXT = "This program will take a N × N grid (N∈ℕ)(unstable on N>25) in .txt format";
   private final String TITLE_STYLE = "-fx-font-weight: bold; -fx-font-size: 3em; -fx-padding: 1em 1em 1em 1em";
   private final String DESC_STYLE = "-fx-font-size: 1.3em; -fx-padding: 1em 1em 3em 1em";
   private final String BTN_STYLE = "-fx-font-size: 2em;";
