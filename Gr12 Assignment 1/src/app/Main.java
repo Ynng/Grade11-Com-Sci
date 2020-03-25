@@ -10,6 +10,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -35,9 +37,9 @@ import javafx.stage.Stage;
 public class Main extends Application {
 
   private Solver solver = new Solver();
-  private final String DESC_TEXT = "This program will take a N × N grid (N∈ℕ)(unstable on N>25) in .txt format";// TODO
+  private final String DESC_TEXT = "This program will take a N × N grid of numbers (N∈ℕ)(unstable on N>25) in .txt format where there is one number every line.\n\nIt will begin in the upper left corner and attempts to find a path through the grid to the bottom right corner following these movements rules:\n\nYou can only move up, down, left or right from the spot you are standing on exactly the number of squares given by the number you are standing on.\n\n\n\nFor more details, refer to the assignment rubirc.\n\n";// TODO
   private final String TITLE_STYLE = "-fx-font-weight: bold; -fx-font-size: 3em; -fx-padding: 1em 1em 1em 1em";
-  private final String DESC_STYLE = "-fx-font-size: 1.3em; -fx-padding: 1em 1em 3em 1em";
+  private final String DESC_STYLE = "-fx-font-size: 1.3em; -fx-margin: 1em 1em 3em 1em";
   private final String BTN_STYLE = "-fx-font-size: 2em;";
   private final String POP_UP_STYLE = "-fx-font-size: 3em; -fx-padding: 1em 1em 1em 1em;";
 
@@ -65,11 +67,12 @@ public class Main extends Application {
     final FileChooser fileChooser = new FileChooser();
     FileHandler.configureFileChooser(fileChooser);
 
-    final Label title = new Label("Assignment #1");
+    final Label title = new Label("Assignment #1 - Kevin Huang");
     title.setStyle(TITLE_STYLE);
 
-    final Label description = new Label(DESC_TEXT);
+    final Text description = new Text(DESC_TEXT);
     description.setStyle(DESC_STYLE);
+    description.setTextAlignment(TextAlignment.CENTER);
 
     final Button openButton = new Button("Open a Grid...");
     openButton.setStyle(BTN_STYLE);
@@ -101,11 +104,11 @@ public class Main extends Application {
     });
 
     final VBox body = new VBox(12);
+    description.wrappingWidthProperty().bind(body.widthProperty());
     body.setAlignment(Pos.CENTER);
-
     body.getChildren().addAll(title, description, openButton);
     body.setPadding(new Insets(16, 16, 16, 16));
-    stage.setScene(new Scene(body));
+    stage.setScene(new Scene(body, 1300, 500));
     stage.show();
   }// end of start method
 
