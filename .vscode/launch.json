@@ -2,15 +2,10 @@
     "configurations": [
         {
             "type": "java",
-            "name": "CodeLens (Launch) - Main",
+            "name": "CodeLens (Launch) - Quadrilaterals",
             "request": "launch",
-            "mainClass": "Main"
-        },
-        {
-            "type": "java",
-            "name": "CodeLens (Launch) - App",
-            "request": "launch",
-            "mainClass": "App"
+            "mainClass": "Driver",
+            "projectName": "Quadrilaterals"
         },
         {
             "type": "java",
