@@ -37,7 +37,7 @@ public class Trapezoid extends Parallelogram {
   }
 
   public String toString() {
-    return String.format("[%s] - Base: %.2f, Top: %.2f, Height: %.2f, Side1: %.2f, Side2: %.2f, Key: %s", getShapeName(), base, top, height, side, side2, key);
+    return String.format("[%s] - Base: %.2f | Top: %.2f | Height: %.2f | Side1: %.2f | Side2: %.2f | Key: %s", getShapeName(), base, top, height, side, side2, key);
   }
 
   public static int getCount() {

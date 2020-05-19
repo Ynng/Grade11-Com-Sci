@@ -29,7 +29,7 @@ public class Parallelogram extends Rectangle{
   }
 
   public String toString() {
-    return String.format("[%s] - Base: %.2f, Height: %.2f, Side: %.2f, Key: %s", getShapeName(), base, height, side, key);
+    return String.format("[%s] - Base: %.2f | Height: %.2f | Side: %.2f | Key: %s", getShapeName(), base, height, side, key);
   }
 
   public static int getCount() {

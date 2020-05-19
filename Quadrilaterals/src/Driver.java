@@ -4,14 +4,13 @@ import java.util.Scanner;
 
 public class Driver {
   private static List<Quadrilateral> database = new ArrayList<>(); // database
-  private static final String SEPARATOR = "----------------------------------------------------------------\n";
+  private static final String SEPARATOR = "\n\n----------------------------------------------------------------\n";
   private static Scanner in;
   private static final int SHAPE_COUNT = 6;
 
   public static void main(String[] args) {
     in = new Scanner(System.in);
-    while (mainMenu())
-      ;
+    while (mainMenu());
     separatorPrint("Thanks for using this program, enter any key to exit\n");
     in.next();
   }
@@ -21,9 +20,7 @@ public class Driver {
         "Please choose an option:\n1. Create a new Shape\n2. List all current stored shapes\n3. Search for a specific shape, get its info, maybe change or delete it\n4. Exit the program\n");
     switch (in.nextInt()) {
       case 1:
-        Quadrilateral temp = newShape();
-        separatorPrintln("You just created a " + temp.toString());
-        database.add(temp);
+        newShapeMenu();
         break;
       case 4:
         return false;
@@ -31,11 +28,24 @@ public class Driver {
     return true;
   }
 
+  static void newShapeMenu() {
+    Quadrilateral temp;
+    String input;
+    do{
+      temp = newShape();
+      separatorPrintln("Are you satisfied with this shape? Enter:\nN for no and make another shape instead\n or \nAnything else to confirm this shape and add it to the database");
+      System.out.println("\nYour Shape: " + temp.toString());
+      input = in.next();
+    }while(input.equals("N"));
+    separatorPrintln("Shape added to database!");
+    database.add(temp);
+  }
+
   static Quadrilateral newShape() {
     separatorPrint(
         "Please choose a shape:\n1. Square\n2. Rectangle\n3. Parallelogram\n4. Kite\n5. Trapezoid\n6. Rhombus\n");
     int choice = in.nextInt();
-    separatorPrint("Do you want to create a:\n1. Shape with default dimensions\nor\n2. Shape with custom \n");
+    separatorPrint("Do you want to create a:\n1. Shape with default dimensions\nor\n2. Shape with custom dimensions\n");
     choice = choice + (in.nextInt() - 1) * SHAPE_COUNT;
 
     double base = 0, height = 0, side = 0, side2 = 0, diag1 = 0, diag2 = 0, top = 0; // Shape characteristic

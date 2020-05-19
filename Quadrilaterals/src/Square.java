@@ -27,7 +27,7 @@ public class Square extends Quadrilateral {
   }
 
   public String toString() {
-    return String.format("[%s] - Width: %.2f, Key: %s", getShapeName(), base, key);
+    return String.format("[%s] - Width: %.2f | Key: %s", getShapeName(), base, key);
   }
   
   public static int getCount() {

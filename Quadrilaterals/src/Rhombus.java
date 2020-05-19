@@ -23,7 +23,7 @@ public class Rhombus extends Square{
   }
 
   public String toString() {
-    return String.format("[%s] - Base: %.2f, Height: %.2f, Key: %s", getShapeName(), base, height, key);
+    return String.format("[%s] - Base: %.2f | Height: %.2f | Key: %s", getShapeName(), base, height, key);
   }
 
   public static int getCount() {

@@ -38,7 +38,7 @@ public class Kite extends Quadrilateral {
   }
 
   public String toString() {
-    return String.format("[%s] - Diagonal 1: %.2f, Diagonal 2: %.2f, Side 1: %.2f, Side 2: %.2f, Key: %s", getShapeName(), diag1, diag2, side1, side2, key);
+    return String.format("[%s] - Diagonal 1: %.2f | Diagonal 2: %.2f | Side 1: %.2f | Side 2: %.2f | Key: %s", getShapeName(), diag1, diag2, side1, side2, key);
   }
 
   public static int getCount() {
