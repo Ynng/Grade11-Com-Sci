@@ -1,5 +1,5 @@
 public class Rectangle extends Square {
-  protected double side2 = 1;
+  protected double height = 1;
   private static int count = 0;
   private static int keyCount = 0;
 
@@ -11,32 +11,33 @@ public class Rectangle extends Square {
     }
   }
 
-  public Rectangle(double side1, double side2) {
+  public Rectangle(double base, double height) {
     this();
-    this.side1 = side1;
-    this.side2 = side2;
+    this.base = base;
+    this.height = height;
   }
 
   @Override
   double findArea() {
-    return side1 * side2;
+    return base * height;
   }
 
   @Override
-  double findParameter() {
-    return (side1 + side2) * 2;
-  }
-
-  public static int getCount(){
-    return count;
-  }
-
-  public static int countDecrement(){
-    count--;
-    return count;
+  double findPerimeter () {
+    return (base + height) * 2;
   }
 
   public String toString() {
-    return "[Rectangle] - Side1: " + side1 + ", Side2: " + side2 + ", Key: " + getKey();
+    return String.format("[%s] - Base: %f, Height: %f, Key: %s", getShapeName(), base, height, key);
+  }
+
+  public static int getCount() {
+    return count;
+  }
+
+  public static int countDecrement() {
+    Quadrilateral.countDecrement();
+    count--;
+    return count;
   }
 }

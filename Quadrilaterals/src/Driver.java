@@ -33,31 +33,38 @@ public class Driver {
 
   static Quadrilateral newShape() {
     separatorPrint(
-        "Please choose a shape:\n1. Square\n2. Rectangle\n3. Rhombus\n4. Parallelogram\n5. Kite\n6. Trapezoid\n");
+        "Please choose a shape:\n1. Square\n2. Rectangle\n3. Parallelogram\n4. Kite\n5. Trapezoid\n6. Rhombus\n");
     int choice = in.nextInt();
     separatorPrint("Do you want to create a:\n1. Shape with default dimensions\nor\n2. Shape with custom \n");
     choice = choice + (in.nextInt() - 1) * SHAPE_COUNT;
 
-    double side1 = 0, side2 = 0, height = 0, diag1 = 0, diag2 = 0, top = 0, bot = 0; // Shape characteristic
+    double base = 0, height = 0, side1 = 0, side2 = 0, diag1 = 0, diag2 = 0, top = 0, bot = 0; // Shape characteristic
 
     switch (choice) {
       case 1:// default square
         return new Square();
       case 2:// default rectangle
         return new Rectangle();
+      case 3:// default parallelogram
+        return new Parallelogram();
+      case 9:// custom parallelogram
+        System.out.println("Please enter the length of side 1 (length of left side for trapezoid)");
+        height = in.nextDouble();
       case 8:// custom rectangle
-        System.out.println("Please enter the length of side 2");
-        side2 = in.nextDouble();
+        System.out.println("Please enter the length of the height");
+        height = in.nextDouble();
       case 7:// custom square
-        System.out.println("Please enter the length of side 1");
-        side1 = in.nextDouble();
+        System.out.println("Please enter the length of the base/width");
+        base = in.nextDouble();
     }
 
     switch (choice) {
       case 7:
-        return new Square(side1);
+        return new Square(base);
       case 8:
-        return new Rectangle(side1, side2);
+        return new Rectangle(base, height);
+      case 9:
+        return new Parallelogram(base, height, side1);
     }
 
     return new Square();// Won't get executed in normal use, just to please Java by making sure this

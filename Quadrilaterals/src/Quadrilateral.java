@@ -2,17 +2,8 @@ public abstract class Quadrilateral {
   private static int count;
   protected String key;
 
-  public Quadrilateral() {
+  protected Quadrilateral() {
     count += 1;
-  }
-
-  public static int getQuadCount() {
-    return count;
-  }
-
-  public static int quadCountDecrement(){
-    count--;
-    return count;
   }
 
   public static int getCount(){
@@ -28,11 +19,11 @@ public abstract class Quadrilateral {
     return getClass().getSimpleName();
   }
 
-  abstract double findArea();
-
-  abstract double findParameter();
-
   public String getKey(){
     return key;
   }
+
+  abstract double findArea();
+
+  abstract double findPerimeter ();
 }
