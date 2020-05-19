@@ -17,7 +17,7 @@ public class Driver {
 
   static boolean mainMenu() {
     separatorPrint(
-        "Please choose an option:\n1. Create a new Shape\n2. List all current stored shapes\n3. Search for a specific shape, get its info, maybe change or delete it\n4. Exit the program\n");
+        "Please choose an option:\n1. Create a new Shape\n2. List all current stored shapes\n3. Search for a specific shape and get its info\n4. Exit the program\n");
     switch (in.nextInt()) {
       case 1:
         newShapeMenu();
@@ -25,10 +25,32 @@ public class Driver {
       case 2:
         listShape();
         break;
+      case 3:
+        searchShape();
+        break;
       case 4:
         return false;
     }
     return true;
+  }
+
+  static void searchShape(){
+    separatorPrintln("Please enter the key of the shape you want to find:");
+    String key = in.next();
+    Quadrilateral result = null;
+    for(int i = 0; i < database.size(); i++){
+      if(database.get(i).getKey().equals(key)){
+        result = database.get(i);
+        break;
+      }
+    }
+    if(result == null){
+      separatorPrintln(String.format("Did not find any shape with the key %s", key));
+    }else{
+      separatorPrintln(String.format("Shape found:\n%s", result.toString()));
+    }
+    separatorPrintln("Enter any key to go back to main menu", false);
+    in.next();
   }
 
   static void listShape(){
