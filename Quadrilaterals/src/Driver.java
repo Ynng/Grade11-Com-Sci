@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class Driver {
   private static List<Quadrilateral> database = new ArrayList<>(); // database
-  private static final String SEPARATOR = "\n\n----------------------------------------------------------------\n";
+  private static final String SEPARATOR = "----------------------------------------------------------------\n";
   private static Scanner in;
   private static final int SHAPE_COUNT = 6;
 
@@ -22,10 +22,22 @@ public class Driver {
       case 1:
         newShapeMenu();
         break;
+      case 2:
+        listShape();
+        break;
       case 4:
         return false;
     }
     return true;
+  }
+
+  static void listShape(){
+    separatorPrint("");
+    for(int i = 0; i < database.size(); i++){
+      System.out.println(database.get(i).toString());
+    }
+    separatorPrintln("Enter any key to go back to main menu", false);
+    in.next();
   }
 
   static void newShapeMenu() {
@@ -34,11 +46,12 @@ public class Driver {
     do{
       temp = newShape();
       separatorPrintln("Are you satisfied with this shape? Enter:\nN for no and make another shape instead\n or \nAnything else to confirm this shape and add it to the database");
-      System.out.println("\nYour Shape: " + temp.toString());
+      separatorPrintln("Your Shape: " + temp.toString(), false);
       input = in.next();
     }while(input.equals("N"));
-    separatorPrintln("Shape added to database!");
     database.add(temp);
+    separatorPrintln("Shape added to database! Enter any key to go back to main menu");
+    in.next();
   }
 
   static Quadrilateral newShape() {
@@ -110,10 +123,20 @@ public class Driver {
   }
 
   static void separatorPrint(String content) {
+    separatorPrint(content, true);
+  }
+
+  static void separatorPrint(String content, boolean beginningNewLine) {
+    if(beginningNewLine)System.out.print("\n\n");
     System.out.print(SEPARATOR + content);
   }
 
   static void separatorPrintln(String content) {
+    separatorPrintln(content, true);
+  }
+
+  static void separatorPrintln(String content, boolean beginningNewLine) {
+    if(beginningNewLine)System.out.print("\n\n");
     System.out.println(SEPARATOR + content);
   }
 }
