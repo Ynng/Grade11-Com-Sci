@@ -1,24 +1,29 @@
-public class Rectangle extends Rhombus {
+public class Rhombus extends Square{
+  protected double height = 1;
   private static int count = 0;
   private static int keyCount = 0;
 
-  public Rectangle() {
-    if (getClass() == Rectangle.class) {
+  public Rhombus() {
+    if (getClass() == Rhombus.class) {
       count++;
       keyCount++;
       key = getShapeName() + keyCount;
     }
   }
 
-  public Rectangle(double base, double height) {
+  public Rhombus(double base, double height) {
     this();
     this.base = base;
     this.height = height;
   }
 
   @Override
-  double findPerimeter () {
-    return (base + height) * 2;
+  double findArea() {
+    return base * height;
+  }
+
+  public String toString() {
+    return String.format("[%s] - Base: %.2f, Height: %.2f, Key: %s", getShapeName(), base, height, key);
   }
 
   public static int getCount() {

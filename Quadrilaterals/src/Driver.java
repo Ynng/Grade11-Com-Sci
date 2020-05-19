@@ -12,7 +12,7 @@ public class Driver {
     in = new Scanner(System.in);
     while (mainMenu())
       ;
-      separatorPrint("Thanks for using this program, enter any key to exit\n");
+    separatorPrint("Thanks for using this program, enter any key to exit\n");
     in.next();
   }
 
@@ -22,7 +22,7 @@ public class Driver {
     switch (in.nextInt()) {
       case 1:
         Quadrilateral temp = newShape();
-        separatorPrint("You just created a " + temp.toString());
+        separatorPrintln("You just created a " + temp.toString());
         database.add(temp);
         break;
       case 4:
@@ -38,7 +38,7 @@ public class Driver {
     separatorPrint("Do you want to create a:\n1. Shape with default dimensions\nor\n2. Shape with custom \n");
     choice = choice + (in.nextInt() - 1) * SHAPE_COUNT;
 
-    double base = 0, height = 0, side1 = 0, side2 = 0, diag1 = 0, diag2 = 0, top = 0, bot = 0; // Shape characteristic
+    double base = 0, height = 0, side = 0, side2 = 0, diag1 = 0, diag2 = 0, top = 0; // Shape characteristic
 
     switch (choice) {
       case 1:// default square
@@ -47,14 +47,36 @@ public class Driver {
         return new Rectangle();
       case 3:// default parallelogram
         return new Parallelogram();
+      case 4:// default kite
+        return new Kite();
+      case 5:// default trapezoid
+        return new Trapezoid();
+      case 6:// default rhombus
+        return new Rhombus();
+      case 10:// custom kite
+        System.out.println("Please enter the length of a diagonal");
+        diag1 = in.nextDouble();
+        System.out.println("Please enter the length of the other diagonal");
+        diag2 = in.nextDouble();
+        System.out.println("Please enter the length of a side");
+        side = in.nextDouble();
+        System.out.println("Please enter the length of the other side");
+        side2 = in.nextDouble();
+        break;
+      case 11:// custom trapezoid
+        System.out.println("Please enter the length of the top side");
+        top = in.nextDouble();
+        System.out.println("Please enter the length of the right side");
+        side2 = in.nextDouble();
       case 9:// custom parallelogram
-        System.out.println("Please enter the length of side 1 (length of left side for trapezoid)");
-        height = in.nextDouble();
+        System.out.println("Please enter the length of the side (length of left side for trapezoid)");
+        side = in.nextDouble();
+      case 12:// custom rhombus
       case 8:// custom rectangle
         System.out.println("Please enter the length of the height");
         height = in.nextDouble();
       case 7:// custom square
-        System.out.println("Please enter the length of the base/width");
+        System.out.println("Please enter the length of the base/width/bottom side");
         base = in.nextDouble();
     }
 
@@ -64,7 +86,13 @@ public class Driver {
       case 8:
         return new Rectangle(base, height);
       case 9:
-        return new Parallelogram(base, height, side1);
+        return new Parallelogram(base, height, side);
+      case 10:
+        return new Kite(diag1, diag2, side, side2);
+      case 11:
+        return new Trapezoid(base, top, height, side, side2);
+      case 12:
+        return new Rhombus(base, height);
     }
 
     return new Square();// Won't get executed in normal use, just to please Java by making sure this
