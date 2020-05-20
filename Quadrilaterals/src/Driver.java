@@ -56,11 +56,39 @@ public class Driver {
       case "Square":
         System.out.println("[B]. base/width/bottom");
     }
-    // switch(in.next()){
-    // case "D1":
-    // break;
-    // }
 
+    separatorPrintln("Please enter the new value:", false);
+    double input = in.nextDouble();
+
+    switch (in.next()) {
+      case "D1":
+        ((Kite) shape).setDiag1(input);
+        break;
+      case "D2":
+        ((Kite) shape).setDiag2(input);
+        break;
+      case "S1":
+        ((Kite) shape).setSide1(input);
+        break;
+      case "S2":
+        ((Kite) shape).setSide2(input);
+        break;
+      case "T":
+        ((Trapezoid) shape).setTop(input);
+        break;
+      case "R":
+        ((Trapezoid) shape).setSide2(input);
+        break;
+      case "L":
+        ((Parallelogram) shape).setSide(input);
+        break;
+      case "H":
+        ((Rhombus) shape).setHeight(input);
+        break;
+      case "B":
+        ((Square) shape).setBase(input);
+        break;
+    }
   }
 
   static void findShapeMenu() {
@@ -68,6 +96,9 @@ public class Driver {
     separatorPrintln("Enter:\n1. to modify the shape\nor\n2. to go back to the main menu", false);
     if (in.next().equals("1")) {
       modifyShape(result);
+      separatorPrintln("Your new shape: " + result.toString());
+      separatorPrintln("Enter any key to go back to main menu", false);
+      in.next();
     } else {
       return;
     }
@@ -111,9 +142,10 @@ public class Driver {
       temp = newShape();
       separatorPrintln("Your Shape: " + temp.toString());
       separatorPrintln(
-          "Are you satisfied with this shape? Enter:\n[N] for no and make another shape instead\nor\n[Y] to confirm this shape and add it to the database",false);
+          "Are you satisfied with this shape?\n1. Yes, bring me back to the main menu\nor\n2. No, I want to make another shape instead",
+          false);
       input = in.next();
-    } while (input.equals("N"));
+    } while (input.equals("2"));
     database.add(temp);
     separatorPrintln("Shape added to database! Enter any key to go back to main menu");
     in.next();
