@@ -27,6 +27,62 @@ public class Kite extends Quadrilateral {
     this.side2 = side2;
   }
 
+  /**
+   * @return the diag1
+   */
+  public double getDiag1() {
+    return diag1;
+  }
+
+  /**
+   * @param diag1 the diag1 to set
+   */
+  public void setDiag1(double diag1) {
+    this.diag1 = diag1;
+  }
+
+  /**
+   * @return the diag2
+   */
+  public double getDiag2() {
+    return diag2;
+  }
+
+  /**
+   * @param diag2 the diag2 to set
+   */
+  public void setDiag2(double diag2) {
+    this.diag2 = diag2;
+  }
+
+  /**
+   * @return the side1
+   */
+  public double getSide1() {
+    return side1;
+  }
+
+  /**
+   * @param side1 the side1 to set
+   */
+  public void setSide1(double side1) {
+    this.side1 = side1;
+  }
+
+  /**
+   * @return the side2
+   */
+  public double getSide2() {
+    return side2;
+  }
+
+  /**
+   * @param side2 the side2 to set
+   */
+  public void setSide2(double side2) {
+    this.side2 = side2;
+  }
+  
   @Override
   double findArea() {
     return (diag1 * diag2) / 2;

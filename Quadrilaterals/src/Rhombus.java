@@ -22,6 +22,20 @@ public class Rhombus extends Square{
     return base * height;
   }
 
+  /**
+   * @return the height
+   */
+  public double getHeight() {
+    return height;
+  }
+
+  /**
+   * @param height the height to set
+   */
+  public void setHeight(double height) {
+    this.height = height;
+  }
+
   public String toString() {
     return String.format("[%s] - Base: %.2f | Height: %.2f | Key: %s", getShapeName(), base, height, key);
   }

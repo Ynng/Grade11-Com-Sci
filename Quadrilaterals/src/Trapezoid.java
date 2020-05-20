@@ -36,6 +36,34 @@ public class Trapezoid extends Parallelogram {
     return base + top + side + side2;
   }
 
+  /**
+   * @return the top
+   */
+  public double getTop() {
+    return top;
+  }
+  
+  /**
+   * @param top the top to set
+   */
+  public void setTop(double top) {
+    this.top = top;
+  }
+
+  /**
+   * @return the side2
+   */
+  public double getSide2() {
+    return side2;
+  }
+
+  /**
+   * @param side2 the side2 to set
+   */
+  public void setSide2(double side2) {
+    this.side2 = side2;
+  }
+
   public String toString() {
     return String.format("[%s] - Base: %.2f | Top: %.2f | Height: %.2f | Side1: %.2f | Side2: %.2f | Key: %s", getShapeName(), base, top, height, side, side2, key);
   }

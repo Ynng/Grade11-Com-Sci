@@ -28,6 +28,20 @@ public class Parallelogram extends Rectangle{
     return (base + side) * 2;
   }
 
+  /**
+   * @return the side
+   */
+  public double getSide() {
+    return side;
+  }
+
+  /**
+   * @param side the side to set
+   */
+  public void setSide(double side) {
+    this.side = side;
+  }
+
   public String toString() {
     return String.format("[%s] - Base: %.2f | Height: %.2f | Side: %.2f | Key: %s", getShapeName(), base, height, side, key);
   }
