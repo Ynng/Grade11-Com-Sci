@@ -1,3 +1,5 @@
+package shapes;
+
 public class Parallelogram extends Rectangle{
   protected double side = 1;
   private static int count = 0;
@@ -43,7 +45,7 @@ public class Parallelogram extends Rectangle{
   }
 
   public String toString() {
-    return String.format("[%s] - Base: %.2f | Height: %.2f | Side: %.2f | Key: %s", getShapeName(), base, height, side, key);
+    return String.format("[%s] - Base: %.2f | Height: %.2f | Side: %.2f | Key: %s\n\t\t| Area : %.2f | Perimeter: %.2f", getShapeName(), base, height, side, key, findArea(), findPerimeter());
   }
 
   public static int getCount() {

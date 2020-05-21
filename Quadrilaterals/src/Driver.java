@@ -19,13 +19,13 @@ public class Driver {
 
   static boolean mainMenu() {
     separatorPrint(
-        "Please choose an option:\n1. Create a new Shape\n2. List all current stored shapes\n3. Search for a specific shape and get its info, maybe modify it\n4. Exit the program\n");
+        "Please choose an option:\n1. Create a new Shape\n2. List all current stored shapes\n3. Search for a specific shape, get its info and maybe modify it\n4. Exit the program\n");
     switch (in.nextInt()) {
       case 1:
         newShapeMenu();
         break;
       case 2:
-        listShape();
+        listShapeMenu();
         break;
       case 3:
         findShapeMenu();
@@ -37,7 +37,6 @@ public class Driver {
   }
 
   static void modifyShape(Quadrilateral shape) {
-    separatorPrintln("Shape to modify: " + shape.toString());
     separatorPrintln("Please choose the dimension of the shape you wish to modify:", false);
     switch (shape.getShapeName()) {
       case "Kite":
@@ -57,11 +56,11 @@ public class Driver {
       case "Square":
         System.out.println("[B]. base/width/bottom");
     }
-
+    String side = in.next();
     separatorPrintln("Please enter the new value:", false);
     double input = in.nextDouble();
 
-    switch (in.next()) {
+    switch (side) {
       case "D1":
         ((Kite) shape).setDiag1(input);
         break;
@@ -94,8 +93,10 @@ public class Driver {
 
   static void findShapeMenu() {
     Quadrilateral result = findShape();
+    separatorPrintln(String.format("Shape found:\n%s", result.toString()));
     separatorPrintln("Enter:\n1. to modify the shape\nor\n2. to go back to the main menu", false);
     if (in.next().equals("1")) {
+      separatorPrintln("Shape to modify: " + result.toString());
       modifyShape(result);
       separatorPrintln("Your new shape: " + result.toString());
       separatorPrintln("Enter any key to go back to main menu", false);
@@ -123,30 +124,34 @@ public class Driver {
         separatorPrintln(String.format("Did not find any shape with the key %s", key));
       }
     } while (result == null);
-    separatorPrintln(String.format("Shape found:\n%s", result.toString()));
     return result;
   }
 
-  static void listShape() {
-    separatorPrint("");
+  static void listShapeMenu() {
+    separatorPrint("List of all shapes:");
     for (int i = 0; i < database.size(); i++) {
-      System.out.println(database.get(i).toString());
+      separatorPrintln(database.get(i).toString(),false);
     }
     separatorPrintln("Enter any key to go back to main menu", false);
     in.next();
   }
 
   static void newShapeMenu() {
-    Quadrilateral temp;
-    String input;
+    Quadrilateral temp = null;
+    String input = "3";
     do {
-      temp = newShape();
+      if(input.equals("3") || temp == null){
+        temp = newShape();
+      }else if(input.equals("2")){
+        modifyShape(temp);
+      }
       separatorPrintln("Your Shape: " + temp.toString());
       separatorPrintln(
-          "Are you satisfied with this shape?\n1. Yes, bring me back to the main menu\nor\n2. No, I want to make another shape instead",
+          "Are you satisfied with this shape?\n1. Yes, bring me back to the main menu\n2. No, I want to edit this shape\n3. No, I want to make a new shape entirely",
           false);
       input = in.next();
-    } while (input.equals("2"));
+    } while (!input.equals("1"));
+
     database.add(temp);
     separatorPrintln("Shape added to database! Enter any key to go back to main menu");
     in.next();

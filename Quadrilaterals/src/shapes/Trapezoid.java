@@ -1,3 +1,5 @@
+package shapes;
+
 public class Trapezoid extends Parallelogram {
   protected double top = 1;
   protected double side2 = 1;
@@ -65,7 +67,7 @@ public class Trapezoid extends Parallelogram {
   }
 
   public String toString() {
-    return String.format("[%s] - Base: %.2f | Top: %.2f | Height: %.2f | Side1: %.2f | Side2: %.2f | Key: %s", getShapeName(), base, top, height, side, side2, key);
+    return String.format("[%s] - Base: %.2f | Top: %.2f | Height: %.2f | Side1: %.2f | Side2: %.2f | Key: %s\n\t\t| Area : %.2f | Perimeter: %.2f", getShapeName(), base, top, height, side, side2, key, findArea(), findPerimeter());
   }
 
   public static int getCount() {

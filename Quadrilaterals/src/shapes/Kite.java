@@ -1,3 +1,5 @@
+package shapes;
+
 public class Kite extends Quadrilateral {
   protected double diag1 = 1;
   protected double diag2 = 1;
@@ -94,7 +96,7 @@ public class Kite extends Quadrilateral {
   }
 
   public String toString() {
-    return String.format("[%s] - Diagonal 1: %.2f | Diagonal 2: %.2f | Side 1: %.2f | Side 2: %.2f | Key: %s", getShapeName(), diag1, diag2, side1, side2, key);
+    return String.format("[%s] - Diagonal 1: %.2f | Diagonal 2: %.2f | Side 1: %.2f | Side 2: %.2f | Key: %s\n\t\t| Area : %.2f | Perimeter: %.2f", getShapeName(), diag1, diag2, side1, side2, key, findArea(), findPerimeter());
   }
 
   public static int getCount() {
