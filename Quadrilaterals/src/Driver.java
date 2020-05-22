@@ -3,23 +3,55 @@ import java.util.List;
 import java.util.Scanner;
 import shapes.*;
 
+//****************************************************************************************
+//Quadrilateral Project
+//Kevin Huang
+//Date: May 22th 2020
+//Java 13.0.2, Visual Studio Code 1.43
+//****************************************************************************************
+//<Class>
+//This is the driver/use class, it handles most of the user friendly prompts and user inputs.
+//It allows shapes to be created, stored, modified, and contains the main function of the program.
+//<List Of Identifiers>
+//let database = the list in which the shapes are stored in. <type List<Quadrilateral>>
+//let SEPARATOR = the string that looks like a horizontal straight line. Used for separating text visually when printing to the user. <type String>
+// let in = the Scanner object used to take in user input. <type Scanner>
+// let SHAPE_COUNT = the total amount of shapes this project contains. <type int>
+//****************************************************************************************
 public class Driver {
-  private static List<Quadrilateral> database = new ArrayList<>(); // database
+  private static List<Quadrilateral> database = new ArrayList<>(); // the list in which the shapes are stored in
+  // the string that looks like a horizontal straight line. Used for separating
+  // text visually when printing to the user.
   private static final String SEPARATOR = "----------------------------------------------------------------\n";
-  private static Scanner in;
-  private static final int SHAPE_COUNT = 6;
+  private static Scanner in;// the Scanner object used to take in user input.
+  private static final int SHAPE_COUNT = 6;// the total amount of shapes this project contains.
 
+  /**
+   * Main function of the program. Initializes the Scanner object in and calls
+   * mainMenu() forever until mainMenu returns false, indicating that the user has
+   * decided to quit. Than displays a thank you message before exiting the
+   * program.
+   * 
+   * @param args - The command line arguments that would be passed to the java
+   *             program.
+   */
   public static void main(String[] args) {
     in = new Scanner(System.in);
     while (mainMenu())
       ;
     separatorPrint("Thanks for using this program, enter any key to exit\n");
     in.next();
-  }
+  }// end of main method
 
+  /**
+   * Main menu of the program. Calls other sub-menu methods based on the user's
+   * input.
+   * 
+   * @return wether the user wants to the program to continue.
+   */
   static boolean mainMenu() {
     separatorPrint(
-        "Please choose an option:\n1. Create a new Shape\n2. List all current stored shapes\n3. Search for a specific shape, get its info and maybe modify it\n4. Exit the program\n");
+        "Please choose an option:\n1. Create a new Shape\n2. List all current stored shapes and get the numbers of total shapes\n3. Search for a specific shape, get its info and maybe modify it\n4. Exit the program\n");
     switch (in.nextInt()) {
       case 1:
         newShapeMenu();
@@ -34,8 +66,16 @@ public class Driver {
         return false;
     }
     return true;
-  }
+  }// end of mainMenu method
 
+  /**
+   * Handles prompting the user to enter new information about the shape
+   * modification, and the functions calls to modify the shape object. This
+   * function can handle all types of shapes, and will prompt differently
+   * depending on the type of shape.
+   * 
+   * @param shape - the shape to be modified
+   */
   static void modifyShape(Quadrilateral shape) {
     separatorPrintln("Please choose the dimension of the shape you wish to modify:", false);
     switch (shape.getShapeName()) {
@@ -89,8 +129,13 @@ public class Driver {
         ((Square) shape).setBase(input);
         break;
     }
-  }
+  }// end of modifyShape method
 
+  /**
+   * Shape searching menu of the program. Does not handle the actual searching of
+   * the shape, but handles the potential modification of the shape after a shape
+   * is selected.
+   */
   static void findShapeMenu() {
     Quadrilateral result = findShape();
     separatorPrintln(String.format("Shape found:\n%s", result.toString()));
@@ -104,8 +149,15 @@ public class Driver {
     } else {
       return;
     }
-  }
+  }// end of findShape method
 
+  /**
+   * Prompts the user to enter the key to a shape and tries to find it by looping
+   * through the database. Probably not the most efficient way but good enough for
+   * a max of 20 objects. Loops forever until a shape is found.
+   * 
+   * @return the shape with the matching key to the user's input
+   */
   static Quadrilateral findShape() {
     String key;
     Quadrilateral result = null;
@@ -125,24 +177,43 @@ public class Driver {
       }
     } while (result == null);
     return result;
-  }
+  }// end of findShape method
 
+  /**
+   * Shape listing menu. Lists the number of each shape independently, the number
+   * of all quadrilaterals combined and than lists all the shapes currently
+   * stored. Lists the shapes by simply looping through all shapes and printing it
+   * out. The task is simple enough to not be split into more methods.
+   */
   static void listShapeMenu() {
-    separatorPrint("List of all shapes:");
+    separatorPrintln("There are currently:");
+    System.out.println(Square.getCount() + " Squares");
+    System.out.println(Rectangle.getCount() + " Rectangles");
+    System.out.println(Parallelogram.getCount() + " Parallelograms");
+    System.out.println(Kite.getCount() + " Kites");
+    System.out.println(Trapezoid.getCount() + " Trapezoids");
+    System.out.println(Rhombus.getCount() + " Rhombus");
+    separatorPrintln("That's " + Quadrilateral.getCount() + " Quadrilaterals in total", false);
+    separatorPrintln("List of all shapes:", false);
     for (int i = 0; i < database.size(); i++) {
-      separatorPrintln(database.get(i).toString(),false);
+      separatorPrintln(database.get(i).toString(), false);
     }
     separatorPrintln("Enter any key to go back to main menu", false);
     in.next();
-  }
+  }// end of listShapeMenu method
 
+  /**
+   * New Shapes creation menu. Does not handle the actual shape creations, but
+   * handles the confirmation of the shape attributes, and offers choice of
+   * creating a completely new shape or modifying the original shape.
+   */
   static void newShapeMenu() {
     Quadrilateral temp = null;
     String input = "3";
     do {
-      if(input.equals("3") || temp == null){
+      if (input.equals("3") || temp == null) {
         temp = newShape();
-      }else if(input.equals("2")){
+      } else if (input.equals("2")) {
         modifyShape(temp);
       }
       separatorPrintln("Your Shape: " + temp.toString());
@@ -155,8 +226,16 @@ public class Driver {
     database.add(temp);
     separatorPrintln("Shape added to database! Enter any key to go back to main menu");
     in.next();
-  }
+  }// end of newShapeMenu method
 
+  /**
+   * Creates a new shape from scratch by guiding the user through a shape creating
+   * process. Asks for the type of shape to be created, offers a choice of a
+   * default shape or custom shape, and than asks for length of different segments
+   * of the shape accordingly.
+   * 
+   * @return the quadrilaterals shape that was created.
+   */
   static Quadrilateral newShape() {
     separatorPrint(
         "Please choose a shape:\n1. Square\n2. Rectangle\n3. Parallelogram\n4. Kite\n5. Trapezoid\n6. Rhombus\n");
@@ -223,25 +302,54 @@ public class Driver {
 
     return new Square();// Won't get executed in normal use, just to please Java by making sure this
                         // method always returns a Quadrilateral
-  }
+  }// end of newShape method
 
+  /**
+   * Helper method for printing a piece of string with a separator in-front.
+   * Overloaded method, allows for the default selection of 2 new lines before the
+   * separator.
+   * 
+   * @param content the string to be printed
+   */
   static void separatorPrint(String content) {
     separatorPrint(content, true);
-  }
+  }// end of separatorPrint method
 
+  /**
+   * Helper method for printing a piece of string with a separator in-front.
+   * 
+   * @param content          the string to be printed
+   * @param beginningNewLine wether or not to have 2 new lines before the
+   *                         separator
+   */
   static void separatorPrint(String content, boolean beginningNewLine) {
     if (beginningNewLine)
       System.out.print("\n\n");
     System.out.print(SEPARATOR + content);
-  }
+  }// end of separatorPrint method
 
+  /**
+   * Helper method for printing a piece of string with a separator in-front and a
+   * new line at the back. Overloaded method, allows for the default selection of
+   * 2 new lines before the separator.
+   * 
+   * @param content the string to be printed
+   */
   static void separatorPrintln(String content) {
     separatorPrintln(content, true);
-  }
+  }// end of separatorPrintln method
 
+  /**
+   * Helper method for printing a piece of string with a separator in-front and a
+   * new line at the back.
+   * 
+   * @param content          the string to be printed
+   * @param beginningNewLine wether or not to have 2 new lines before the
+   *                         separator
+   */
   static void separatorPrintln(String content, boolean beginningNewLine) {
     if (beginningNewLine)
       System.out.print("\n\n");
     System.out.println(SEPARATOR + content);
-  }
-}
+  }// end of separatorPrintln method
+}// end of Driver class
