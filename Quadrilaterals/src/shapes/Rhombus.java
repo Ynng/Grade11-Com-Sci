@@ -17,7 +17,7 @@ public class Rhombus extends Square {
   private static int count = 0;// the number of rhombuses that have been created
 
   /**
-   * Default constructor method, sets up the rhombus with arbitrary side lengths,
+   * Default constructor method, sets up the rhombus with arbitrary dimensions,
    * increments count, and sets the key, only if the shape being created is
    * actually a rhombus, not a subclass of rhombus.
    */
@@ -30,7 +30,7 @@ public class Rhombus extends Square {
 
   /**
    * Overloaded constructor method, calls the default constructor first, and then
-   * sets the side lengths according to arguments.
+   * sets the dimensions according to arguments.
    * 
    * @param base   the length of the base of the rhombus
    * @param height the length of the height of the rhombus

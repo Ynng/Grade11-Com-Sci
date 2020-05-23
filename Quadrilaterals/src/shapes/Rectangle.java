@@ -15,9 +15,9 @@ public class Rectangle extends Rhombus {
   private static int count = 0;// the number of rectangles that have been created
 
   /**
-   * Default constructor method, sets up the rectangle with an arbitrary side
-   * length, increments count, and sets the key, only if the shape being created
-   * is actually a rectangle, not a subclass of rectangle.
+   * Default constructor method, sets up the rectangle with arbitrary dimensions,
+   * increments count, and sets the key, only if the shape being created is
+   * actually a rectangle, not a subclass of rectangle.
    */
   public Rectangle() {
     if (getClass() == Rectangle.class) {
@@ -28,7 +28,7 @@ public class Rectangle extends Rhombus {
 
   /**
    * Overloaded constructor method, calls the default constructor first, and then
-   * sets the side lengths according to arguments.
+   * sets the dimensions according to arguments.
    * 
    * @param base   the length of the base of the rectangle
    * @param height the length of the height of the rectangle

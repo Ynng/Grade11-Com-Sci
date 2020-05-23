@@ -17,8 +17,8 @@ public class Parallelogram extends Rectangle {
   private static int count = 0;// the number of parallelograms that have been created
 
   /**
-   * Default constructor method, sets up the parallelogram with arbitrary side
-   * lengths, increments count, and sets the key, only if the shape being created
+   * Default constructor method, sets up the parallelogram with arbitrary 
+   * dimensions, increments count, and sets the key, only if the shape being created
    * is actually a parallelogram, not a subclass of parallelogram.
    */
   public Parallelogram() {
@@ -30,7 +30,7 @@ public class Parallelogram extends Rectangle {
 
   /**
    * Overloaded constructor method, calls the default constructor first, and then
-   * sets the side lengths according to arguments.
+   * sets the dimensions according to arguments.
    * 
    * @param base   the length of the base of the parallelogram
    * @param height the length of the height of the parallelogram
@@ -65,7 +65,7 @@ public class Parallelogram extends Rectangle {
   /**
    * mutator method of the length of the side of the parallelogram
    * 
-   * @param base the new length of the side of the parallelogram
+   * @param side the new length of the side of the parallelogram
    */
   public void setSide(double side) {
     this.side = side;

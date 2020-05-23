@@ -17,7 +17,7 @@ public class Square extends Quadrilateral {
   private static int count = 0;// the number of squares that have been created
 
   /**
-   * Default constructor method, sets up the square with an arbitrary side length,
+   * Default constructor method, sets up the square with arbitrary dimensions,
    * increments count, and sets the key, only if the shape being created is
    * actually a square, not a subclass of square.
    */
