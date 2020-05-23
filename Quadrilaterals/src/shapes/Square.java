@@ -10,7 +10,7 @@ package shapes;
 //This is the square class. It represents a square and stores the needed information to calculate the square's area and perimeter.
 //<List Of Identifiers>
 //let base = the side length of the square <type double>
-// let count = the number of squares that have been created <type int>
+//let count = the number of squares that have been created <type int>
 //****************************************************************************************
 public class Square extends Quadrilateral {
   protected double base = 1;// the side length of the square
@@ -32,12 +32,12 @@ public class Square extends Quadrilateral {
    * Overloaded constructor method, calls the default constructor first, and then
    * sets the side length according to arguments.
    * 
-   * @param base   the side length of the square
+   * @param base the side length of the square
    */
   public Square(double base) {
     this();
     this.base = base;
-  }//end of an overloaded constructor
+  }// end of an overloaded constructor
 
   @Override
   double findArea() {
@@ -56,7 +56,7 @@ public class Square extends Quadrilateral {
    */
   public double getBase() {
     return base;
-  }//end of getBase method
+  }// end of getBase method
 
   /**
    * mutator method of the side length of the square
@@ -84,6 +84,6 @@ public class Square extends Quadrilateral {
    */
   public static int getCount() {
     return count;
-  }//end of getCount method
+  }// end of getCount method
 
-}//end of the Square class
+}// end of the Square class
