@@ -7,7 +7,6 @@ public class Kite extends Quadrilateral {
   protected double side2 = 1;
 
   private static int count = 0;
-  private static int keyCount = 0;
 
   public Kite() {
     if (getClass() == Kite.class) {
@@ -16,8 +15,7 @@ public class Kite extends Quadrilateral {
       side1 = 5;
       side2 = Math.sqrt(7 * 7 + 4 * 4);
       count++;
-      keyCount++;
-      key = getShapeName() + keyCount;
+      key = getShapeName() + count;
     }
   }
 
@@ -103,9 +101,4 @@ public class Kite extends Quadrilateral {
     return count;
   }
 
-  public static int countDecrement() {
-    Quadrilateral.countDecrement();
-    count--;
-    return count;
-  }
 }

@@ -3,13 +3,11 @@ package shapes;
 public class Rhombus extends Square{
   protected double height = 1;
   private static int count = 0;
-  private static int keyCount = 0;
 
   public Rhombus() {
     if (getClass() == Rhombus.class) {
       count++;
-      keyCount++;
-      key = getShapeName() + keyCount;
+      key = getShapeName() + count;
     }
   }
 
@@ -46,9 +44,4 @@ public class Rhombus extends Square{
     return count;
   }
 
-  public static int countDecrement() {
-    Quadrilateral.countDecrement();
-    count--;
-    return count;
-  }
 }

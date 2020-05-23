@@ -3,13 +3,11 @@ package shapes;
 public class Square extends Quadrilateral {
   protected double base = 1;
   private static int count = 0;
-  private static int keyCount = 0;
 
   public Square() {
     if (getClass() == Square.class) {
       count++;
-      keyCount++;
-      key = getShapeName() + keyCount;
+      key = getShapeName() + count;
     }
   }
 
@@ -50,9 +48,4 @@ public class Square extends Quadrilateral {
     return count;
   }
 
-  public static int countDecrement() {
-    Quadrilateral.countDecrement();
-    count--;
-    return count;
-  }
 }

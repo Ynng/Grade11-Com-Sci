@@ -3,13 +3,11 @@ package shapes;
 public class Parallelogram extends Rectangle{
   protected double side = 1;
   private static int count = 0;
-  private static int keyCount = 0;
 
   public Parallelogram() {
     if (getClass() == Parallelogram.class) {
       count++;
-      keyCount++;
-      key = getShapeName() + keyCount;
+      key = getShapeName() + count;
     }
   }
 
@@ -52,9 +50,4 @@ public class Parallelogram extends Rectangle{
     return count;
   }
 
-  public static int countDecrement() {
-    Quadrilateral.countDecrement();
-    count--;
-    return count;
-  }
 }
