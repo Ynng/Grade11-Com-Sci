@@ -19,7 +19,7 @@ public class Trapezoid extends Parallelogram {
   private static int count = 0;// the number of trapezoids that have been created
 
   /**
-   * Default constructor method, sets up the trapezoid with an arbitrary side
+   * Default constructor method, sets up the trapezoid with arbitrary side
    * lengths, increments count, and sets the key, only if the shape being created
    * is actually a trapezoid, not a subclass of trapezoid.
    */
@@ -38,7 +38,7 @@ public class Trapezoid extends Parallelogram {
 
   /**
    * Overloaded constructor method, calls the default constructor first, and then
-   * sets the side length according to arguments.
+   * sets the side lengths according to arguments.
    * 
    * @param base   the length of the base of the trapezoid
    * @param top    the length of the top of the trapezoid
@@ -121,4 +121,4 @@ public class Trapezoid extends Parallelogram {
     return count;
   }// end of getCount method
 
-}
+}//end of the Trapezoid class

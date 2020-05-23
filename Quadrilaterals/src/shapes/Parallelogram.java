@@ -42,6 +42,11 @@ public class Parallelogram extends Rectangle{
     this.side = side;
   }
 
+  /**
+   * Returns a string representation of the object.
+   * 
+   * @return a string containing useful information about the shape
+   */
   public String toString() {
     return String.format("[%s] - Base: %.2f | Height: %.2f | Side: %.2f | Key: %s\n\t\t| Area : %.2f | Perimeter: %.2f", getShapeName(), base, height, side, key, findArea(), findPerimeter());
   }

@@ -51,6 +51,11 @@ public class Coordinate {
    * @return a nicely formatted string with the row and the column value of the
    *         coordinate
    */
+  /**
+   * Returns a string representation of the object.
+   * 
+   * @return a string containing useful information about the shape
+   */
   public String toString() {
     return String.format("row:%d, col:%d", row, col);
   }// end of toString method
