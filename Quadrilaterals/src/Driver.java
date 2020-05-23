@@ -39,7 +39,7 @@ public class Driver {
     in = new Scanner(System.in);
     while (mainMenu())
       ;
-    separatorPrint("Thanks for using this program, enter any key to exit\n");
+    separatorPrint("Thanks for using this program, submit any key to exit\n");
     in.next();
   }// end of main method
 
@@ -138,6 +138,7 @@ public class Driver {
    */
   static void findShapeMenu() {
     Quadrilateral result = findShape();
+    if(result == null)return;
     separatorPrintln(String.format("Shape found:\n%s", result.toString()));
     separatorPrintln("Enter:\n1. to modify the shape\nor\n2. to go back to the main menu", false);
     if (in.next().equals("1")) {
@@ -161,10 +162,14 @@ public class Driver {
   static Quadrilateral findShape() {
     String key;
     Quadrilateral result = null;
+    boolean firstTime = true;
     do {
-      separatorPrintln("Please enter the key of the shape you want to find:");
+      separatorPrintln("(Case Sensitive!)\nPlease enter the key of the shape you want to find, or enter [Q] to go back to the main menu: ",
+          firstTime);
+      firstTime = false;
       key = in.next();
-
+      if (key.equals("Q"))
+        break;
       for (int i = 0; i < database.size(); i++) {
         if (database.get(i).getKey().equals(key)) {
           result = database.get(i);
@@ -173,7 +178,7 @@ public class Driver {
       }
 
       if (result == null) {
-        separatorPrintln(String.format("Did not find any shape with the key %s", key));
+        separatorPrintln(String.format("Did not find any shape with the key \"%s\"", key));
       }
     } while (result == null);
     return result;
@@ -186,18 +191,20 @@ public class Driver {
    * out. The task is simple enough to not be split into more methods.
    */
   static void listShapeMenu() {
-    separatorPrintln("There are currently:");
-    System.out.println(Square.getCount() + " Squares");
-    System.out.println(Rectangle.getCount() + " Rectangles");
-    System.out.println(Parallelogram.getCount() + " Parallelograms");
-    System.out.println(Kite.getCount() + " Kites");
-    System.out.println(Trapezoid.getCount() + " Trapezoids");
-    System.out.println(Rhombus.getCount() + " Rhombus");
-    separatorPrintln("That's " + Quadrilateral.getCount() + " Quadrilaterals in total", false);
-    separatorPrintln("List of all shapes:", false);
+    separatorPrintln("List of all shapes:");
     for (int i = 0; i < database.size(); i++) {
-      separatorPrintln(database.get(i).toString(), false);
+      System.out.println(database.get(i).toString());
     }
+
+    separatorPrintln("That's a total of :", false);
+    System.out.print(Square.getCount() + " Squares, ");
+    System.out.print(Rectangle.getCount() + " Rectangles, ");
+    System.out.print(Parallelogram.getCount() + " Parallelograms, ");
+    System.out.print(Kite.getCount() + " Kites, ");
+    System.out.print(Trapezoid.getCount() + " Trapezoids and ");
+    System.out.println(Rhombus.getCount() + " Rhombuses");
+    System.out.println("Which is " + Quadrilateral.getCount() + " Quadrilaterals in total");
+
     separatorPrintln("Enter any key to go back to main menu", false);
     in.next();
   }// end of listShapeMenu method
@@ -324,7 +331,7 @@ public class Driver {
    */
   static void separatorPrint(String content, boolean beginningNewLine) {
     if (beginningNewLine)
-      System.out.print("\n\n");
+      System.out.print("\n\n\n\n\n");
     System.out.print(SEPARATOR + content);
   }// end of separatorPrint method
 
@@ -349,7 +356,7 @@ public class Driver {
    */
   static void separatorPrintln(String content, boolean beginningNewLine) {
     if (beginningNewLine)
-      System.out.print("\n\n");
+      System.out.print("\n\n\n\n\n");
     System.out.println(SEPARATOR + content);
   }// end of separatorPrintln method
 }// end of Driver class
