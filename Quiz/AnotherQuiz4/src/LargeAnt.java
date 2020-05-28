@@ -1,6 +1,6 @@
 public class LargeAnt extends Ant {
   private static int counter = 0;
-  double bodyLength;
+  private double bodyLength;
 
   public LargeAnt(double bodyLength) {
     // default constructor of Ant is called implicitly.
@@ -14,14 +14,38 @@ public class LargeAnt extends Ant {
     return counter;
   }
 
-  @Override// "@Override" is not necessary, but just good to have to avoid mistakes
+  @Override // "@Override" is not necessary, but just good to have to avoid mistakes
   public double energyOutput() {
     return bodyLength * 1.34;
   }
 
   @Override
   public double volume() {
-    //bodyLength * bodyLength is the same as squaring bodyLength, this way is simpler to type
+    // bodyLength * bodyLength is the same as squaring bodyLength, this way is
+    // simpler to type
     return (bodyLength * bodyLength) * 1.78;
   }
+
+  public double getBodyLength() {
+    return bodyLength;
+  }
+
+  public void setBodyLength(double bodyLength) {
+    this.bodyLength = bodyLength;
+  }
+
+  // Overriding equals() to compare two Complex objects 
+  @Override
+  public boolean equals(Object o) { 
+
+      if (o == this)
+          return true; 
+      if(o == null) return false;
+      if(getClass() != o.getClass())return false;
+
+      LargeAnt ant = (LargeAnt) o; 
+      
+      if(ant.getBodyLength() != getBodyLength())return false;
+      return true;
+  } 
 }
