@@ -1,17 +1,17 @@
 public class LargeAnt extends Ant {
-  private static int counter = 0;
+  private static int largeAntCounter = 0;
   private double bodyLength;
 
   public LargeAnt(double bodyLength) {
     // default constructor of Ant is called implicitly.
     this.bodyLength = bodyLength;
-    counter++;
+    largeAntCounter++;
   }
 
   // although not stated in the question, it's only logical to include an assessor
-  // for the counter variable, otherwise no one can access it
-  public static double getCount() {
-    return counter;
+  // for the largeAntCounter variable, otherwise no one can access it
+  public static int getLargeAntCounter() {
+    return largeAntCounter;
   }
 
   @Override // "@Override" is not necessary, but just good to have to avoid mistakes
@@ -48,4 +48,9 @@ public class LargeAnt extends Ant {
       if(ant.getBodyLength() != getBodyLength())return false;
       return true;
   } 
+
+  @Override
+  public String toString() {
+    return String.format("%s: body length: %.2f | energy output: %.2f | volume: %.2f", getClass().getSimpleName(), bodyLength, energyOutput(), volume());
+  }
 }
