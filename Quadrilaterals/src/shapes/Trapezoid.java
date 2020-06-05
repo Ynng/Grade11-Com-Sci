@@ -56,12 +56,12 @@ public class Trapezoid extends Parallelogram {
   }// end of an overloaded constructor
 
   @Override
-  double findArea() {
+  public double findArea() {
     return ((base + top) / 2) * height;
   }
 
   @Override
-  double findPerimeter() {
+  public double findPerimeter() {
     return base + top + side + side2;
   }
 

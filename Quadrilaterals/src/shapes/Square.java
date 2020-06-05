@@ -40,12 +40,12 @@ public class Square extends Quadrilateral {
   }// end of an overloaded constructor
 
   @Override
-  double findArea() {
+  public double findArea() {
     return base * base;
   }
 
   @Override
-  double findPerimeter() {
+  public double findPerimeter() {
     return base * 4;
   }
 

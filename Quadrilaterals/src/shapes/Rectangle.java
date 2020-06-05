@@ -40,7 +40,7 @@ public class Rectangle extends Rhombus {
   }// end of an overloaded constructor
 
   @Override
-  double findPerimeter() {
+  public double findPerimeter() {
     return (base + height) * 2;
   }
 

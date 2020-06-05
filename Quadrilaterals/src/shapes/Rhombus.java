@@ -42,7 +42,7 @@ public class Rhombus extends Square {
   }// end of an overloaded constructor
 
   @Override
-  double findArea() {
+  public double findArea() {
     return base * height;
   }
 

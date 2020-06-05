@@ -57,12 +57,12 @@ public class Kite extends Quadrilateral {
   }// end of an overloaded constructor
 
   @Override
-  double findArea() {
+  public double findArea() {
     return (diag1 * diag2) / 2;
   }
 
   @Override
-  double findPerimeter() {
+  public double findPerimeter() {
     return (side1 + side2) * 2;
   }
 
@@ -156,6 +156,16 @@ public class Kite extends Quadrilateral {
     removeQuadrilateral();
     numKites--;
   }//end of removeKite method
+
+  // @Override
+  // public boolean equals(Object o){
+  //   if(!(o instanceof Kite))return false;
+  //   Kite quad = (Kite)o;
+  //   if(diag1!=quad.getDiag1())return false;
+  //   if(diag2!=quad.getDiag2())return false;
+  //   if(side1!=quad.getSide1())return false;
+  //   if(side2!=quad.getSide2())return false;
+  // }
 
   /**
    * assessor method of the number of kites that have been created

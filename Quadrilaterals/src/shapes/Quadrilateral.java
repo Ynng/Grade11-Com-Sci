@@ -68,12 +68,12 @@ public abstract class Quadrilateral {
    * 
    * @return the area of the shape
    */
-  abstract double findArea();
+  abstract public double findArea();
 
   /**
    * Finds the perimeter of the shape and returns it
    * 
    * @return the perimeter of the shape
    */
-  abstract double findPerimeter();
+  abstract public double findPerimeter();
 }// end of Quadrilateral class

@@ -44,12 +44,12 @@ public class Parallelogram extends Rectangle {
   }// end of an overloaded constructor
 
   @Override
-  double findArea() {
+  public double findArea() {
     return base * height;
   }
 
   @Override
-  double findPerimeter() {
+  public double findPerimeter() {
     return (base + side) * 2;
   }
 
