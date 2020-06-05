@@ -197,13 +197,13 @@ public class Driver {
     }
 
     separatorPrintln("That's a total of :", false);
-    System.out.print(Square.getCount() + " Squares, ");
-    System.out.print(Rectangle.getCount() + " Rectangles, ");
-    System.out.print(Parallelogram.getCount() + " Parallelograms, ");
-    System.out.print(Kite.getCount() + " Kites, ");
-    System.out.print(Trapezoid.getCount() + " Trapezoids and ");
-    System.out.println(Rhombus.getCount() + " Rhombuses");
-    System.out.println("Which is " + Quadrilateral.getCount() + " Quadrilaterals in total");
+    System.out.print(Square.getNumSquares() + " Squares | ");
+    System.out.print(Rectangle.getNumRectangles() + " Rectangles | ");
+    System.out.print(Parallelogram.getNumParallelograms() + " Parallelograms | ");
+    System.out.print(Kite.getNumKites() + " Kites | ");
+    System.out.print(Trapezoid.getNumTrapezoids() + " Trapezoids | ");
+    System.out.println(Rhombus.getNumRhombuses() + " Rhombuses");
+    System.out.println("Which is " + Quadrilateral.getNumQuadrilaterals() + " Quadrilaterals in total");
 
     separatorPrintln("Enter any key to go back to main menu", false);
     in.next();
@@ -215,22 +215,47 @@ public class Driver {
    * creating a completely new shape or modifying the original shape.
    */
   static void newShapeMenu() {
-    Quadrilateral temp = null;
-    String input = "3";
+    Quadrilateral newQuad = null;
+    String input = null;
     do {
-      if (input.equals("3") || temp == null) {
-        temp = newShape();
-      } else if (input.equals("2")) {
-        modifyShape(temp);
+      if(input.equals("3") && newQuad != null){
+        switch (newQuad.getShapeName()) {
+          case "Kite":
+            Kite.removeKite();
+            break;
+          case "Trapezoid":
+            Trapezoid.removeTrapezoid();
+            break;
+          case "Parallelogram":
+            Parallelogram.removeParallelogram();
+            break;
+          case "Rhombus":
+            Rhombus.removeRhombus();
+            break;
+          case "Rectangle":
+            Rectangle.removeRectangle();
+            break;
+          case "Square":
+            Square.removeSquare();
+            break;
+        }
+        newQuad = null;
+        //delete the previous shape
       }
-      separatorPrintln("Your Shape: " + temp.toString());
+      if(newQuad == null){
+        newQuad = newShape();
+      }
+     if (input.equals("2")) {
+        modifyShape(newQuad);
+      }
+      separatorPrintln("Your Shape: " + newQuad.toString());
       separatorPrintln(
           "Are you satisfied with this shape?\n1. Yes, bring me back to the main menu\n2. No, I want to edit this shape\n3. No, I want to make a new shape entirely",
           false);
       input = in.next();
     } while (!input.equals("1"));
 
-    database.add(temp);
+    database.add(newQuad);
     separatorPrintln("Shape added to database! Enter any key to go back to main menu");
     in.next();
   }// end of newShapeMenu method

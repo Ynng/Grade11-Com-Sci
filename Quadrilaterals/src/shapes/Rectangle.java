@@ -9,20 +9,20 @@ package shapes;
 //<Class>
 //This is the rectangle class. It represents a rectangle and stores the needed information to calculate the rectangle's area and perimeter.
 //<List Of Identifiers>
-//let count = the number of rectangles that have been created <type int>
+//let numRectangles = the number of rectangles that have been created <type int>
 //****************************************************************************************
 public class Rectangle extends Rhombus {
-  private static int count = 0;// the number of rectangles that have been created
+  private static int numRectangles = 0;// the number of rectangles that have been created
 
   /**
    * Default constructor method, sets up the rectangle with arbitrary dimensions,
-   * increments count, and sets the key, only if the shape being created is
+   * increments numRectangles, and sets the key, only if the shape being created is
    * actually a rectangle, not a subclass of rectangle.
    */
   public Rectangle() {
     if (getClass() == Rectangle.class) {
-      count++;
-      key = getShapeName() + count;
+      numRectangles++;
+      key = getShapeName() + numRectangles;
     }
   }// end of default constructor
 
@@ -45,12 +45,20 @@ public class Rectangle extends Rhombus {
   }
 
   /**
+   * When a rectangle is removed from the database, the Driver class should call this method to decrement the appropriate counters
+   */
+  public static void removeRectangle(){
+    removeQuadrilateral();
+    numRectangles--;
+  }//end of removeRectangle method
+
+  /**
    * assessor method of the number of rectangles that have been created
    * 
    * @return the number of rectangles that have been created
    */
-  public static int getCount() {
-    return count;
-  }// end of getCount method
+  public static int getNumRectangles() {
+    return numRectangles;
+  }// end of getNumRectangles method
 
 }// end of the Rectangle class

@@ -10,21 +10,21 @@ package shapes;
 //This is the parallelogram class. It represents a parallelogram and stores the needed information to calculate the parallelogram's area and perimeter.
 //<List Of Identifiers>
 //let side = the length of the side of the parallelogram <type double>
-// let count = the number of parallelograms that have been created <type int>
+// let numParallelograms = the number of parallelograms that have been created <type int>
 //****************************************************************************************
 public class Parallelogram extends Rectangle {
   protected double side = 1;// the length of the side of the parallelogram
-  private static int count = 0;// the number of parallelograms that have been created
+  private static int numParallelograms = 0;// the number of parallelograms that have been created
 
   /**
    * Default constructor method, sets up the parallelogram with arbitrary 
-   * dimensions, increments count, and sets the key, only if the shape being created
+   * dimensions, increments numParallelograms, and sets the key, only if the shape being created
    * is actually a parallelogram, not a subclass of parallelogram.
    */
   public Parallelogram() {
     if (getClass() == Parallelogram.class) {
-      count++;
-      key = getShapeName() + count;
+      numParallelograms++;
+      key = getShapeName() + numParallelograms;
     }
   }// end of default constructor
 
@@ -80,14 +80,22 @@ public class Parallelogram extends Rectangle {
     return String.format("[%s] - Base: %.2f | Height: %.2f | Side: %.2f | Key: %s\n\t\t| Area : %.2f | Perimeter: %.2f",
         getShapeName(), base, height, side, key, findArea(), findPerimeter());
   }// end of toString method
+  
+  /**
+   * When a parallelogram is removed from the database, the Driver class should call this method to decrement the appropriate counters
+   */
+  public static void removeParallelogram(){
+    removeQuadrilateral();
+    numParallelograms--;
+  }//end of parallelogram method
 
   /**
    * assessor method of the number of parallelograms that have been created
    * 
    * @return the number of parallelograms that have been created
    */
-  public static int getCount() {
-    return count;
-  }// end of getCount method
+  public static int getNumParallelograms() {
+    return numParallelograms;
+  }// end of getNumParallelograms method
 
 }// end of the Rhombus class

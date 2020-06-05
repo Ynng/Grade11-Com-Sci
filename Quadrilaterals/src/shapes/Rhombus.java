@@ -10,21 +10,21 @@ package shapes;
 //This is the rhombus class. It represents a rhombus and stores the needed information to calculate the rhombus's area and perimeter.
 //<List Of Identifiers>
 //let height = the length of the height of the rhombus <type double>
-// let count = the number of rhombuses that have been created <type int>
+// let numRhombuses = the number of rhombuses that have been created <type int>
 //****************************************************************************************
 public class Rhombus extends Square {
   protected double height = 1;// the length of the height of the rhombus
-  private static int count = 0;// the number of rhombuses that have been created
+  private static int numRhombuses = 0;// the number of rhombuses that have been created
 
   /**
    * Default constructor method, sets up the rhombus with arbitrary dimensions,
-   * increments count, and sets the key, only if the shape being created is
+   * increments numRhombuses, and sets the key, only if the shape being created is
    * actually a rhombus, not a subclass of rhombus.
    */
   public Rhombus() {
     if (getClass() == Rhombus.class) {
-      count++;
-      key = getShapeName() + count;
+      numRhombuses++;
+      key = getShapeName() + numRhombuses;
     }
   }// end of default constructor
 
@@ -74,13 +74,22 @@ public class Rhombus extends Square {
         getShapeName(), base, height, key, findArea(), findPerimeter());
   }// end of toString method
 
+
+  /**
+   * When a rhombus is removed from the database, the Driver class should call this method to decrement the appropriate counters
+   */
+  public static void removeRhombus(){
+    removeQuadrilateral();
+    numRhombuses--;
+  }//end of removeRhombus method
+
   /**
    * assessor method of the number of rhombuses that have been created
    * 
    * @return the number of rhombuses that have been created
    */
-  public static int getCount() {
-    return count;
-  }//end of getCount method
+  public static int getNumRhombuses() {
+    return numRhombuses;
+  }//end of getNumRhombuses method
 
 }//end of the Rhombus class

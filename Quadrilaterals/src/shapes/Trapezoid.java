@@ -11,16 +11,16 @@ package shapes;
 //<List Of Identifiers>
 //let top = the length of the top side of the trapezoid <type double>
 //let side2 = the length of the right side of the trapezoid <type double>
-// let count = the number of trapezoids that have been created <type int>
+// let numTrapezoids = the number of trapezoids that have been created <type int>
 //****************************************************************************************
 public class Trapezoid extends Parallelogram {
   protected double top = 1;// the length of the top side of the trapezoid
   protected double side2 = 1;// the length of the right side of the trapezoid
-  private static int count = 0;// the number of trapezoids that have been created
+  private static int numTrapezoids = 0;// the number of trapezoids that have been created
 
   /**
    * Default constructor method, sets up the trapezoid with arbitrary dimensions,
-   * increments count, and sets the key, only if the shape being created is
+   * increments numTrapezoids, and sets the key, only if the shape being created is
    * actually a trapezoid, not a subclass of trapezoid.
    */
   public Trapezoid() {
@@ -31,8 +31,8 @@ public class Trapezoid extends Parallelogram {
       side2 = 5;
       height = 3;
 
-      count++;
-      key = getShapeName() + count;
+      numTrapezoids++;
+      key = getShapeName() + numTrapezoids;
     }
   }// end of the default constructor
 
@@ -113,12 +113,20 @@ public class Trapezoid extends Parallelogram {
   }// end of toString method
 
   /**
+   * When a trapezoid is removed from the database, the Driver class should call this method to decrement the appropriate counters
+   */
+  public static void removeTrapezoid(){
+    removeQuadrilateral();
+    numTrapezoids--;
+  }//end of removeTrapezoid method
+
+  /**
    * assessor method of the number of trapezoids that have been created
    * 
    * @return the number of trapezoids that have been created
    */
-  public static int getCount() {
-    return count;
-  }// end of getCount method
+  public static int getNumTrapezoids() {
+    return numTrapezoids;
+  }// end of getNumTrapezoids method
 
 }// end of the Trapezoid class

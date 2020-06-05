@@ -13,7 +13,7 @@ package shapes;
 //let diag2 = the length of the other diagonal of the kite <type double>
 //let side1 = the length of one pair of sides in the kite <type double>
 //let side2 = the length of the other pair of sides in the kite <type double>
-// let count = the number of kites that have been created <type int>
+// let numKites = the number of kites that have been created <type int>
 //****************************************************************************************
 public class Kite extends Quadrilateral {
   protected double diag1 = 1;// the length of one diagonal of the kite
@@ -21,11 +21,11 @@ public class Kite extends Quadrilateral {
   protected double side1 = 1;// the length of one pair of sides in the kite
   protected double side2 = 1;// the length of the other pair of sides in the kite
 
-  private static int count = 0;// the number of kites that have been created
+  private static int numKites = 0;// the number of kites that have been created
 
   /**
    * Default constructor method, sets up the kite with arbitrary dimensions,
-   * increments count, and sets the key, only if the shape being created is
+   * increments numKites, and sets the key, only if the shape being created is
    * actually a kite, not a subclass of kite.
    */
   public Kite() {
@@ -34,8 +34,8 @@ public class Kite extends Quadrilateral {
       diag2 = 10;
       side1 = 5;
       side2 = Math.sqrt(7 * 7 + 4 * 4);
-      count++;
-      key = getShapeName() + count;
+      numKites++;
+      key = getShapeName() + numKites;
     }
   }// end of the default constructor
 
@@ -150,12 +150,20 @@ public class Kite extends Quadrilateral {
   }// end of toString method
 
   /**
+   * When a kite is removed from the database, the Driver class should call this method to decrement the appropriate counters
+   */
+  public static void removeKite(){
+    removeQuadrilateral();
+    numKites--;
+  }//end of removeKite method
+
+  /**
    * assessor method of the number of kites that have been created
    * 
    * @return the number of kites that have been created
    */
-  public static int getCount() {
-    return count;
-  }//end of getCount method
+  public static int getNumKites() {
+    return numKites;
+  }//end of getNumKites method
 
 }//end of the Kite class

@@ -9,11 +9,11 @@ package shapes;
 //<Class>
 //This is the Quadrilateral class. It contains common data fields and operations from all quadrilateral classes.
 //<List Of Identifiers>
-// let count = the total number of quadrilateral that have been created <type int>
+// let numQuadrilaterals = the total number of quadrilateral that have been created <type int>
 // let key = the unique key of the quadrilateral <type String>
 //****************************************************************************************
 public abstract class Quadrilateral {
-  private static int count;// the total number of quadrilateral that have been created
+  private static int numQuadrilaterals;// the total number of quadrilateral that have been created
   protected String key;// the unique key of the quadrilateral
 
   /**
@@ -22,7 +22,7 @@ public abstract class Quadrilateral {
    * new subclass of quadrilateral is created.
    */
   protected Quadrilateral() {
-    count += 1;
+    numQuadrilaterals += 1;
   }// end of the default constructor
 
   /**
@@ -30,9 +30,18 @@ public abstract class Quadrilateral {
    * 
    * @return the total number of quadrilateral that have been created
    */
-  public static int getCount() {
-    return count;
-  }// end of getCount method
+  public static int getNumQuadrilaterals() {
+    return numQuadrilaterals;
+  }// end of getNumQuadrilaterals method
+
+  /**
+   * decreases the total number of quadrilateral that have been created.
+   * 
+   * should be called when a subclass of Quadrilateral is removed from the program.
+   */
+  protected static void removeQuadrilateral(){
+    numQuadrilaterals--;
+  }//end of removeQuadrilateral method
 
   /**
    * Gets the name of the shape an instance of Quadrilateral's subclass is

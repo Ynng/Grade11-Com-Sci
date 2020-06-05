@@ -10,21 +10,21 @@ package shapes;
 //This is the square class. It represents a square and stores the needed information to calculate the square's area and perimeter.
 //<List Of Identifiers>
 //let base = the side length of the square <type double>
-//let count = the number of squares that have been created <type int>
+//let numSquares = the number of squares that have been created <type int>
 //****************************************************************************************
 public class Square extends Quadrilateral {
   protected double base = 1;// the side length of the square
-  private static int count = 0;// the number of squares that have been created
+  private static int numSquares = 0;// the number of squares that have been created
 
   /**
    * Default constructor method, sets up the square with arbitrary dimensions,
-   * increments count, and sets the key, only if the shape being created is
+   * increments numSquares, and sets the key, only if the shape being created is
    * actually a square, not a subclass of square.
    */
   public Square() {
     if (getClass() == Square.class) {
-      count++;
-      key = getShapeName() + count;
+      numSquares++;
+      key = getShapeName() + numSquares;
     }
   }// end of default constructor
 
@@ -78,12 +78,20 @@ public class Square extends Quadrilateral {
   }// end of toString method
 
   /**
+   * When a square is removed from the database, the Driver class should call this method to decrement the appropriate counters
+   */
+  public static void removeSquare(){
+    removeQuadrilateral();
+    numSquares--;
+  }//end of removeSquare method
+
+  /**
    * assessor method of the number of squares that have been created
    * 
    * @return the number of squares that have been created
    */
-  public static int getCount() {
-    return count;
-  }// end of getCount method
+  public static int getNumSquares() {
+    return numSquares;
+  }// end of getNumSquares method
 
 }// end of the Square class
