@@ -32,7 +32,8 @@ public class Trapezoid extends Parallelogram {
       height = 3;
 
       numTrapezoids++;
-      key = getShapeName() + numTrapezoids;
+      //The line below is not used. The generation of keys is now moved into the Quadrilateral class
+      //key = getShapeName() + numTrapezoids;
     }
   }// end of the default constructor
 

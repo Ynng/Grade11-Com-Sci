@@ -22,7 +22,8 @@ public class Rectangle extends Rhombus {
   public Rectangle() {
     if (getClass() == Rectangle.class) {
       numRectangles++;
-      key = getShapeName() + numRectangles;
+      //The line below is not used. The generation of keys is now moved into the Quadrilateral class
+      //key = getShapeName() + numRectangles;
     }
   }// end of default constructor
 

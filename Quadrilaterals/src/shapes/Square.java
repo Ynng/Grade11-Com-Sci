@@ -24,7 +24,8 @@ public class Square extends Quadrilateral {
   public Square() {
     if (getClass() == Square.class) {
       numSquares++;
-      key = getShapeName() + numSquares;
+      //The line below is not used. The generation of keys is now moved into the Quadrilateral class
+      //key = getShapeName() + numSquares;
     }
   }// end of default constructor
 

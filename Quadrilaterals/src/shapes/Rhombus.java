@@ -24,7 +24,8 @@ public class Rhombus extends Square {
   public Rhombus() {
     if (getClass() == Rhombus.class) {
       numRhombuses++;
-      key = getShapeName() + numRhombuses;
+      //The line below is not used. The generation of keys is now moved into the Quadrilateral class
+      //key = getShapeName() + numRhombuses;
     }
   }// end of default constructor
 

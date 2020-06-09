@@ -24,7 +24,8 @@ public class Parallelogram extends Rectangle {
   public Parallelogram() {
     if (getClass() == Parallelogram.class) {
       numParallelograms++;
-      key = getShapeName() + numParallelograms;
+      //The line below is not used. The generation of keys is now moved into the Quadrilateral class
+      //key = getShapeName() + numParallelograms;
     }
   }// end of default constructor
 

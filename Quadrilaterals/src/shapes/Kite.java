@@ -35,7 +35,8 @@ public class Kite extends Quadrilateral {
       side1 = 5;
       side2 = Math.sqrt(7 * 7 + 4 * 4);
       numKites++;
-      key = getShapeName() + numKites;
+      //The line below is not used. The generation of keys is now moved into the Quadrilateral class
+      //key = getShapeName() + numKites;
     }
   }// end of the default constructor
 
