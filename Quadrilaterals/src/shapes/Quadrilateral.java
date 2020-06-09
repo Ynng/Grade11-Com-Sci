@@ -64,6 +64,22 @@ public abstract class Quadrilateral {
   }// end of getKey method
 
   /**
+   * Indicates wether some other objects is equal to this one.
+   * @param obj The object to be compared to with this one.
+   * @return true if the object is the same as this one, false otherwise
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if(this == obj)return true;
+    if(getClass().isAssignableFrom(obj.getClass()))return false;
+    // checks for subclass of Quadrilateral, since all we need is the key. We don't need any of the shape specific properties.
+    Quadrilateral quadrilateral = (Quadrilateral)obj;
+    // since keys are guaranteed to be unique, we only need to check for the key and nothing else.
+    if(key.equals(quadrilateral.getKey()))return true;
+    else return false;
+  }//end of equals method
+
+  /**
    * Finds the area of the shape and returns it
    * 
    * @return the area of the shape
