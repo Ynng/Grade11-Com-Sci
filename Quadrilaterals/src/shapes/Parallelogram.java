@@ -10,11 +10,11 @@ package shapes;
 //This is the parallelogram class. It represents a parallelogram and stores the needed information to calculate the parallelogram's area and perimeter.
 //<List Of Identifiers>
 //let side = the length of the side of the parallelogram <type double>
-// let numParallelograms = the number of parallelograms that have been created <type int>
+// let numParallelograms = the number of parallelograms that currently exists (haven't got deleted yet) <type int>
 //****************************************************************************************
 public class Parallelogram extends Rectangle {
   protected double side = 1;// the length of the side of the parallelogram
-  private static int numParallelograms = 0;// the number of parallelograms that have been created
+  private static int numParallelograms = 0;// the number of parallelograms that currently exists (haven't got deleted yet)
 
   /**
    * Default constructor method, sets up the parallelogram with arbitrary 
@@ -90,9 +90,9 @@ public class Parallelogram extends Rectangle {
   }//end of parallelogram method
 
   /**
-   * assessor method of the number of parallelograms that have been created
+   * assessor method of the number of parallelograms that currently exists (haven't got deleted yet)
    * 
-   * @return the number of parallelograms that have been created
+   * @return the number of parallelograms that currently exists (haven't got deleted yet)
    */
   public static int getNumParallelograms() {
     return numParallelograms;

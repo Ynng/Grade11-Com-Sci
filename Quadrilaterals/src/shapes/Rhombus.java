@@ -10,11 +10,11 @@ package shapes;
 //This is the rhombus class. It represents a rhombus and stores the needed information to calculate the rhombus's area and perimeter.
 //<List Of Identifiers>
 //let height = the length of the height of the rhombus <type double>
-// let numRhombuses = the number of rhombuses that have been created <type int>
+// let numRhombuses = the number of rhombuses that currently exists (haven't got deleted yet) <type int>
 //****************************************************************************************
 public class Rhombus extends Square {
   protected double height = 1;// the length of the height of the rhombus
-  private static int numRhombuses = 0;// the number of rhombuses that have been created
+  private static int numRhombuses = 0;// the number of rhombuses that currently exists (haven't got deleted yet)
 
   /**
    * Default constructor method, sets up the rhombus with arbitrary dimensions,
@@ -84,9 +84,9 @@ public class Rhombus extends Square {
   }//end of removeRhombus method
 
   /**
-   * assessor method of the number of rhombuses that have been created
+   * assessor method of the number of rhombuses that currently exists (haven't got deleted yet)
    * 
-   * @return the number of rhombuses that have been created
+   * @return the number of rhombuses that currently exists (haven't got deleted yet)
    */
   public static int getNumRhombuses() {
     return numRhombuses;

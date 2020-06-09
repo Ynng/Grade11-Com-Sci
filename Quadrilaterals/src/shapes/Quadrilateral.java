@@ -9,11 +9,15 @@ package shapes;
 //<Class>
 //This is the Quadrilateral class. It contains common data fields and operations from all quadrilateral classes.
 //<List Of Identifiers>
-// let numQuadrilaterals = the total number of quadrilateral that have been created <type int>
+// let numQuadrilaterals = the total number of quadrilateral that currently exists (haven't got deleted yet) <type int>
+// let keyCounter = the total number of quadrilateral that got created <type int>
 // let key = the unique key of the quadrilateral <type String>
 //****************************************************************************************
 public abstract class Quadrilateral {
-  private static int numQuadrilaterals;// the total number of quadrilateral that have been created
+  private static int numQuadrilaterals;// the total number of quadrilateral that currently exists (haven't got deleted yet)
+  private static int keyCounter;// similar to numQuadrilaterals, except it never counts down, this way, even if
+                                // removeQuadrilateral() is called mistakenly, and the shape is not removed, the
+                                // keys would still be unique.
   protected String key;// the unique key of the quadrilateral
 
   /**
@@ -22,26 +26,29 @@ public abstract class Quadrilateral {
    * new subclass of quadrilateral is created.
    */
   protected Quadrilateral() {
-    numQuadrilaterals += 1;
+    numQuadrilaterals++;
+    keyCounter++;
+    key = Integer.toString(keyCounter);
   }// end of the default constructor
 
   /**
-   * assessor method of the total number of quadrilateral that have been created
+   * assessor method of the total number of quadrilateral that currently exists (haven't got deleted yet)
    * 
-   * @return the total number of quadrilateral that have been created
+   * @return the total number of quadrilateral that currently exists (haven't got deleted yet)
    */
   public static int getNumQuadrilaterals() {
     return numQuadrilaterals;
   }// end of getNumQuadrilaterals method
 
   /**
-   * decreases the total number of quadrilateral that have been created.
+   * decreases the total number of quadrilateral that currently exists (haven't got deleted yet).
    * 
-   * should be called when a subclass of Quadrilateral is removed from the program.
+   * should be called when a subclass of Quadrilateral is removed from the
+   * program.
    */
-  protected static void removeQuadrilateral(){
+  protected static void removeQuadrilateral() {
     numQuadrilaterals--;
-  }//end of removeQuadrilateral method
+  }// end of removeQuadrilateral method
 
   /**
    * Gets the name of the shape an instance of Quadrilateral's subclass is
@@ -65,19 +72,26 @@ public abstract class Quadrilateral {
 
   /**
    * Indicates wether some other objects is equal to this one.
+   * 
    * @param obj The object to be compared to with this one.
    * @return true if the object is the same as this one, false otherwise
    */
   @Override
   public boolean equals(Object obj) {
-    if(this == obj)return true;
-    if(getClass().isAssignableFrom(obj.getClass()))return false;
-    // checks for subclass of Quadrilateral, since all we need is the key. We don't need any of the shape specific properties.
-    Quadrilateral quadrilateral = (Quadrilateral)obj;
-    // since keys are guaranteed to be unique, we only need to check for the key and nothing else.
-    if(key.equals(quadrilateral.getKey()))return true;
-    else return false;
-  }//end of equals method
+    if (this == obj)
+      return true;
+    if (getClass().isAssignableFrom(obj.getClass()))
+      return false;
+
+    Quadrilateral quadrilateral = (Quadrilateral) obj;
+    // since keys are guaranteed to be unique, we only need to check for the key and
+    // nothing else.
+    // If the keys match, everything else should also match.
+    if (key.equals(quadrilateral.getKey()))
+      return true;
+    else
+      return false;
+  }// end of equals method
 
   /**
    * Finds the area of the shape and returns it

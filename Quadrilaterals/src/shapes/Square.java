@@ -10,11 +10,11 @@ package shapes;
 //This is the square class. It represents a square and stores the needed information to calculate the square's area and perimeter.
 //<List Of Identifiers>
 //let base = the side length of the square <type double>
-//let numSquares = the number of squares that have been created <type int>
+//let numSquares = the number of squares that currently exists (haven't got deleted yet) <type int>
 //****************************************************************************************
 public class Square extends Quadrilateral {
   protected double base = 1;// the side length of the square
-  private static int numSquares = 0;// the number of squares that have been created
+  private static int numSquares = 0;// the number of squares that currently exists (haven't got deleted yet)
 
   /**
    * Default constructor method, sets up the square with arbitrary dimensions,
@@ -86,9 +86,9 @@ public class Square extends Quadrilateral {
   }//end of removeSquare method
 
   /**
-   * assessor method of the number of squares that have been created
+   * assessor method of the number of squares that currently exists (haven't got deleted yet)
    * 
-   * @return the number of squares that have been created
+   * @return the number of squares that currently exists (haven't got deleted yet)
    */
   public static int getNumSquares() {
     return numSquares;

@@ -13,7 +13,7 @@ package shapes;
 //let diag2 = the length of the other diagonal of the kite <type double>
 //let side1 = the length of one pair of sides in the kite <type double>
 //let side2 = the length of the other pair of sides in the kite <type double>
-// let numKites = the number of kites that have been created <type int>
+// let numKites = the number of kites that currently exists (haven't got deleted yet) <type int>
 //****************************************************************************************
 public class Kite extends Quadrilateral {
   protected double diag1 = 1;// the length of one diagonal of the kite
@@ -21,7 +21,7 @@ public class Kite extends Quadrilateral {
   protected double side1 = 1;// the length of one pair of sides in the kite
   protected double side2 = 1;// the length of the other pair of sides in the kite
 
-  private static int numKites = 0;// the number of kites that have been created
+  private static int numKites = 0;// the number of kites that currently exists (haven't got deleted yet)
 
   /**
    * Default constructor method, sets up the kite with arbitrary dimensions,
@@ -168,9 +168,9 @@ public class Kite extends Quadrilateral {
   // }
 
   /**
-   * assessor method of the number of kites that have been created
+   * assessor method of the number of kites that currently exists (haven't got deleted yet)
    * 
-   * @return the number of kites that have been created
+   * @return the number of kites that currently exists (haven't got deleted yet)
    */
   public static int getNumKites() {
     return numKites;

@@ -9,10 +9,10 @@ package shapes;
 //<Class>
 //This is the rectangle class. It represents a rectangle and stores the needed information to calculate the rectangle's area and perimeter.
 //<List Of Identifiers>
-//let numRectangles = the number of rectangles that have been created <type int>
+//let numRectangles = the number of rectangles that currently exists (haven't got deleted yet) <type int>
 //****************************************************************************************
 public class Rectangle extends Rhombus {
-  private static int numRectangles = 0;// the number of rectangles that have been created
+  private static int numRectangles = 0;// the number of rectangles that currently exists (haven't got deleted yet)
 
   /**
    * Default constructor method, sets up the rectangle with arbitrary dimensions,
@@ -53,9 +53,9 @@ public class Rectangle extends Rhombus {
   }//end of removeRectangle method
 
   /**
-   * assessor method of the number of rectangles that have been created
+   * assessor method of the number of rectangles that currently exists (haven't got deleted yet)
    * 
-   * @return the number of rectangles that have been created
+   * @return the number of rectangles that currently exists (haven't got deleted yet)
    */
   public static int getNumRectangles() {
     return numRectangles;

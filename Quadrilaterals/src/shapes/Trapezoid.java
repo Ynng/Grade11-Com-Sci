@@ -11,12 +11,12 @@ package shapes;
 //<List Of Identifiers>
 //let top = the length of the top side of the trapezoid <type double>
 //let side2 = the length of the right side of the trapezoid <type double>
-// let numTrapezoids = the number of trapezoids that have been created <type int>
+// let numTrapezoids = the number of trapezoids that currently exists (haven't got deleted yet) <type int>
 //****************************************************************************************
 public class Trapezoid extends Parallelogram {
   protected double top = 1;// the length of the top side of the trapezoid
   protected double side2 = 1;// the length of the right side of the trapezoid
-  private static int numTrapezoids = 0;// the number of trapezoids that have been created
+  private static int numTrapezoids = 0;// the number of trapezoids that currently exists (haven't got deleted yet)
 
   /**
    * Default constructor method, sets up the trapezoid with arbitrary dimensions,
@@ -121,9 +121,9 @@ public class Trapezoid extends Parallelogram {
   }//end of removeTrapezoid method
 
   /**
-   * assessor method of the number of trapezoids that have been created
+   * assessor method of the number of trapezoids that currently exists (haven't got deleted yet)
    * 
-   * @return the number of trapezoids that have been created
+   * @return the number of trapezoids that currently exists (haven't got deleted yet)
    */
   public static int getNumTrapezoids() {
     return numTrapezoids;
