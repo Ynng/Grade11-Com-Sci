@@ -9,6 +9,12 @@ import shapes.*;
 //Date: May 22th 2020
 //OpenJDK 14.0.1, Visual Studio Code 1.43
 //****************************************************************************************
+//Problem Definition - Operate a user friendly interface to create, store, modify, delete and search for a variety of Quadrilateral shapes
+//Input - User input through the console
+//Output - Printing text to the user through the console
+//Process - Lots and lots of conditional statements and loops. I use switch statements based on user input to determine which menu/action the user has chosen, I also use switch statements based on a shape instance to determine the correct menu to display.
+// More detailed explanation can be found on the method comments.
+//****************************************************************************************
 //<Class>
 //This is the driver/use class, it handles most of the user friendly prompts and user inputs.
 //It allows shapes to be created, stored, modified, and contains the main function of the program.
@@ -183,7 +189,7 @@ public class Driver {
       }
     } while (result == null);
     return result;
-  }
+  }// end of findShape method
 
 
   // Simpler version of findShape(), does not use equals(). New version that does use equals() is above
