@@ -71,7 +71,7 @@ public class Rhombus extends Square {
    * @return a string containing useful information about the shape
    */
   public String toString() {
-    return String.format("[%s] - Base: %.2f | Height: %.2f | Key: %s\n\t\t| Area : %.2f | Perimeter: %.2f",
+    return String.format("[%s] - Base: [%.2f] | Height: [%.2f] | Key: %s\n\t\t| Area : [%.2f] | Perimeter: [%.2f]",
         getShapeName(), base, height, key, findArea(), findPerimeter());
   }// end of toString method
 

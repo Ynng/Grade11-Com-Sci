@@ -74,7 +74,7 @@ public class Square extends Quadrilateral {
    * @return a string containing useful information about the shape
    */
   public String toString() {
-    return String.format("[%s] - Width: %.2f | Key: %s\n\t\t| Area : %.2f | Perimeter: %.2f", getShapeName(), base, key,
+    return String.format("[%s] - Width: [%.2f] | Key: %s\n\t\t| Area : [%.2f] | Perimeter: [%.2f]", getShapeName(), base, key,
         findArea(), findPerimeter());
   }// end of toString method
 

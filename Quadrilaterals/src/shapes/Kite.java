@@ -146,7 +146,7 @@ public class Kite extends Quadrilateral {
    */
   public String toString() {
     return String.format(
-        "[%s] - Diagonal 1: %.2f | Diagonal 2: %.2f | Side 1: %.2f | Side 2: %.2f | Key: %s\n\t\t| Area : %.2f | Perimeter: %.2f",
+        "[%s] - Diagonal 1: [%.2f] | Diagonal 2: [%.2f] | Side 1: [%.2f] | Side 2: [%.2f] | Key: %s\n\t\t| Area : [%.2f] | Perimeter: [%.2f]",
         getShapeName(), diag1, diag2, side1, side2, key, findArea(), findPerimeter());
   }// end of toString method
 

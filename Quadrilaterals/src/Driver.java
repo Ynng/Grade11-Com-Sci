@@ -84,7 +84,7 @@ public class Driver {
    * @param shape - the shape to be modified
    */
   static void modifyShape(Quadrilateral shape) {
-    separatorPrintln("Please choose the dimension of the shape you wish to modify:", false);
+    separatorPrintln("(Case Sensitive!)\nPlease choose the dimension of the shape you wish to modify:", false);
     switch (shape.getShapeName()) {
       case "Kite":
         System.out.println("[D1]. diagonal");
@@ -175,7 +175,7 @@ public class Driver {
       firstTime = false;
       key = in.next();
       searchTarget = new SearchTarget(key);
-      if (key.equals("Q"))
+      if (key.equals("Q") || key.equals("q"))
         break;
       for (int i = 0; i < database.size(); i++) {
         if (database.get(i).equals(searchTarget)) {

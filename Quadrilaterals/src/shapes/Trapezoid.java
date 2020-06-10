@@ -109,7 +109,7 @@ public class Trapezoid extends Parallelogram {
    */
   public String toString() {
     return String.format(
-        "[%s] - Base: %.2f | Top: %.2f | Height: %.2f | Side1: %.2f | Side2: %.2f | Key: %s\n\t\t| Area : %.2f | Perimeter: %.2f",
+        "[%s] - Base: [%.2f] | Top: [%.2f] | Height: [%.2f] | Side1: [%.2f] | Side2: [%.2f] | Key: %s\n\t\t| Area : [%.2f] | Perimeter: [%.2f]",
         getShapeName(), base, top, height, side, side2, key, findArea(), findPerimeter());
   }// end of toString method
 
