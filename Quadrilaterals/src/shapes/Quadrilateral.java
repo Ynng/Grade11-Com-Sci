@@ -4,7 +4,7 @@ package shapes;
 //Quadrilateral Project
 //Kevin Huang
 //Date: May 22th 2020
-//Java 13.0.2, Visual Studio Code 1.43
+//OpenJDK 14.0.1, Visual Studio Code 1.43
 //****************************************************************************************
 //<Class>
 //This is the Quadrilateral class. It contains common data fields and operations from all quadrilateral classes.

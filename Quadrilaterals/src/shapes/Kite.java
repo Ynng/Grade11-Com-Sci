@@ -4,7 +4,7 @@ package shapes;
 //Quadrilateral Project
 //Kevin Huang
 //Date: May 22th 2020
-//Java 13.0.2, Visual Studio Code 1.43
+//OpenJDK 14.0.1, Visual Studio Code 1.43
 //****************************************************************************************
 //<Class>
 //This is the kite class. It represents a kite and stores the needed information to calculate the kite's area and perimeter.
