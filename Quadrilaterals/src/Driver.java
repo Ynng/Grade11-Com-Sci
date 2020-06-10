@@ -50,8 +50,9 @@ public class Driver {
    * @return wether the user wants to the program to continue.
    */
   static boolean mainMenu() {
+    separatorPrint("Welcome to Object-Oriented Programming Quadrilateral Project by Kevin Huang\n");
     separatorPrint(
-        "Please choose an option:\n1. Create a new Shape\n2. List all current stored shapes and get the numbers of total shapes\n3. Search for a specific shape, get its info and maybe modify it\n4. Exit the program\n");
+        "Please choose an option:\n1. Create a new Shape\n2. List all current stored shapes and get the numbers of total shapes\n3. Search for a specific shape, get its info and maybe modify it\n4. Exit the program\n",false);
     switch (in.nextInt()) {
       case 1:
         newShapeMenu();
@@ -153,25 +154,25 @@ public class Driver {
   }// end of findShape method
 
   /**
-   * Prompts the user to enter the key to a shape and tries to find it by looping
-   * through the database. Probably not the most efficient way but good enough for
-   * a max of 20 objects. Loops forever until a shape is found.
+   * Prompts the user to enter the key of a shape, then tries to find it by looping
+   * through the database.
    * 
    * @return the shape with the matching key to the user's input
    */
   static Quadrilateral findShape() {
     String key;
     Quadrilateral result = null;
+    SearchTarget searchTarget;
     boolean firstTime = true;
     do {
-      separatorPrintln("(Case Sensitive!)\nPlease enter the key of the shape you want to find, or enter [Q] to go back to the main menu: ",
-          firstTime);
+      separatorPrintln("Please enter the key of the shape you want to find, or enter [Q] to go back to the main menu: ", firstTime);
       firstTime = false;
       key = in.next();
+      searchTarget = new SearchTarget(key);
       if (key.equals("Q"))
         break;
       for (int i = 0; i < database.size(); i++) {
-        if (database.get(i).getKey().equals(key)) {
+        if (database.get(i).equals(searchTarget)) {
           result = database.get(i);
           break;
         }
@@ -182,7 +183,41 @@ public class Driver {
       }
     } while (result == null);
     return result;
-  }// end of findShape method
+  }
+
+
+  // Simpler version of findShape(), does not use equals(). New version that does use equals() is above
+  /**
+   * Prompts the user to enter the key to a shape and tries to find it by looping
+   * through the database. Probably not the most efficient way but good enough for
+   * a max of 20 objects. Loops forever until a shape is found.
+   * 
+   * @return the shape with the matching key to the user's input
+   */
+  // static Quadrilateral findShape() {
+  //   String key;
+  //   Quadrilateral result = null;
+  //   boolean firstTime = true;
+  //   do {
+  //     separatorPrintln("(Case Sensitive!)\nPlease enter the key of the shape you want to find, or enter [Q] to go back to the main menu: ",
+  //         firstTime);
+  //     firstTime = false;
+  //     key = in.next();
+  //     if (key.equals("Q"))
+  //       break;
+  //     for (int i = 0; i < database.size(); i++) {
+  //       if (database.get(i).getKey().equals(key)) {
+  //         result = database.get(i);
+  //         break;
+  //       }
+  //     }
+
+  //     if (result == null) {
+  //       separatorPrintln(String.format("Did not find any shape with the key \"%s\"", key));
+  //     }
+  //   } while (result == null);
+  //   return result;
+  // }
 
   /**
    * Shape listing menu. Lists the number of each shape independently, the number
@@ -216,7 +251,7 @@ public class Driver {
    */
   static void newShapeMenu() {
     Quadrilateral newQuad = null;
-    String input = null;
+    String input = "3";
     do {
       if(input.equals("3") && newQuad != null){
         switch (newQuad.getShapeName()) {

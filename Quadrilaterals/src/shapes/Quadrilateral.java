@@ -32,6 +32,16 @@ public abstract class Quadrilateral {
   }// end of the default constructor
 
   /**
+   * Overloaded constructor that allows for a custom key to be set.
+   * Should only be used by the SearchTarget constructor.
+   * When a search target is created, you wouldn't want it to increment the numQuadrilaterals and keyCounter counters.
+   * @param key: the key to be set for this instance
+   */
+  protected Quadrilateral(String key){
+    this.key = key;
+  }// end of an overloaded constructor
+
+  /**
    * assessor method of the total number of quadrilateral that currently exists (haven't got deleted yet)
    * 
    * @return the total number of quadrilateral that currently exists (haven't got deleted yet)
@@ -80,12 +90,16 @@ public abstract class Quadrilateral {
   public boolean equals(Object obj) {
     if (this == obj)
       return true;
-    if (getClass().isAssignableFrom(obj.getClass()))
+
+    // since keys are guaranteed to be unique, we only need to check for the key and
+    // nothing else.
+
+    // Checks to see if the objects is a subclass of Quadrilateral, this way we can make sure a key exist.
+    if (!Quadrilateral.class.isAssignableFrom(obj.getClass()))
       return false;
 
     Quadrilateral quadrilateral = (Quadrilateral) obj;
-    // since keys are guaranteed to be unique, we only need to check for the key and
-    // nothing else.
+
     // If the keys match, everything else should also match.
     if (key.equals(quadrilateral.getKey()))
       return true;
