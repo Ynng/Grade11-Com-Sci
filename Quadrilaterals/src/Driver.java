@@ -152,7 +152,7 @@ public class Driver {
       separatorPrintln("Shape to modify: " + result.toString());
       modifyShape(result);
       separatorPrintln("Your new shape: " + result.toString());
-      separatorPrintln("Enter any key to go back to main menu", false);
+      separatorPrintln("Submit any text to go back to main menu", false);
       in.next();
     } else {
       return;
@@ -246,7 +246,7 @@ public class Driver {
     System.out.println(Rhombus.getNumRhombuses() + " Rhombuses");
     System.out.println("Which is " + Quadrilateral.getNumQuadrilaterals() + " Quadrilaterals in total");
 
-    separatorPrintln("Enter any key to go back to main menu", false);
+    separatorPrintln("Submit any text to go back to main menu", false);
     in.next();
   }// end of listShapeMenu method
 
@@ -297,7 +297,7 @@ public class Driver {
     } while (!input.equals("1"));
 
     database.add(newQuad);
-    separatorPrintln("Shape added to database! Enter any key to go back to main menu");
+    separatorPrintln("Shape added to database! Submit any text to go back to main menu");
     in.next();
   }// end of newShapeMenu method
 
