@@ -332,29 +332,29 @@ public class Driver {
       case 6:// default rhombus
         return new Rhombus();
       case 10:// custom kite
-        System.out.println("Please enter the length of a diagonal");
+        System.out.println("Please enter the length of a [diagonal]");
         diag1 = in.nextDouble();
-        System.out.println("Please enter the length of the other diagonal");
+        System.out.println("Please enter the length of the [other diagonal]");
         diag2 = in.nextDouble();
-        System.out.println("Please enter the length of a side");
+        System.out.println("Please enter the length of a [side]");
         side = in.nextDouble();
-        System.out.println("Please enter the length of the other side");
+        System.out.println("Please enter the length of the [other side]");
         side2 = in.nextDouble();
         break;
       case 11:// custom trapezoid
-        System.out.println("Please enter the length of the top side");
+        System.out.println("Please enter the length of the [top side]");
         top = in.nextDouble();
-        System.out.println("Please enter the length of the right side");
+        System.out.println("Please enter the length of the [right side]");
         side2 = in.nextDouble();
       case 9:// custom parallelogram
-        System.out.println("Please enter the length of the side (length of left side for trapezoid)");
+        System.out.println("Please enter the length of the [side] (length of left side for trapezoid)]");
         side = in.nextDouble();
       case 12:// custom rhombus
       case 8:// custom rectangle
-        System.out.println("Please enter the length of the height");
+        System.out.println("Please enter the length of the [height]");
         height = in.nextDouble();
       case 7:// custom square
-        System.out.println("Please enter the length of the base/width/bottom side");
+        System.out.println("Please enter the length of the [base/width/bottom side]");
         base = in.nextDouble();
     }
 
